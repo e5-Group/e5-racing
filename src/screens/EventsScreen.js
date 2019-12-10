@@ -1,0 +1,241 @@
+import React, { Component } from 'react';
+import {
+  SafeAreaView,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  View,
+  FlatList,
+} from 'react-native';
+import { Agenda } from 'react-native-calendars';
+import { withNavigationFocus } from 'react-navigation';
+import axios from 'axios';
+import { parse, addDays, isAfter, format } from 'date-fns';
+import { dateFormating, convertToUppercase } from '../utils';
+import Back from '../components/Back';
+import Loading from '../components/Loading';
+import NoContent from '../components/NoContent';
+import * as api from '../constants/api';
+import * as colors from '../constants/colors';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  item: {
+    backgroundColor: colors.white,
+    flex: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+    marginTop: 17
+  },
+  emptyDate: {
+    height: 15,
+    flex: 1,
+    paddingTop: 30
+  },
+  Title: {
+    fontSize: 16,
+    color: colors.white,
+  },
+});
+
+class EventsScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: 'Results',
+    headerStyle: {
+      backgroundColor: colors.purple,
+      height: 60,
+    },
+    headerTintColor: colors.white,
+    headerLeft: <Back navigation={navigation} />
+  });
+
+  state = {
+    dates: {},
+    marked: {},
+    isReady: false,
+    refreshing: false,
+    serverError: false,
+    currentDate: null,
+  };
+
+  make_api_call() {
+    axios.get(api.EVENTS_API)
+      .then((response) => {
+        const { items } = response.data;
+
+        const minDate = Object.keys(items)[Object.keys(items).length - 1];
+        const maxDate = Object.keys(items)[0];
+        const allDates = []
+
+        for (
+          let start = parse(minDate, 'yyyy-MM-dd', new Date());
+          isAfter(addDays(parse(maxDate, 'yyyy-MM-dd', new Date()), 1), start);
+          start = addDays(start, 1)) {
+          allDates.push(format(start, 'yyyy-MM-dd'))
+        }
+
+        const finalItems = {};
+        allDates.forEach(date => {
+          finalItems[date] = items[date] || [];
+        })
+
+        this.setState({
+          dates: finalItems,
+          minDate,
+          maxDate,
+        }, () => {
+          const { dates } = this.state;
+          let newMarked = {};
+          for (const key in dates) {
+            const element = dates[key];
+            for (const e in element) {
+              const x = element[e];
+              const today = new Date(
+                new Date().getFullYear(),
+                new Date().getMonth(),
+                new Date().getDate()
+              );
+              const parsedKey = parse(key, 'yyyy-MM-dd', today);
+              newMarked[key] = {
+                customStyles: {
+                  container: {
+                    backgroundColor:
+                      parsedKey.getTime() === today.getTime()
+                        ? colors.gray
+                        : x.backgroundColor
+                  },
+                  text: {
+                    color: x.textColor,
+                    fontWeight: "bold"
+                  }
+                }
+              };
+            }
+          }
+
+          this.setState({
+            marked: newMarked,
+            isReady: true,
+            refreshing: false,
+            serverError: false,
+          });
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          dates: {},
+          marked: {},
+          isReady: true,
+          refreshing: false,
+          serverError: true,
+        })
+      });
+  }
+
+  componentDidMount = () => {
+    this.make_api_call();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.isFocused && this.props.isFocused) {
+      this.setState({
+        isReady: false
+      }, this.make_api_call)
+    }
+  }
+
+  renderItem = item => {
+    return (!item || item.type === 'empty') ? null : (
+      <View
+        style={[
+          styles.item,
+          { height: item.height, backgroundColor: item.backgroundColor }
+        ]}
+      >
+        <Text style={styles.Title}>{item.horse}</Text>
+        <Text style={{ color: colors.white }}>
+          {item.type === 'e'
+            ? `Entered on ${dateFormating(
+              item.entry_date
+            )} at ${convertToUppercase(item.track)}, Race: ${
+            item.entered
+            }, ${convertToUppercase(item.class)}, Post Time: ${
+            item.post_time
+            }, Jockey: ${item.jockey_name}`
+            : null}
+          {/*{*/}
+          {/*item.type === 'r'? `finished ${item.finish} in ${item.entered}th ${item.class} race at ${item.track}`:null*/}
+          {/*}*/}
+          {item.type === 'w'
+            ? `worked ${item.distance} in ${item.time} @ ${item.track}`
+            : null}
+        </Text>
+      </View>
+    );
+  };
+
+  rowHasChanged = (r1, r2) => {
+    return r1.name !== r2.name;
+  };
+
+
+  render = () => {
+    const { isReady, dates, marked, serverError, minDate, maxDate } = this.state;
+
+    if (!isReady) {
+      return <Loading />;
+    }
+    return (
+      <SafeAreaView>
+        <ImageBackground
+          source={require('../assets/background.jpg')}
+          style={{ width: '100%', height: '100%' }}
+        >
+          <View style={styles.container}>
+            {!serverError
+              ? <Agenda
+                items={dates}
+                markingType={'custom'}
+                markedDates={marked}
+                renderItem={this.renderItem}
+                renderEmptyDate={() => {
+                  return <View />;
+                }}
+                onDayPress={(day) => {
+                  this.setState({ currentDate: day.dateString })
+                }}
+                rowHasChanged={this.rowHasChanged}
+                pastScrollRange={1}
+                futureScrollRange={1}
+                minDate={minDate}
+                maxDate={maxDate}
+                theme={{
+                  selectedDayBackgroundColor: colors.gray,
+                  backgroundColor: 'transparent',
+                  agendaDayTextColor: colors.gray,
+                  agendaDayNumColor: colors.gray,
+                  agendaTodayColor: colors.gray,
+                  agendaKnobColor: colors.gray,
+                }}
+                onRefresh={() => {
+                  this.componentDidMount()
+                }}
+                refreshing={this.state.refreshing}
+              />
+              : <FlatList
+                refreshing={this.state.refreshing}
+                onRefresh={this.componentDidMount}
+                ListEmptyComponent={<NoContent itype={'results'} connectionError={serverError} />}
+              />}
+          </View>
+        </ImageBackground>
+      </SafeAreaView>
+    );
+  }
+}
+
+
+export default withNavigationFocus(EventsScreen);
