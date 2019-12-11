@@ -19,6 +19,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* e5rTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* e5rTests.m */; };
 		7EAB3E4974050408CD9D999C /* libPods-e5r-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F659B995FB29ED39401DE0 /* libPods-e5r-tvOS.a */; };
 		8A9B726A990BD5A46A45D9BB /* libPods-e5r-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB2D3142D9BDECC0C33C315 /* libPods-e5r-tvOSTests.a */; };
+		BCE5DB7923A16A81005E11F0 /* call_to_post.wav in Resources */ = {isa = PBXBuildFile; fileRef = BCE5DB7823A16A81005E11F0 /* call_to_post.wav */; };
 		FF33B2762E22DB73A373C812 /* libPods-e5r.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ABF7DDA2F01CC42CE717118 /* libPods-e5r.a */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +64,7 @@
 		9ABF7DDA2F01CC42CE717118 /* libPods-e5r.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-e5r.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0804AFED6A477756AF2FF7D /* Pods-e5r.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-e5r.release.xcconfig"; path = "Target Support Files/Pods-e5r/Pods-e5r.release.xcconfig"; sourceTree = "<group>"; };
 		B4F659B995FB29ED39401DE0 /* libPods-e5r-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-e5r-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCE5DB7823A16A81005E11F0 /* call_to_post.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = call_to_post.wav; sourceTree = "<group>"; };
 		C18BB88B54C714FFC1999C63 /* Pods-e5r.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-e5r.debug.xcconfig"; path = "Target Support Files/Pods-e5r/Pods-e5r.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -125,6 +127,7 @@
 		13B07FAE1A68108700A75B9A /* e5r */ = {
 			isa = PBXGroup;
 			children = (
+				BCE5DB7823A16A81005E11F0 /* call_to_post.wav */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -161,7 +164,6 @@
 				22D33B85BBD645DE49F087A1 /* Pods-e5rTests.debug.xcconfig */,
 				4F509F404C3D6189DF0000E9 /* Pods-e5rTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -286,7 +288,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0940;
-				ORGANIZATIONNAME = Facebook;
+				ORGANIZATIONNAME = "e5 Racing";
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -308,6 +310,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -337,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				BCE5DB7923A16A81005E11F0 /* call_to_post.wav in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -681,7 +685,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.e5r-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "e5r-tvOS";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
@@ -709,7 +713,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.e5r-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "e5r-tvOS";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;

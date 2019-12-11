@@ -66,26 +66,8 @@ class EventsScreen extends Component {
       .then((response) => {
         const { items } = response.data;
 
-        const minDate = Object.keys(items)[Object.keys(items).length - 1];
-        const maxDate = Object.keys(items)[0];
-        const allDates = []
-
-        for (
-          let start = parse(minDate, 'yyyy-MM-dd', new Date());
-          isAfter(addDays(parse(maxDate, 'yyyy-MM-dd', new Date()), 1), start);
-          start = addDays(start, 1)) {
-          allDates.push(format(start, 'yyyy-MM-dd'))
-        }
-
-        const finalItems = {};
-        allDates.forEach(date => {
-          finalItems[date] = items[date] || [];
-        })
-
         this.setState({
-          dates: finalItems,
-          minDate,
-          maxDate,
+          dates: items,
         }, () => {
           const { dates } = this.state;
           let newMarked = {};
@@ -183,11 +165,7 @@ class EventsScreen extends Component {
 
 
   render = () => {
-    const { isReady, dates, marked, serverError, minDate, maxDate } = this.state;
-
-    if (!isReady) {
-      return <Loading />;
-    }
+    const { isReady, dates, marked, serverError } = this.state;
     return (
       <SafeAreaView>
         <ImageBackground
@@ -195,41 +173,47 @@ class EventsScreen extends Component {
           style={{ width: '100%', height: '100%' }}
         >
           <View style={styles.container}>
-            {!serverError
-              ? <Agenda
-                items={dates}
-                markingType={'custom'}
-                markedDates={marked}
-                renderItem={this.renderItem}
-                renderEmptyDate={() => {
-                  return <View />;
-                }}
-                onDayPress={(day) => {
-                  this.setState({ currentDate: day.dateString })
-                }}
-                rowHasChanged={this.rowHasChanged}
-                pastScrollRange={1}
-                futureScrollRange={1}
-                minDate={minDate}
-                maxDate={maxDate}
-                theme={{
-                  selectedDayBackgroundColor: colors.gray,
-                  backgroundColor: 'transparent',
-                  agendaDayTextColor: colors.gray,
-                  agendaDayNumColor: colors.gray,
-                  agendaTodayColor: colors.gray,
-                  agendaKnobColor: colors.gray,
-                }}
-                onRefresh={() => {
-                  this.componentDidMount()
-                }}
-                refreshing={this.state.refreshing}
-              />
-              : <FlatList
-                refreshing={this.state.refreshing}
-                onRefresh={this.componentDidMount}
-                ListEmptyComponent={<NoContent itype={'results'} connectionError={serverError} />}
-              />}
+            {isReady && !serverError && <Agenda
+              items={dates}
+              markingType={'custom'}
+              markedDates={marked}
+              renderItem={this.renderItem}
+              renderEmptyDate={() => {
+                return <View />;
+              }}
+              onDayPress={(day) => {
+                this.setState({ currentDate: day.dateString })
+              }}
+              rowHasChanged={this.rowHasChanged}
+              pastScrollRange={1}
+              futureScrollRange={1}
+              renderEmptyData={() => {
+                const populatedDates = { ...this.state.dates };
+                populatedDates[this.state.currentDate] = [];
+                this.setState({
+                  dates: populatedDates
+                })
+                return null
+              }}
+              theme={{
+                selectedDayBackgroundColor: colors.gray,
+                backgroundColor: 'transparent',
+                agendaDayTextColor: colors.gray,
+                agendaDayNumColor: colors.gray,
+                agendaTodayColor: colors.gray,
+                agendaKnobColor: colors.gray,
+              }}
+              onRefresh={() => {
+                this.componentDidMount()
+              }}
+              refreshing={this.state.refreshing}
+            />}
+            {isReady && serverError && <FlatList
+              refreshing={this.state.refreshing}
+              onRefresh={this.componentDidMount}
+              ListEmptyComponent={<NoContent itype={'results'} connectionError={serverError} />}
+            />}
+            {!isReady && <Loading />}
           </View>
         </ImageBackground>
       </SafeAreaView>

@@ -98,10 +98,6 @@ class WorkoutsScreen extends Component {
 
   render = () => {
     const { items, serverError, isReady, refreshing } = this.state;
-    if (!isReady) {
-      return <Loading />;
-    }
-
     return (
       <SafeAreaView>
         <ImageBackground
@@ -110,7 +106,7 @@ class WorkoutsScreen extends Component {
         >
           <View style={styles.container}>
             <View style={styles.listContainer}>
-              <FlatList
+              {isReady ? <FlatList
                 refreshing={refreshing}
                 onRefresh={this._handleRefresh}
                 data={items}
@@ -119,7 +115,7 @@ class WorkoutsScreen extends Component {
                 )}
                 keyExtractor={this._keyExtractor}
                 ListEmptyComponent={<NoContent itype={'workouts'} connectionError={serverError} />}
-              />
+              /> : <Loading />}
             </View>
           </View>
         </ImageBackground>
