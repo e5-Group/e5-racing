@@ -17,42 +17,49 @@ let { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   homeContainer: {
-    // flex: 1,
-    flexDirection: "column",
-    height: '96%',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginHorizontal: 20,
   },
   imageContainer: {
-    paddingTop: height * 0.17 - (63 + 10),
-    justifyContent: "flex-end",
-    alignItems: "center",
-    marginHorizontal: 30,
     flex: 1,
+    padding: 10,
+    marginTop: 10,
   },
   bannerImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 27,
+    aspectRatio: 1685 / 1152,
   },
+
   iconsContainer: {
     flex: 1,
-    flexGrow: 1.8,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: 20,
+    flexGrow: 1.4,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingVertical: 10,
   },
   iconsRow: {
     flex: 1,
-    flexDirection: "row",
-    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginHorizontal: 10,
   },
   iconElement: {
-    width: (Platform.isPad || Platform.OS !== 'ios')
-      ? width * 0.28
-      : width * 0.33,
-    height: (Platform.isPad || Platform.OS !== 'ios')
-      ? width * 0.28
-      : width * 0.33,
-  }
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+  },
+  iconImage: {
+    width: '100%',
+    height: '100%',
+    aspectRatio: 1 / 1,
+  },
 });
 
 const images = [
@@ -105,32 +112,32 @@ class HomeScreen extends Component {
             </View>
 
             <View style={styles.iconsContainer}>
-              <View style={[styles.iconsRow, { marginTop: 20 }]}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("Results")}>
+              <View style={styles.iconsRow}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("Results")} style={styles.iconElement}>
                   <Image
-                    style={[styles.iconElement, { marginRight: 50 }]}
+                    style={styles.iconImage}
                     source={require("../assets/home/results.png")}
                   />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("Entries")}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("Entries")} style={styles.iconElement}>
                   <Image
-                    style={styles.iconElement}
+                    style={styles.iconImage}
                     source={require("../assets/home/entries.png")}
                   />
                 </TouchableOpacity>
               </View>
 
-              <View style={[styles.iconsRow, { marginBottom: 20 }]}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("Workouts")}>
+              <View style={styles.iconsRow}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("Workouts")} style={styles.iconElement}>
                   <Image
-                    style={[styles.iconElement, { marginRight: 50 }]}
+                    style={styles.iconImage}
                     source={require("../assets/home/workout.png")}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("Events")}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("Events")} style={styles.iconElement}>
                   <Image
-                    style={styles.iconElement}
+                    style={styles.iconImage}
                     source={require("../assets/home/events.png")}
                   />
                 </TouchableOpacity>
