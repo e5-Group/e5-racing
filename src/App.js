@@ -1,11 +1,8 @@
-import React, { Component } from 'react';
-import { ImageBackground } from 'react-native';
-import { createSwitchNavigator, createAppContainer } from 'react-navigation';
+import React, {Component} from 'react';
+import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import AppStack from './navigation/AppStack';
 import SplashScreen from './screens/SplashScreen';
 import notifications from './services/notifications';
-
-const splash = require('./assets/splash.png');
 
 const AppNavigator = createSwitchNavigator(
   {

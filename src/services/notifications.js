@@ -1,6 +1,6 @@
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import { Platform, Linking } from 'react-native';
+import {Platform, Linking} from 'react-native';
 import axios from 'axios';
 import navigation from './navigation';
 import * as api from '../constants/api';
@@ -13,15 +13,15 @@ export default class PushNotificationService {
 
   configure() {
     PushNotification.configure({
-      onRegister: async ({ os, token }) => {
+      onRegister: async ({os, token}) => {
         await axios.post(api.REGISTER_TOKEN_API, {
           device_brand: os === 'android' ? 'Android' : 'Apple',
-          device_token: token
+          device_token: token,
         });
       },
       onNotification: notification => {
-        const { data } = notification;
-        const { type } = data;
+        const {data} = notification;
+        const {type} = data;
         if (
           (Platform.OS === 'android' && !notification.foreground) ||
           Platform.OS === 'ios'
@@ -45,10 +45,10 @@ export default class PushNotificationService {
       permissions: {
         alert: true,
         badge: true,
-        sound: true
+        sound: true,
       },
       popInitialNotification: true,
-      requestPermissions: true
+      requestPermissions: true,
     });
   }
 }

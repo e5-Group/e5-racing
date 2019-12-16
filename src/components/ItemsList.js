@@ -1,7 +1,14 @@
-import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, Linking, Dimensions } from 'react-native';
+import React, {Component} from 'react';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Linking,
+  Dimensions,
+} from 'react-native';
 import Share from './Share';
-import { dateFormating, convertToUppercase } from '../utils';
+import {dateFormating, convertToUppercase} from '../utils';
 import * as colors from '../constants/colors';
 
 const width = Dimensions.get('window').width;
@@ -14,16 +21,16 @@ export default class ItemsList extends Component {
       width: width * 0.9,
       marginTop: 10,
       marginBottom: 5,
-      textAlign: "center",
-      padding: 10
+      textAlign: 'center',
+      padding: 10,
     };
     switch (itype) {
-      case "results":
+      case 'results':
         containerStyles.borderColor = colors.gray;
         containerStyles.backgroundColor = colors.gray;
         containerStyles.color = colors.purple;
         break;
-      case "entries":
+      case 'entries':
         containerStyles.borderColor = colors.purple;
         containerStyles.backgroundColor = colors.purple;
         containerStyles.color = colors.white;
@@ -44,7 +51,7 @@ export default class ItemsList extends Component {
       flex: 1,
       flexDirection: 'row',
       marginBottom: 10,
-      marginRight: 10
+      marginRight: 10,
     };
 
     switch (itype) {
@@ -83,7 +90,7 @@ export default class ItemsList extends Component {
       fontWeight: 'bold',
       marginTop: 10,
       marginBottom: 10,
-      padding: 5
+      padding: 5,
     };
 
     switch (itype) {
@@ -128,9 +135,9 @@ export default class ItemsList extends Component {
     } else if (len === 5) {
       time_formatted =
         time.substring(0, 1) +
-        ":" +
+        ':' +
         time.substring(1, 3) +
-        "." +
+        '.' +
         time.substring(3, 5); // 0:00.00
     } else {
       time_formatted = time;
@@ -139,86 +146,85 @@ export default class ItemsList extends Component {
   }
 
   render() {
-    const { item, itype } = this.props;
+    const {item, itype} = this.props;
 
+    let fullWidth = {width: '100%'};
+    let squareIcon = {width: 32, height: 32};
     let text_block;
     let share_message;
 
     if (itype === 'entries') {
       text_block = (
         <Text style={ItemsList.getBodyStyle(itype)}>
-          Entered on {dateFormating(item.Entry_Date)} at{" "}
-          {convertToUppercase(item.Track)}, Race {item.Number_Entered},{" "}
-          {convertToUppercase(item.Class)}, Post Time: {item.post_time}, Jockey:{" "}
+          Entered on {dateFormating(item.Entry_Date)} at{' '}
+          {convertToUppercase(item.Track)}, Race {item.Number_Entered},{' '}
+          {convertToUppercase(item.Class)}, Post Time: {item.post_time}, Jockey:{' '}
           {item.jockey_name}
         </Text>
       );
       share_message = `${item.Horse_Name} Entered on ${dateFormating(
-        item.Entry_Date
+        item.Entry_Date,
       )} at ${convertToUppercase(item.Track)}, Race ${
         item.Number_Entered
-        }, ${convertToUppercase(item.Class)}, Post Time: ${
+      }, ${convertToUppercase(item.Class)}, Post Time: ${
         item.post_time
-        }, Jockey: ${item.jockey_name}`;
+      }, Jockey: ${item.jockey_name}`;
     }
 
     if (itype === 'results') {
       text_block = (
         <Text style={ItemsList.getBodyStyle(itype)}>
-          Finished {ItemsList.finishedPosition(item.Finish)} in Race{" "}
-          {item.Number_Entered}, {convertToUppercase(item.Class)}, on{" "}
-          {dateFormating(item.Event_Date)} at {convertToUppercase(item.Track)},{" "}
-          {item.race_distance}, {ItemsList.formatStrTime(item.final_time)},{" "}
+          Finished {ItemsList.finishedPosition(item.Finish)} in Race{' '}
+          {item.Number_Entered}, {convertToUppercase(item.Class)}, on{' '}
+          {dateFormating(item.Event_Date)} at {convertToUppercase(item.Track)},{' '}
+          {item.race_distance}, {ItemsList.formatStrTime(item.final_time)},{' '}
           {convertToUppercase(item.track_condition)}
         </Text>
       );
       share_message = `${item.Horse_Name} Finished ${ItemsList.finishedPosition(
-        item.Finish
+        item.Finish,
       )} in Race ${item.Number_Entered}, ${item.Class}, on ${dateFormating(
-        item.Event_Date
+        item.Event_Date,
       )} at ${convertToUppercase(item.Track)}, ${
         item.race_distance
-        }, ${ItemsList.formatStrTime(item.final_time)}, ${convertToUppercase(
-          item.track_condition
-        )}`;
+      }, ${ItemsList.formatStrTime(item.final_time)}, ${convertToUppercase(
+        item.track_condition,
+      )}`;
     }
 
     if (itype === 'workouts') {
       text_block = (
         <Text style={ItemsList.getBodyStyle(itype)}>
-          Workout on {dateFormating(item.Event_Date)} at{" "}
-          {convertToUppercase(item.Track)}, {item.Distance} in{" "}
-          {ItemsList.formatStrTime(item.Time)},{" "}
+          Workout on {dateFormating(item.Event_Date)} at{' '}
+          {convertToUppercase(item.Track)}, {item.Distance} in{' '}
+          {ItemsList.formatStrTime(item.Time)},{' '}
           {convertToUppercase(item.track_condition)}, {item.ranking}
         </Text>
       );
       share_message = `${item.Horse_Name} Worked on ${dateFormating(
-        item.Event_Date
+        item.Event_Date,
       )} at ${convertToUppercase(item.Track)}, ${
         item.Distance
-        } in ${ItemsList.formatStrTime(item.Time)}, ${convertToUppercase(
-          item.track_condition
-        )}, ${item.ranking}`;
+      } in ${ItemsList.formatStrTime(item.Time)}, ${convertToUppercase(
+        item.track_condition,
+      )}, ${item.ranking}`;
     }
 
     return (
       <View style={ItemsList.getContainerStyle(itype)}>
         <Text style={ItemsList.getTitleStyle(itype)}>{item.Horse_Name}</Text>
-        <View style={{ width: '100%' }}>{text_block}</View>
+        <View style={fullWidth}>{text_block}</View>
         <View style={ItemsList.getShareIconStyle(itype)}>
           {itype === 'results' ? (
             <TouchableOpacity onPress={() => Linking.openURL(item.chart_link)}>
               <Image
-                style={{ height: 32, width: 32 }}
+                style={squareIcon}
                 source={require('../assets/chart.png')}
               />
             </TouchableOpacity>
           ) : null}
           {itype === 'results' && item.Finish === '1' ? (
-            <Image
-              style={{ height: 32, width: 32 }}
-              source={require('../assets/prize.png')}
-            />
+            <Image style={squareIcon} source={require('../assets/prize.png')} />
           ) : null}
           <Share itype={itype} msg={share_message} />
         </View>

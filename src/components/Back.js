@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  Image,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import {TouchableOpacity, Image, StyleSheet} from 'react-native';
 
 import * as colors from '../constants/colors';
 
@@ -15,7 +10,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    color: 'red'
   },
   imageSize: {
     width: 26,
@@ -25,19 +19,13 @@ const styles = StyleSheet.create({
 });
 
 const Back = props => {
-  const { navigation } = props;
+  const {navigation} = props;
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => navigation.navigate('Home')}>
-      <Image
-        source={back}
-        style={styles.imageSize}
-      />
-      <Image
-        source={home}
-        style={styles.imageSize}
-      />
+      <Image source={back} style={styles.imageSize} />
+      <Image source={home} style={styles.imageSize} />
     </TouchableOpacity>
   );
 };

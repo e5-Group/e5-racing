@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Image, Text } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import {View, Image, Text} from 'react-native';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 import * as colors from '../constants/colors';
 
@@ -49,49 +49,61 @@ const getIconSource = (routeName, focused) => {
   }
 };
 
-export default createBottomTabNavigator({
-  Home: {
-    screen: HomeStack,
-    path: 'home',
-  },
-  Results: {
-    screen: ResultsStack,
-    path: 'results',
-  },
-  Entries: {
-    screen: EntriesStack,
-    path: 'entries',
-  },
-  Workouts: {
-    screen: WorkoutsStack,
-    path: 'workouts',
-  },
-  Events: {
-    screen: EventsStack,
-    path: 'events',
-  },
-}, {
-  initialRouteName: 'Home',
-  defaultNavigationOptions: ({ navigation }) => ({
-    tabBarIcon: ({ focused, horizontal, tintColor, ...rest }) => {
-      const { routeName } = navigation.state;
-      return (
-        <View style={{ alignItems: 'center' }}>
-          <View style={{ width: 40, height: 40, }}>
-            <Image source={getIconSource(routeName, focused)} style={{
-              width: 40, resizeMode: 'contain',
-              shadowOffset: { width: 1, height: 1, },
-              shadowColor: 'black',
-              shadowOpacity: 0.2,
-              width: '100%',
-              height: '100%',
-              tintColor: focused ? colors.purple : colors.gray
-            }} />
-          </View>
-          <Text style={{ fontSize: 10, color: focused ? colors.purple : colors.gray }}>{routeName}</Text>
-        </View>
-      )
+export default createBottomTabNavigator(
+  {
+    Home: {
+      screen: HomeStack,
+      path: 'home',
     },
-  }),
-  tabBarOptions
-})
+    Results: {
+      screen: ResultsStack,
+      path: 'results',
+    },
+    Entries: {
+      screen: EntriesStack,
+      path: 'entries',
+    },
+    Workouts: {
+      screen: WorkoutsStack,
+      path: 'workouts',
+    },
+    Events: {
+      screen: EventsStack,
+      path: 'events',
+    },
+  },
+  {
+    initialRouteName: 'Home',
+    defaultNavigationOptions: ({navigation}) => ({
+      tabBarIcon: ({focused, horizontal, tintColor, ...rest}) => {
+        const {routeName} = navigation.state;
+        return (
+          <View style={{alignItems: 'center'}}>
+            <View style={{width: 40, height: 40}}>
+              <Image
+                source={getIconSource(routeName, focused)}
+                style={{
+                  resizeMode: 'contain',
+                  shadowOffset: {width: 1, height: 1},
+                  shadowColor: 'black',
+                  shadowOpacity: 0.2,
+                  width: '100%',
+                  height: '100%',
+                  tintColor: focused ? colors.purple : colors.gray,
+                }}
+              />
+            </View>
+            <Text
+              style={{
+                fontSize: 10,
+                color: focused ? colors.purple : colors.gray,
+              }}>
+              {routeName}
+            </Text>
+          </View>
+        );
+      },
+    }),
+    tabBarOptions,
+  },
+);

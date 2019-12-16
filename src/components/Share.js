@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { Share, TouchableHighlight, Image } from 'react-native';
+import React, {Component} from 'react';
+import {Share, TouchableHighlight, Image} from 'react-native';
 
 export default class ShareButton extends Component {
   onClick = () => {
     try {
       Share.share({
-        message: this.props.msg
+        message: this.props.msg,
       });
     } catch (error) {
       alert(error.message);
@@ -13,7 +13,8 @@ export default class ShareButton extends Component {
   };
 
   render() {
-    const { itype } = this.props;
+    const {itype} = this.props;
+    let source = null;
     switch (itype) {
       case 'entries':
         source = require('../assets/share/green.png');
@@ -30,7 +31,7 @@ export default class ShareButton extends Component {
     }
     return (
       <TouchableHighlight onPress={this.onClick}>
-        <Image style={{ height: 30, width: 30 }} source={source} />
+        <Image style={{height: 30, width: 30}} source={source} />
       </TouchableHighlight>
     );
   }

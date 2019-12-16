@@ -1,19 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   SafeAreaView,
   Image,
   ImageBackground,
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
-  Platform,
-  Dimensions,
 } from 'react-native';
 import Logo from '../components/Logo';
 import * as colors from '../constants/colors';
-
-let { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   homeContainer: {
@@ -63,9 +58,9 @@ const styles = StyleSheet.create({
 });
 
 const images = [
-  require("../assets/home/banner/1.png"),
-  require("../assets/home/banner/2.png"),
-  require("../assets/home/banner/3.png")
+  require('../assets/home/banner/1.png'),
+  require('../assets/home/banner/2.png'),
+  require('../assets/home/banner/3.png'),
 ];
 
 class HomeScreen extends Component {
@@ -79,15 +74,15 @@ class HomeScreen extends Component {
 
   state = {
     current_image: images[0],
-    image_index: 0
+    image_index: 0,
   };
 
   _pickNextImage = index => {
-    const newIndex = (index + 1 > 2 ? 0 : index + 1)
+    const newIndex = index + 1 > 2 ? 0 : index + 1;
     return {
       current_image: images[newIndex],
       image_index: newIndex,
-    }
+    };
   };
 
   componentDidMount() {
@@ -100,9 +95,8 @@ class HomeScreen extends Component {
     return (
       <SafeAreaView>
         <ImageBackground
-          source={require("../assets/background.jpg")}
-          style={{ width: '100%', height: '100%' }}
-        >
+          source={require('../assets/background.jpg')}
+          style={{width: '100%', height: '100%'}}>
           <View style={styles.homeContainer}>
             <View style={styles.imageContainer}>
               <Image
@@ -113,32 +107,40 @@ class HomeScreen extends Component {
 
             <View style={styles.iconsContainer}>
               <View style={styles.iconsRow}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("Results")} style={styles.iconElement}>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('Results')}
+                  style={styles.iconElement}>
                   <Image
                     style={styles.iconImage}
-                    source={require("../assets/home/results.png")}
+                    source={require('../assets/home/results.png')}
                   />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("Entries")} style={styles.iconElement}>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('Entries')}
+                  style={styles.iconElement}>
                   <Image
                     style={styles.iconImage}
-                    source={require("../assets/home/entries.png")}
+                    source={require('../assets/home/entries.png')}
                   />
                 </TouchableOpacity>
               </View>
 
               <View style={styles.iconsRow}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("Workouts")} style={styles.iconElement}>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('Workouts')}
+                  style={styles.iconElement}>
                   <Image
                     style={styles.iconImage}
-                    source={require("../assets/home/workout.png")}
+                    source={require('../assets/home/workout.png')}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("Events")} style={styles.iconElement}>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('Events')}
+                  style={styles.iconElement}>
                   <Image
                     style={styles.iconImage}
-                    source={require("../assets/home/events.png")}
+                    source={require('../assets/home/events.png')}
                   />
                 </TouchableOpacity>
               </View>
@@ -149,6 +151,5 @@ class HomeScreen extends Component {
     );
   }
 }
-
 
 export default HomeScreen;
