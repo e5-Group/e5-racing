@@ -78,8 +78,8 @@ export default createBottomTabNavigator(
       tabBarIcon: ({focused, horizontal, tintColor, ...rest}) => {
         const {routeName} = navigation.state;
         return (
-          <View style={{alignItems: 'center'}}>
-            <View style={{width: 40, height: 40}}>
+          <View style={{alignItems: 'center', flex: 1}}>
+            <View style={{width: 36, height: 36}}>
               <Image
                 source={getIconSource(routeName, focused)}
                 style={{
@@ -95,7 +95,8 @@ export default createBottomTabNavigator(
             </View>
             <Text
               style={{
-                fontSize: 10,
+                fontSize: 12,
+                width: '100%',
                 color: focused ? colors.purple : colors.gray,
               }}>
               {routeName}
