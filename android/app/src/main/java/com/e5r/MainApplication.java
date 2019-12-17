@@ -1,4 +1,4 @@
-package com.e5r;
+package com.e5racing;
 
 import android.app.Application;
 import android.content.Context;

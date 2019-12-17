@@ -1,15 +1,24 @@
 import React from 'react';
-import {Image, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet} from 'react-native';
 
 import * as icons from '../constants/icons';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
   imageSize: {
     width: 50,
     height: 50,
   },
 });
 
-const Logo = () => <Image source={icons.logo} style={styles.imageSize} />;
+const Logo = () => (
+  <View style={styles.container}>
+    <Image source={icons.logo} style={styles.imageSize} />
+  </View>
+);
 
 export default Logo;

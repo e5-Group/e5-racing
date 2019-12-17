@@ -1,4 +1,4 @@
-package com.e5r;
+package com.e5racing;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

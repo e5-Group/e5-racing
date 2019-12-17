@@ -128,7 +128,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.e5r"
+        applicationId "com.e5racing"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
