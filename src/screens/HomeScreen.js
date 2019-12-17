@@ -8,9 +8,14 @@ import {
   StyleSheet,
 } from 'react-native';
 import Logo from '../components/Logo';
+import * as icons from '../constants/icons';
 import * as colors from '../constants/colors';
 
 const styles = StyleSheet.create({
+  fullScreen: {
+    width: '100%',
+    height: '100%',
+  },
   homeContainer: {
     flex: 1,
     flexDirection: 'column',
@@ -57,12 +62,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const images = [
-  require('../assets/home/banner/1.png'),
-  require('../assets/home/banner/2.png'),
-  require('../assets/home/banner/3.png'),
-];
-
 class HomeScreen extends Component {
   static navigationOptions = {
     headerTitle: () => <Logo />,
@@ -73,14 +72,14 @@ class HomeScreen extends Component {
   };
 
   state = {
-    current_image: images[0],
+    current_image: icons.homeBanner[0],
     image_index: 0,
   };
 
   _pickNextImage = index => {
     const newIndex = index + 1 > 2 ? 0 : index + 1;
     return {
-      current_image: images[newIndex],
+      current_image: icons.homeBanner[newIndex],
       image_index: newIndex,
     };
   };
@@ -94,9 +93,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <SafeAreaView>
-        <ImageBackground
-          source={require('../assets/background.jpg')}
-          style={{width: '100%', height: '100%'}}>
+        <ImageBackground source={icons.background} style={styles.fullScreen}>
           <View style={styles.homeContainer}>
             <View style={styles.imageContainer}>
               <Image
@@ -110,19 +107,13 @@ class HomeScreen extends Component {
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate('Results')}
                   style={styles.iconElement}>
-                  <Image
-                    style={styles.iconImage}
-                    source={require('../assets/home/results.png')}
-                  />
+                  <Image style={styles.iconImage} source={icons.results} />
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate('Entries')}
                   style={styles.iconElement}>
-                  <Image
-                    style={styles.iconImage}
-                    source={require('../assets/home/entries.png')}
-                  />
+                  <Image style={styles.iconImage} source={icons.entries} />
                 </TouchableOpacity>
               </View>
 
@@ -130,18 +121,12 @@ class HomeScreen extends Component {
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate('Workouts')}
                   style={styles.iconElement}>
-                  <Image
-                    style={styles.iconImage}
-                    source={require('../assets/home/workout.png')}
-                  />
+                  <Image style={styles.iconImage} source={icons.workouts} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate('Events')}
                   style={styles.iconElement}>
-                  <Image
-                    style={styles.iconImage}
-                    source={require('../assets/home/events.png')}
-                  />
+                  <Image style={styles.iconImage} source={icons.events} />
                 </TouchableOpacity>
               </View>
             </View>

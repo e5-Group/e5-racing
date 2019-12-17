@@ -1,6 +1,8 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import ResultsScreen from '../screens/ResultsScreen';
 
+import * as colors from '../constants/colors';
+
 export default createStackNavigator(
   {
     Results: {
@@ -11,7 +13,7 @@ export default createStackNavigator(
   },
   {
     navigationOptions: () => ({
-      headerTintColor: 'white',
+      headerTintColor: colors.white,
     }),
   },
 );

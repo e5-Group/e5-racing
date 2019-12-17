@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Image, Text} from 'react-native';
+import {StyleSheet, View, Image, Text} from 'react-native';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 import * as colors from '../constants/colors';
+import * as icons from '../constants/icons';
 
 import HomeStack from './HomeStack';
 import ResultsStack from './ResultsStack';
@@ -13,7 +14,7 @@ import EventsStack from './EventsStack';
 const tabBarOptions = {
   showLabel: false,
   style: {
-    borderTopColor: 'gray',
+    borderTopColor: colors.gray,
     borderTopWidth: 1,
     height: 66,
     paddingHorizontal: 10,
@@ -21,29 +22,50 @@ const tabBarOptions = {
   },
 };
 
-const homeIconOn = require('../assets/navigation/homeOn.png');
-const homeIconOff = require('../assets/navigation/homeOff.png');
-const resultsIconOn = require('../assets/navigation/resultsOn.png');
-const resultsIconOff = require('../assets/navigation/resultsOff.png');
-const entriesIconOn = require('../assets/navigation/entriesOn.png');
-const entriesIconOff = require('../assets/navigation/entriesOff.png');
-const workoutsIconOn = require('../assets/navigation/workoutsOn.png');
-const workoutsIconOff = require('../assets/navigation/workoutsOff.png');
-const eventsIconOn = require('../assets/navigation/eventsOn.png');
-const eventsIconOff = require('../assets/navigation/eventsOff.png');
+const styles = StyleSheet.create({
+  iconContainer: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  iconSize: {
+    width: 36,
+    height: 36,
+  },
+});
+
+const dynamicStyles = focused =>
+  StyleSheet.create({
+    iconStyle: {
+      resizeMode: 'contain',
+      shadowOffset: {
+        width: 1,
+        height: 1,
+      },
+      shadowColor: colors.black,
+      shadowOpacity: 0.2,
+      width: '100%',
+      height: '100%',
+      tintColor: focused ? colors.purple : colors.gray,
+    },
+    iconLabel: {
+      fontSize: 12,
+      width: '100%',
+      color: focused ? colors.purple : colors.gray,
+    },
+  });
 
 const getIconSource = (routeName, focused) => {
   switch (routeName) {
     case 'Results':
-      return focused ? resultsIconOn : resultsIconOff;
+      return focused ? icons.resultsIconOn : icons.resultsIconOff;
     case 'Entries':
-      return focused ? entriesIconOn : entriesIconOff;
+      return focused ? icons.entriesIconOn : icons.entriesIconOff;
     case 'Workouts':
-      return focused ? workoutsIconOn : workoutsIconOff;
+      return focused ? icons.workoutsIconOn : icons.workoutsIconOff;
     case 'Events':
-      return focused ? eventsIconOn : eventsIconOff;
+      return focused ? icons.eventsIconOn : icons.eventsIconOff;
     case 'Home':
-      return focused ? homeIconOn : homeIconOff;
+      return focused ? icons.homeIconOn : icons.homeIconOff;
     default:
       return null;
   }
@@ -78,29 +100,14 @@ export default createBottomTabNavigator(
       tabBarIcon: ({focused, horizontal, tintColor, ...rest}) => {
         const {routeName} = navigation.state;
         return (
-          <View style={{alignItems: 'center', flex: 1}}>
-            <View style={{width: 36, height: 36}}>
+          <View style={styles.iconContainer}>
+            <View style={styles.iconSize}>
               <Image
                 source={getIconSource(routeName, focused)}
-                style={{
-                  resizeMode: 'contain',
-                  shadowOffset: {width: 1, height: 1},
-                  shadowColor: 'black',
-                  shadowOpacity: 0.2,
-                  width: '100%',
-                  height: '100%',
-                  tintColor: focused ? colors.purple : colors.gray,
-                }}
+                style={dynamicStyles(focused).iconStyle}
               />
             </View>
-            <Text
-              style={{
-                fontSize: 12,
-                width: '100%',
-                color: focused ? colors.purple : colors.gray,
-              }}>
-              {routeName}
-            </Text>
+            <Text style={dynamicStyles(focused).iconLabel}>{routeName}</Text>
           </View>
         );
       },

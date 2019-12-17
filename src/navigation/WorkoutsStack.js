@@ -1,6 +1,8 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import WorkoutsScreen from '../screens/WorkoutsScreen';
 
+import * as colors from '../constants/colors';
+
 export default createStackNavigator(
   {
     WorkoutsScreen: {
@@ -11,7 +13,7 @@ export default createStackNavigator(
   },
   {
     navigationOptions: () => ({
-      headerTintColor: 'white',
+      headerTintColor: colors.white,
     }),
   },
 );

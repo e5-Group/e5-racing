@@ -12,6 +12,7 @@ import Loading from '../components/Loading';
 import Back from '../components/Back';
 import ItemsList from '../components/ItemsList';
 import NoContent from '../components/NoContent';
+import * as icons from '../constants/icons';
 import * as colors from '../constants/colors';
 import * as api from '../constants/api';
 
@@ -49,34 +50,41 @@ class WorkoutsScreen extends Component {
   _keyExtractor = (item, index) => (index + 2).toString();
 
   make_api_call() {
-    axios
-      .get(api.WORKOUTS_API)
-      .then(response => {
-        const {items} = response.data;
-        if (items.length > 0) {
-          this.setState({
-            items: items,
-            isReady: true,
-            refreshing: false,
-            serverError: false,
+    this.setState(
+      {
+        isReady: false,
+      },
+      () => {
+        axios
+          .get(api.WORKOUTS_API)
+          .then(response => {
+            const {items} = response.data;
+            if (items.length > 0) {
+              this.setState({
+                items: items,
+                isReady: true,
+                refreshing: false,
+                serverError: false,
+              });
+            } else {
+              this.setState({
+                items: [],
+                isReady: true,
+                refreshing: false,
+                serverError: false,
+              });
+            }
+          })
+          .catch(() => {
+            this.setState({
+              items: null,
+              isReady: true,
+              refreshing: false,
+              serverError: true,
+            });
           });
-        } else {
-          this.setState({
-            items: [],
-            isReady: true,
-            refreshing: false,
-            serverError: false,
-          });
-        }
-      })
-      .catch(() => {
-        this.setState({
-          items: null,
-          isReady: true,
-          refreshing: false,
-          serverError: true,
-        });
-      });
+      },
+    );
   }
 
   _handleRefresh = async () => {
@@ -94,12 +102,7 @@ class WorkoutsScreen extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.isFocused && this.props.isFocused) {
-      this.setState(
-        {
-          isReady: false,
-        },
-        this.make_api_call,
-      );
+      this.make_api_call();
     }
   }
 
@@ -108,9 +111,7 @@ class WorkoutsScreen extends Component {
     let fullWidth = {width: '100%', height: '100%'};
     return (
       <SafeAreaView>
-        <ImageBackground
-          source={require('../assets/background.jpg')}
-          style={fullWidth}>
+        <ImageBackground source={icons.background} style={fullWidth}>
           <View style={styles.container}>
             <View style={styles.listContainer}>
               {isReady ? (

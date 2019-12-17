@@ -2,9 +2,7 @@ import React from 'react';
 import {TouchableOpacity, Image, StyleSheet} from 'react-native';
 
 import * as colors from '../constants/colors';
-
-const back = require('../assets/back.png');
-const home = require('../assets/navigation/homeOn.png');
+import * as icons from '../constants/icons';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,8 +22,8 @@ const Back = props => {
     <TouchableOpacity
       style={styles.container}
       onPress={() => navigation.navigate('Home')}>
-      <Image source={back} style={styles.imageSize} />
-      <Image source={home} style={styles.imageSize} />
+      <Image source={icons.back} style={styles.imageSize} />
+      <Image source={icons.home} style={styles.imageSize} />
     </TouchableOpacity>
   );
 };

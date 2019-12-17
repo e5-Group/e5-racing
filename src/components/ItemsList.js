@@ -10,6 +10,7 @@ import {
 import Share from './Share';
 import {dateFormating, convertToUppercase} from '../utils';
 import * as colors from '../constants/colors';
+import * as icons from '../constants/icons';
 
 const width = Dimensions.get('window').width;
 
@@ -217,14 +218,11 @@ export default class ItemsList extends Component {
         <View style={ItemsList.getShareIconStyle(itype)}>
           {itype === 'results' ? (
             <TouchableOpacity onPress={() => Linking.openURL(item.chart_link)}>
-              <Image
-                style={squareIcon}
-                source={require('../assets/chart.png')}
-              />
+              <Image style={squareIcon} source={icons.chart} />
             </TouchableOpacity>
           ) : null}
           {itype === 'results' && item.Finish === '1' ? (
-            <Image style={squareIcon} source={require('../assets/prize.png')} />
+            <Image style={squareIcon} source={icons.prize} />
           ) : null}
           <Share itype={itype} msg={share_message} />
         </View>

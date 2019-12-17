@@ -1,10 +1,17 @@
 import React from 'react';
-import {ImageBackground} from 'react-native';
+import {StyleSheet, ImageBackground} from 'react-native';
 
-const splash = require('../assets/splash.png');
+import * as icons from '../constants/icons';
+
+const styles = StyleSheet.create({
+  fullDisplay: {
+    width: '100%',
+    height: '100%',
+  },
+});
 
 const SplashScreen = () => (
-  <ImageBackground source={splash} style={{width: '100%', height: '100%'}} />
+  <ImageBackground source={icons.splash} style={styles.fullDisplay} />
 );
 
 export default SplashScreen;

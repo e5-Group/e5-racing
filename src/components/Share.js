@@ -1,5 +1,14 @@
 import React, {Component} from 'react';
-import {Share, TouchableHighlight, Image} from 'react-native';
+import {StyleSheet, Share, TouchableHighlight, Image} from 'react-native';
+
+import * as icons from '../constants/icons';
+
+const styles = StyleSheet.create({
+  shareSize: {
+    height: 30,
+    width: 30,
+  },
+});
 
 export default class ShareButton extends Component {
   onClick = () => {
@@ -8,7 +17,7 @@ export default class ShareButton extends Component {
         message: this.props.msg,
       });
     } catch (error) {
-      alert(error.message);
+      // alert(error.message);
     }
   };
 
@@ -17,21 +26,21 @@ export default class ShareButton extends Component {
     let source = null;
     switch (itype) {
       case 'entries':
-        source = require('../assets/share/green.png');
+        source = icons.shareGreen;
         break;
       case 'workouts':
-        source = require('../assets/share/purple.png');
+        source = icons.sharePurple;
         break;
       case 'results':
-        source = require('../assets/share/white.png');
+        source = icons.shareWhite;
         break;
       default:
-        source = require('../assets/share/black.png');
+        source = icons.shareBlack;
         break;
     }
     return (
       <TouchableHighlight onPress={this.onClick}>
-        <Image style={{height: 30, width: 30}} source={source} />
+        <Image style={styles.shareSize} source={source} />
       </TouchableHighlight>
     );
   }

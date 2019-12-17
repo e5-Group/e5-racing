@@ -15,12 +15,20 @@ import {dateFormating, convertToUppercase} from '../utils';
 import Back from '../components/Back';
 import Loading from '../components/Loading';
 import NoContent from '../components/NoContent';
+import * as icons from '../constants/icons';
 import * as api from '../constants/api';
 import * as colors from '../constants/colors';
 
 const styles = StyleSheet.create({
+  fullScreen: {
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
+  },
+  white: {
+    color: colors.white,
   },
   item: {
     backgroundColor: colors.white,
@@ -62,63 +70,70 @@ class EventsScreen extends Component {
   };
 
   make_api_call() {
-    axios
-      .get(api.EVENTS_API)
-      .then(response => {
-        const {items} = response.data;
+    this.setState(
+      {
+        isReady: false,
+      },
+      () => {
+        axios
+          .get(api.EVENTS_API)
+          .then(response => {
+            const {items} = response.data;
 
-        this.setState(
-          {
-            dates: items,
-          },
-          () => {
-            const {dates} = this.state;
-            let newMarked = {};
-            for (const key in dates) {
-              const element = dates[key];
-              for (const e in element) {
-                const x = element[e];
-                const today = new Date(
-                  new Date().getFullYear(),
-                  new Date().getMonth(),
-                  new Date().getDate(),
-                );
-                const parsedKey = parse(key, 'yyyy-MM-dd', today);
-                newMarked[key] = {
-                  customStyles: {
-                    container: {
-                      backgroundColor:
-                        parsedKey.getTime() === today.getTime()
-                          ? colors.gray
-                          : x.backgroundColor,
-                    },
-                    text: {
-                      color: x.textColor,
-                      fontWeight: 'bold',
-                    },
-                  },
-                };
-              }
-            }
+            this.setState(
+              {
+                dates: items,
+              },
+              () => {
+                const {dates} = this.state;
+                let newMarked = {};
+                for (const key in dates) {
+                  const element = dates[key];
+                  for (const e in element) {
+                    const x = element[e];
+                    const today = new Date(
+                      new Date().getFullYear(),
+                      new Date().getMonth(),
+                      new Date().getDate(),
+                    );
+                    const parsedKey = parse(key, 'yyyy-MM-dd', today);
+                    newMarked[key] = {
+                      customStyles: {
+                        container: {
+                          backgroundColor:
+                            parsedKey.getTime() === today.getTime()
+                              ? colors.gray
+                              : x.backgroundColor,
+                        },
+                        text: {
+                          color: x.textColor,
+                          fontWeight: 'bold',
+                        },
+                      },
+                    };
+                  }
+                }
 
+                this.setState({
+                  marked: newMarked,
+                  isReady: true,
+                  refreshing: false,
+                  serverError: false,
+                });
+              },
+            );
+          })
+          .catch(error => {
             this.setState({
-              marked: newMarked,
+              dates: {},
+              marked: {},
               isReady: true,
               refreshing: false,
-              serverError: false,
+              serverError: true,
             });
-          },
-        );
-      })
-      .catch(error => {
-        this.setState({
-          dates: {},
-          marked: {},
-          isReady: true,
-          refreshing: false,
-          serverError: true,
-        });
-      });
+          });
+      },
+    );
   }
 
   componentDidMount = () => {
@@ -127,12 +142,7 @@ class EventsScreen extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.isFocused && this.props.isFocused) {
-      this.setState(
-        {
-          isReady: false,
-        },
-        this.make_api_call,
-      );
+      this.make_api_call();
     }
   }
 
@@ -144,7 +154,7 @@ class EventsScreen extends Component {
           {height: item.height, backgroundColor: item.backgroundColor},
         ]}>
         <Text style={styles.Title}>{item.horse}</Text>
-        <Text style={{color: colors.white}}>
+        <Text style={styles.white}>
           {item.type === 'e'
             ? `Entered on ${dateFormating(
                 item.entry_date,
@@ -173,9 +183,7 @@ class EventsScreen extends Component {
     const {isReady, dates, marked, serverError} = this.state;
     return (
       <SafeAreaView>
-        <ImageBackground
-          source={require('../assets/background.jpg')}
-          style={{width: '100%', height: '100%'}}>
+        <ImageBackground source={icons.background} style={styles.fullScreen}>
           <View style={styles.container}>
             {isReady && !serverError && (
               <Agenda

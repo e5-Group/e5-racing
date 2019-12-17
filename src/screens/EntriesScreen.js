@@ -14,8 +14,13 @@ import ItemsList from '../components/ItemsList';
 import NoContent from '../components/NoContent';
 import * as colors from '../constants/colors';
 import * as api from '../constants/api';
+import * as icons from '../constants/icons';
 
 const styles = StyleSheet.create({
+  fullScreen: {
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -49,34 +54,41 @@ class EntriesScreen extends Component {
   _keyExtractor = (item, index) => (index + 2).toString();
 
   make_api_call() {
-    axios
-      .get(api.ENTRIES_API)
-      .then(response => {
-        const {items} = response.data;
-        if (items.length > 0) {
-          this.setState({
-            items: items,
-            isReady: true,
-            refreshing: false,
-            serverError: false,
+    this.setState(
+      {
+        isReady: false,
+      },
+      () => {
+        axios
+          .get(api.ENTRIES_API)
+          .then(response => {
+            const {items} = response.data;
+            if (items.length > 0) {
+              this.setState({
+                items: items,
+                isReady: true,
+                refreshing: false,
+                serverError: false,
+              });
+            } else {
+              this.setState({
+                items: [],
+                isReady: true,
+                refreshing: false,
+                serverError: false,
+              });
+            }
+          })
+          .catch(() => {
+            this.setState({
+              items: null,
+              isReady: true,
+              refreshing: false,
+              serverError: true,
+            });
           });
-        } else {
-          this.setState({
-            items: [],
-            isReady: true,
-            refreshing: false,
-            serverError: false,
-          });
-        }
-      })
-      .catch(() => {
-        this.setState({
-          items: null,
-          isReady: true,
-          refreshing: false,
-          serverError: true,
-        });
-      });
+      },
+    );
   }
 
   _handleRefresh = async () => {
@@ -94,12 +106,7 @@ class EntriesScreen extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.isFocused && this.props.isFocused) {
-      this.setState(
-        {
-          isReady: false,
-        },
-        this.make_api_call,
-      );
+      this.make_api_call();
     }
   }
 
@@ -107,9 +114,7 @@ class EntriesScreen extends Component {
     const {items, serverError, isReady, refreshing} = this.state;
     return (
       <SafeAreaView>
-        <ImageBackground
-          source={require('../assets/background.jpg')}
-          style={{width: '100%', height: '100%'}}>
+        <ImageBackground source={icons.background} style={styles.fullScreen}>
           <View style={styles.container}>
             <View style={styles.listContainer}>
               {isReady ? (

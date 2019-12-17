@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet} from 'react-native';
 
-const logo = require('../assets/logo.png');
+import * as icons from '../constants/icons';
 
 const styles = StyleSheet.create({
   imageSize: {
@@ -10,6 +10,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const Logo = () => <Image source={logo} style={styles.imageSize} />;
+const Logo = () => <Image source={icons.logo} style={styles.imageSize} />;
 
 export default Logo;

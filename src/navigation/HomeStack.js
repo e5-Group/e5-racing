@@ -1,6 +1,8 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import HomeScreen from '../screens/HomeScreen';
 
+import * as colors from '../constants/colors';
+
 export default createStackNavigator(
   {
     Home: {
@@ -11,7 +13,7 @@ export default createStackNavigator(
   },
   {
     navigationOptions: () => ({
-      headerTintColor: 'white',
+      headerTintColor: colors.white,
     }),
   },
 );
