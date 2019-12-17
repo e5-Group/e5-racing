@@ -1,1 +1,1 @@
-export const FCM_SENDER_ID = 403044594973;
+export const FCM_SENDER_ID = '403044594973';
