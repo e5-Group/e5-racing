@@ -147,7 +147,7 @@ export default class ItemsList extends Component {
   }
 
   render() {
-    const {item, itype} = this.props;
+    const {item, itype, showModal} = this.props;
 
     let fullWidth = {width: '100%'};
     let squareIcon = {width: 32, height: 32};
@@ -213,19 +213,22 @@ export default class ItemsList extends Component {
 
     return (
       <View style={ItemsList.getContainerStyle(itype)}>
-        <Text style={ItemsList.getTitleStyle(itype)}>{item.Horse_Name}</Text>
-        <View style={fullWidth}>{text_block}</View>
-        <View style={ItemsList.getShareIconStyle(itype)}>
-          {itype === 'results' ? (
-            <TouchableOpacity onPress={() => Linking.openURL(item.chart_link)}>
-              <Image style={squareIcon} source={icons.chart} />
-            </TouchableOpacity>
-          ) : null}
-          {itype === 'results' && item.Finish === '1' ? (
-            <Image style={squareIcon} source={icons.prize} />
-          ) : null}
-          <Share itype={itype} msg={share_message} />
-        </View>
+        <TouchableOpacity onPress={() => showModal(item)}>
+          <Text style={ItemsList.getTitleStyle(itype)}>{item.Horse_Name}</Text>
+          <View style={fullWidth}>{text_block}</View>
+          <View style={ItemsList.getShareIconStyle(itype)}>
+            {itype === 'results' ? (
+              <TouchableOpacity
+                onPress={() => Linking.openURL(item.chart_link)}>
+                <Image style={squareIcon} source={icons.chart} />
+              </TouchableOpacity>
+            ) : null}
+            {itype === 'results' && item.Finish === '1' ? (
+              <Image style={squareIcon} source={icons.prize} />
+            ) : null}
+            <Share itype={itype} msg={share_message} />
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }

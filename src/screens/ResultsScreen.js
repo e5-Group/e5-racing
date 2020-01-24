@@ -12,6 +12,7 @@ import Loading from '../components/Loading';
 import Back from '../components/Back';
 import ItemsList from '../components/ItemsList';
 import NoContent from '../components/NoContent';
+import HorseModal from '../components/HorseModal';
 import * as icons from '../constants/icons';
 import * as colors from '../constants/colors';
 import * as api from '../constants/api';
@@ -49,6 +50,7 @@ class ResultsScreen extends Component {
     isReady: false,
     refreshing: false,
     serverError: false,
+    horseModal: null,
   };
 
   _keyExtractor = (item, index) => (index + 2).toString();
@@ -110,10 +112,25 @@ class ResultsScreen extends Component {
     }
   }
 
+  closeModal = () => {
+    this.setState({
+      horseModal: false,
+    });
+  };
+
+  showModal = item => {
+    this.setState({
+      horseModal: item,
+    });
+  };
+
   render = () => {
-    const {items, serverError, isReady, refreshing} = this.state;
+    const {items, serverError, isReady, refreshing, horseModal} = this.state;
     return (
       <SafeAreaView>
+        {horseModal && (
+          <HorseModal horseModal={horseModal} closeModal={this.closeModal} />
+        )}
         <ImageBackground source={icons.background} style={styles.fullScreen}>
           <View style={styles.container}>
             <View style={styles.listContainer}>
@@ -123,7 +140,11 @@ class ResultsScreen extends Component {
                   onRefresh={this._handleRefresh}
                   data={items}
                   renderItem={({item}) => (
-                    <ItemsList itype={'results'} item={item} />
+                    <ItemsList
+                      itype={'results'}
+                      item={item}
+                      showModal={this.showModal}
+                    />
                   )}
                   keyExtractor={this._keyExtractor}
                   ListEmptyComponent={

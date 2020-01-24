@@ -19,6 +19,8 @@ export const workoutsIconOn = require('../assets/navigation/workoutsOn.png');
 export const workoutsIconOff = require('../assets/navigation/workoutsOff.png');
 export const eventsIconOn = require('../assets/navigation/eventsOn.png');
 export const eventsIconOff = require('../assets/navigation/eventsOff.png');
+export const newslettersIconOn = require('../assets/navigation/newsletterOn.png');
+export const newslettersIconOff = require('../assets/navigation/newsletterOff.png');
 
 export const background = require('../assets/background.jpg');
 

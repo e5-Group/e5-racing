@@ -10,6 +10,7 @@ import ResultsStack from './ResultsStack';
 import EntriesStack from './EntriesStack';
 import WorkoutsStack from './WorkoutsStack';
 import EventsStack from './EventsStack';
+import NewslettersStack from './NewslettersStack';
 
 const tabBarOptions = {
   showLabel: false,
@@ -66,6 +67,8 @@ const getIconSource = (routeName, focused) => {
       return focused ? icons.eventsIconOn : icons.eventsIconOff;
     case 'Home':
       return focused ? icons.homeIconOn : icons.homeIconOff;
+    case 'Newsletters':
+      return focused ? icons.newslettersIconOn : icons.newslettersIconOff;
     default:
       return null;
   }
@@ -92,6 +95,10 @@ export default createBottomTabNavigator(
     Events: {
       screen: EventsStack,
       path: 'events',
+    },
+    Newsletters: {
+      screen: NewslettersStack,
+      path: 'newsletters',
     },
   },
   {

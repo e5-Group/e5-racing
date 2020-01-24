@@ -17,6 +17,7 @@ export default class PushNotificationService {
         await axios.post(api.REGISTER_TOKEN_API, {
           device_brand: os === 'android' ? 'Android' : 'Apple',
           device_token: token,
+          brand: 'e5',
         });
       },
       onNotification: notification => {

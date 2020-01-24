@@ -12,6 +12,7 @@ import Loading from '../components/Loading';
 import Back from '../components/Back';
 import ItemsList from '../components/ItemsList';
 import NoContent from '../components/NoContent';
+import HorseModal from '../components/HorseModal';
 import * as icons from '../constants/icons';
 import * as colors from '../constants/colors';
 import * as api from '../constants/api';
@@ -45,6 +46,7 @@ class WorkoutsScreen extends Component {
     isReady: false,
     refreshing: false,
     serverError: false,
+    HorseModal: null,
   };
 
   _keyExtractor = (item, index) => (index + 2).toString();
@@ -106,11 +108,26 @@ class WorkoutsScreen extends Component {
     }
   }
 
+  closeModal = () => {
+    this.setState({
+      horseModal: false,
+    });
+  };
+
+  showModal = item => {
+    this.setState({
+      horseModal: item,
+    });
+  };
+
   render = () => {
-    const {items, serverError, isReady, refreshing} = this.state;
+    const {items, serverError, isReady, refreshing, horseModal} = this.state;
     let fullWidth = {width: '100%', height: '100%'};
     return (
       <SafeAreaView>
+        {horseModal && (
+          <HorseModal horseModal={horseModal} closeModal={this.closeModal} />
+        )}
         <ImageBackground source={icons.background} style={fullWidth}>
           <View style={styles.container}>
             <View style={styles.listContainer}>
@@ -120,7 +137,11 @@ class WorkoutsScreen extends Component {
                   onRefresh={this._handleRefresh}
                   data={items}
                   renderItem={({item}) => (
-                    <ItemsList itype={'workouts'} item={item} />
+                    <ItemsList
+                      itype={'workouts'}
+                      item={item}
+                      showModal={this.showModal}
+                    />
                   )}
                   keyExtractor={this._keyExtractor}
                   ListEmptyComponent={
