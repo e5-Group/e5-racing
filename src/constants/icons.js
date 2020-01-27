@@ -1,4 +1,5 @@
 export const back = require('../assets/back.png');
+export const close = require('../assets/close.png');
 export const home = require('../assets/navigation/homeOn.png');
 export const chart = require('../assets/chart.png');
 export const prize = require('../assets/prize.png');
@@ -36,3 +37,5 @@ export const workouts = require('../assets/home/workout.png');
 export const events = require('../assets/home/events.png');
 
 export const splash = require('../assets/splash.png');
+
+export const newsletterPlaceholder = require('../assets/newsletter.jpg');
