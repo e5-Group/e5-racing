@@ -97,7 +97,7 @@ class NewslettersScreen extends Component {
             const {items} = response.data;
             if (items.length > 0) {
               this.setState({
-                items: items,
+                items: items.sort((a,b) => a.unique_id < b.unique_id),
                 isReady: true,
                 refreshing: false,
                 serverError: false,
