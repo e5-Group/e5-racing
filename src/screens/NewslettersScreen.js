@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
   },
+  backgroundImageStyle: {
+    resizeMode: 'repeat',
+  },
   listContainer: {
     flex: 2,
     alignItems: 'center',
@@ -46,7 +49,7 @@ const styles = StyleSheet.create({
   },
   linkContainer: {
     marginVertical: 10,
-    backgroundColor: colors.lightPurple,
+    backgroundColor: colors.newLightPurple,
     padding: 20,
     borderRadius: 10,
     flexDirection: 'row',
@@ -68,7 +71,7 @@ class NewslettersScreen extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Newsletters',
     headerStyle: {
-      backgroundColor: colors.purple,
+      backgroundColor: colors.newPurple,
       height: 60,
     },
     headerTintColor: colors.white,
@@ -97,7 +100,9 @@ class NewslettersScreen extends Component {
             const {items} = response.data;
             if (items.length > 0) {
               this.setState({
-                items: items.sort((a,b) => Number(a.unique_id) < Number(b.unique_id)),
+                items: items.sort(
+                  (a, b) => Number(a.unique_id) < Number(b.unique_id),
+                ),
                 isReady: true,
                 refreshing: false,
                 serverError: false,
@@ -158,7 +163,10 @@ class NewslettersScreen extends Component {
     const {items, serverError, isReady, refreshing} = this.state;
     return (
       <SafeAreaView>
-        <ImageBackground source={icons.background} style={styles.fullScreen}>
+        <ImageBackground
+          source={icons.background}
+          style={styles.fullScreen}
+          imageStyle={styles.backgroundImageStyle}>
           <View style={styles.container}>
             <View style={styles.listContainer}>
               {isReady ? (

@@ -23,7 +23,7 @@ export const eventsIconOff = require('../assets/navigation/eventsOff.png');
 export const newslettersIconOn = require('../assets/navigation/newsletterOn.png');
 export const newslettersIconOff = require('../assets/navigation/newsletterOff.png');
 
-export const background = require('../assets/background.jpg');
+export const background = require('../assets/background.png');
 
 export const homeBanner = [
   require('../assets/home/banner/1.png'),
@@ -39,3 +39,13 @@ export const events = require('../assets/home/events.png');
 export const splash = require('../assets/splash.png');
 
 export const newsletterPlaceholder = require('../assets/newsletter.jpg');
+
+export const homeBackground = require('../assets/home/background.jpg');
+export const topGradient = require('../assets/gradients/top.png');
+
+export const clock = require('../assets/cards/clock.png');
+export const event = require('../assets/cards/event.png');
+export const flag = require('../assets/cards/flag.png');
+export const radar = require('../assets/cards/radar.png');
+export const speed = require('../assets/cards/speed.png');
+export const timer = require('../assets/cards/timer.png');

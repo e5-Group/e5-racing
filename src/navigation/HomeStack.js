@@ -7,7 +7,7 @@ export default createStackNavigator(
   {
     Home: {
       screen: HomeScreen,
-      // navigationOptions: { header: null },
+      navigationOptions: {header: null},
       path: 'home',
     },
   },

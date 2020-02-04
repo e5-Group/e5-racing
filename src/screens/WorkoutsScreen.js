@@ -18,6 +18,10 @@ import * as colors from '../constants/colors';
 import * as api from '../constants/api';
 
 const styles = StyleSheet.create({
+  fullScreen: {
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -27,6 +31,10 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: 'center',
     justifyContent: 'flex-start',
+    paddingTop: 18,
+  },
+  backgroundImageStyle: {
+    resizeMode: 'repeat',
   },
 });
 
@@ -34,7 +42,7 @@ class WorkoutsScreen extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Workouts',
     headerStyle: {
-      backgroundColor: colors.purple,
+      backgroundColor: colors.newPurple,
       height: 60,
     },
     headerTintColor: colors.white,
@@ -122,13 +130,16 @@ class WorkoutsScreen extends Component {
 
   render = () => {
     const {items, serverError, isReady, refreshing, horseModal} = this.state;
-    let fullWidth = {width: '100%', height: '100%'};
+
     return (
       <SafeAreaView>
         {horseModal && (
           <HorseModal horseModal={horseModal} closeModal={this.closeModal} />
         )}
-        <ImageBackground source={icons.background} style={fullWidth}>
+        <ImageBackground
+          source={icons.background}
+          style={styles.fullScreen}
+          imageStyle={styles.backgroundImageStyle}>
           <View style={styles.container}>
             <View style={styles.listContainer}>
               {isReady ? (

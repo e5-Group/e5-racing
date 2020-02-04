@@ -4,10 +4,10 @@ import {
   Image,
   ImageBackground,
   View,
-  TouchableOpacity,
   StyleSheet,
+  Text,
 } from 'react-native';
-import Logo from '../components/Logo';
+import MenuOption from '../components/MenuOption';
 import * as icons from '../constants/icons';
 import * as colors from '../constants/colors';
 
@@ -15,60 +15,44 @@ const styles = StyleSheet.create({
   fullScreen: {
     width: '100%',
     height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
-  homeContainer: {
+  homeBackground: {
+    resizeMode: 'repeat',
+  },
+  topGradient: {
+    width: '100%',
+    height: 80,
+    position: 'absolute',
+    top: 0,
+    resizeMode: 'stretch',
+    tintColor: 'rgba(10,10,10, .2)',
+  },
+  menuContainer: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    marginHorizontal: 20,
+    justifyContent: 'flex-end',
   },
-  imageContainer: {
-    flex: 1,
-    padding: 10,
-    marginTop: 10,
+  menu: {
+    height: '65%',
+    backgroundColor: colors.newPurple,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingHorizontal: 30,
+    paddingVertical: 20,
   },
-  bannerImage: {
-    width: '100%',
-    height: '100%',
-    aspectRatio: 1685 / 1152,
-  },
-
-  iconsContainer: {
-    flex: 1,
-    flexGrow: 1.4,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingVertical: 10,
-  },
-  iconsRow: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginHorizontal: 10,
-  },
-  iconElement: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-  },
-  iconImage: {
-    width: '100%',
-    height: '100%',
-    aspectRatio: 1 / 1,
+  welcome: {
+    fontSize: 32,
+    color: colors.newGray,
+    fontFamily: 'NotoSerif-Bold',
   },
 });
 
 class HomeScreen extends Component {
   static navigationOptions = {
-    headerTitle: () => <Logo />,
-    headerStyle: {
-      backgroundColor: colors.purple,
-      height: 60,
-    },
+    header: null,
   };
 
   state = {
@@ -92,47 +76,39 @@ class HomeScreen extends Component {
 
   render() {
     return (
-      <SafeAreaView>
-        <ImageBackground source={icons.background} style={styles.fullScreen}>
-          <View style={styles.homeContainer}>
-            <View style={styles.imageContainer}>
-              <Image
-                style={styles.bannerImage}
-                source={this.state.current_image}
+      <ImageBackground
+        source={icons.homeBackground}
+        style={styles.fullScreen}
+        imageStyle={styles.homeBackground}>
+        <Image source={icons.topGradient} style={styles.topGradient} />
+        <SafeAreaView style={styles.menuContainer}>
+          <View style={styles.menu}>
+            <Text style={styles.welcome}>Welcome!</Text>
+            <View style={styles.menuOptions}>
+              <MenuOption
+                icon={icons.prize}
+                name={'results'}
+                pressed={() => this.props.navigation.navigate('Results')}
+              />
+              <MenuOption
+                icon={icons.entriesIconOn}
+                name={'entries'}
+                pressed={() => this.props.navigation.navigate('Entries')}
+              />
+              <MenuOption
+                icon={icons.workoutsIconOn}
+                name={'workouts'}
+                pressed={() => this.props.navigation.navigate('Workouts')}
+              />
+              <MenuOption
+                icon={icons.eventsIconOn}
+                name={'events'}
+                pressed={() => this.props.navigation.navigate('Events')}
               />
             </View>
-
-            <View style={styles.iconsContainer}>
-              <View style={styles.iconsRow}>
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('Results')}
-                  style={styles.iconElement}>
-                  <Image style={styles.iconImage} source={icons.results} />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('Entries')}
-                  style={styles.iconElement}>
-                  <Image style={styles.iconImage} source={icons.entries} />
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.iconsRow}>
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('Workouts')}
-                  style={styles.iconElement}>
-                  <Image style={styles.iconImage} source={icons.workouts} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('Events')}
-                  style={styles.iconElement}>
-                  <Image style={styles.iconImage} source={icons.events} />
-                </TouchableOpacity>
-              </View>
-            </View>
           </View>
-        </ImageBackground>
-      </SafeAreaView>
+        </SafeAreaView>
+      </ImageBackground>
     );
   }
 }

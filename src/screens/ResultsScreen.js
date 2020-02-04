@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: 'center',
     justifyContent: 'flex-start',
+    paddingTop: 18,
+  },
+  backgroundImageStyle: {
+    resizeMode: 'repeat',
   },
 });
 
@@ -38,7 +42,7 @@ class ResultsScreen extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Results',
     headerStyle: {
-      backgroundColor: colors.purple,
+      backgroundColor: colors.newPurple,
       height: 60,
     },
     headerTintColor: colors.white,
@@ -131,7 +135,10 @@ class ResultsScreen extends Component {
         {horseModal && (
           <HorseModal horseModal={horseModal} closeModal={this.closeModal} />
         )}
-        <ImageBackground source={icons.background} style={styles.fullScreen}>
+        <ImageBackground
+          source={icons.background}
+          style={styles.fullScreen}
+          imageStyle={styles.backgroundImageStyle}>
           <View style={styles.container}>
             <View style={styles.listContainer}>
               {isReady ? (

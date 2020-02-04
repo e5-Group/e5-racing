@@ -6,230 +6,246 @@ import {
   Image,
   Linking,
   Dimensions,
+  StyleSheet,
 } from 'react-native';
 import Share from './Share';
-import {dateFormating, convertToUppercase} from '../utils';
+
+import {dateFormating, finishedPosition, formatStrTime} from '../utils';
 import * as colors from '../constants/colors';
 import * as icons from '../constants/icons';
 
 const width = Dimensions.get('window').width;
 
-export default class ItemsList extends Component {
-  static getContainerStyle(itype) {
-    let containerStyles = {
-      borderRadius: 35,
-      borderWidth: 1,
-      width: width * 0.9,
-      marginTop: 10,
-      marginBottom: 5,
-      textAlign: 'center',
-      padding: 10,
-    };
-    switch (itype) {
-      case 'results':
-        containerStyles.borderColor = colors.gray;
-        containerStyles.backgroundColor = colors.gray;
-        containerStyles.color = colors.purple;
-        break;
-      case 'entries':
-        containerStyles.borderColor = colors.purple;
-        containerStyles.backgroundColor = colors.purple;
-        containerStyles.color = colors.white;
-        break;
+const styles = StyleSheet.create({
+  headerContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    marginBottom: 20,
+    marginLeft: 20,
+  },
+  headerHorseName: {
+    color: colors.newLightGreen,
+    fontFamily: 'NotoSerif-Bold',
+    fontSize: 20,
+  },
+  headerSubtitle: {
+    color: colors.newGreyText,
+    fontSize: 16,
+  },
+  dataRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginLeft: 20,
+    marginBottom: 6,
+  },
+  dataCell: {
+    width: '50%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  dataCellIconContainer: {
+    width: 12,
+    height: 12,
+    marginRight: 10,
+  },
+  dataCellIcon: {
+    width: '100%',
+    height: '100%',
+    tintColor: colors.newGreyText,
+    resizeMode: 'contain',
+  },
+  dataCellValue: {
+    fontSize: 16,
+    color: colors.newGreyText,
+  },
+  actionText: {
+    color: colors.newPurple,
+  },
+});
 
-      default:
-        containerStyles.borderColor = colors.green;
-        containerStyles.backgroundColor = colors.green;
-        containerStyles.color = colors.white;
-        break;
-    }
-
-    return containerStyles;
-  }
-
-  static getShareIconStyle(itype) {
-    let shareIconStyle = {
-      flex: 1,
+const dynamicStyles = ({itype, item}) =>
+  StyleSheet.create({
+    containerStyle: {
+      backgroundColor: colors.white,
+      marginBottom: 18,
+      paddingTop: 20,
+      height: itype !== 'workouts' ? 196 : 166, //206,
+      maxWidth: width < 590 ? '90%' : 592,
+      width: width < 590 ? '90%' : 592,
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowColor: colors.black,
+      shadowOpacity: 0.26,
+      shadowRadius: 6,
+      marginHorizontal: 20,
+    },
+    headerIconContainer: {
+      marginRight: 20,
       flexDirection: 'row',
-      marginBottom: 10,
-      marginRight: 10,
-    };
+      justifyContent: 'flex-start',
+      width: itype === 'results' ? 60 : 25,
+    },
+    headerIcon: {
+      resizeMode: 'contain',
+      height: '100%',
+      width: '100%',
+      tintColor:
+        itype === 'results'
+          ? item.Finish === '1'
+            ? colors.newGold
+            : colors.newDarkGrey
+          : colors.newLightGreen,
+    },
+    headerTextContainer: {
+      flexDirection: 'column',
+      width: '70%',
+      paddingTop: itype === 'results' ? 8 : 2,
+    },
+    actionsContainer: {
+      marginHorizontal: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: itype === 'results' ? 'space-between' : 'flex-end',
+      marginTop: 12,
+    },
+  });
 
-    switch (itype) {
-      case 'results':
-        shareIconStyle.justifyContent = 'space-between';
-        break;
-
-      default:
-        shareIconStyle.justifyContent = 'flex-end';
-        break;
-    }
-    return shareIconStyle;
-  }
-
-  static getTitleStyle(itype) {
-    let titleStyles = {
-      textAlign: 'center',
-      fontSize: 17,
-      fontWeight: 'bold',
-      textTransform: 'uppercase',
-    };
-    switch (itype) {
-      case 'results':
-        titleStyles.color = colors.purple;
-        break;
-      default:
-        titleStyles.color = colors.white;
-        break;
-    }
-
-    return titleStyles;
-  }
-
-  static getBodyStyle(itype) {
-    let bodyStyles = {
-      fontWeight: 'bold',
-      marginTop: 10,
-      marginBottom: 10,
-      padding: 5,
-    };
-
-    switch (itype) {
-      case 'results':
-        bodyStyles.color = colors.purple;
-        break;
-      default:
-        bodyStyles.color = colors.white;
-        break;
-    }
-
-    return bodyStyles;
-  }
-
-  static finishedPosition(number) {
-    let placed;
-    switch (number) {
-      case '1':
-        placed = number + 'st';
-        break;
-
-      case '2':
-        placed = number + 'nd';
-        break;
-
-      case '3':
-        placed = number + 'rd';
-        break;
-
-      default:
-        placed = number + 'th';
-        break;
-    }
-    return placed;
-  }
-
-  static formatStrTime(time) {
-    let time_formatted;
-    let len = time.length;
-    if (len === 4) {
-      time_formatted = time.substring(0, 2) + '.' + time.substring(2, 4); // 00.00
-    } else if (len === 5) {
-      time_formatted =
-        time.substring(0, 1) +
-        ':' +
-        time.substring(1, 3) +
-        '.' +
-        time.substring(3, 5); // 0:00.00
-    } else {
-      time_formatted = time;
-    }
-    return time_formatted;
-  }
-
+export default class ItemsList extends Component {
   render() {
     const {item, itype, showModal} = this.props;
 
-    let fullWidth = {width: '100%'};
-    let squareIcon = {width: 32, height: 32};
-    let text_block;
-    let share_message;
-
-    if (itype === 'entries') {
-      text_block = (
-        <Text style={ItemsList.getBodyStyle(itype)}>
-          Entered on {dateFormating(item.Entry_Date)} at{' '}
-          {convertToUppercase(item.Track)}, Race {item.Number_Entered},{' '}
-          {convertToUppercase(item.Class)}, Post Time: {item.post_time}, Jockey:{' '}
-          {item.jockey_name}
-        </Text>
-      );
-      share_message = `${item.Horse_Name} Entered on ${dateFormating(
-        item.Entry_Date,
-      )} at ${convertToUppercase(item.Track)}, Race ${
-        item.Number_Entered
-      }, ${convertToUppercase(item.Class)}, Post Time: ${
-        item.post_time
-      }, Jockey: ${item.jockey_name}`;
-    }
-
-    if (itype === 'results') {
-      text_block = (
-        <Text style={ItemsList.getBodyStyle(itype)}>
-          Finished {ItemsList.finishedPosition(item.Finish)} in Race{' '}
-          {item.Number_Entered}, {convertToUppercase(item.Class)}, on{' '}
-          {dateFormating(item.Event_Date)} at {convertToUppercase(item.Track)},{' '}
-          {item.race_distance}, {ItemsList.formatStrTime(item.final_time)},{' '}
-          {convertToUppercase(item.track_condition)}
-        </Text>
-      );
-      share_message = `${item.Horse_Name} Finished ${ItemsList.finishedPosition(
-        item.Finish,
-      )} in Race ${item.Number_Entered}, ${item.Class}, on ${dateFormating(
-        item.Event_Date,
-      )} at ${convertToUppercase(item.Track)}, ${
-        item.race_distance
-      }, ${ItemsList.formatStrTime(item.final_time)}, ${convertToUppercase(
-        item.track_condition,
-      )}`;
-    }
-
-    if (itype === 'workouts') {
-      text_block = (
-        <Text style={ItemsList.getBodyStyle(itype)}>
-          Workout on {dateFormating(item.Event_Date)} at{' '}
-          {convertToUppercase(item.Track)}, {item.Distance} in{' '}
-          {ItemsList.formatStrTime(item.Time)},{' '}
-          {convertToUppercase(item.track_condition)}, {item.ranking}
-        </Text>
-      );
-      share_message = `${item.Horse_Name} Worked on ${dateFormating(
-        item.Event_Date,
-      )} at ${convertToUppercase(item.Track)}, ${
-        item.Distance
-      } in ${ItemsList.formatStrTime(item.Time)}, ${convertToUppercase(
-        item.track_condition,
-      )}, ${item.ranking}`;
-    }
+    console.log(item);
 
     return (
-      <View style={ItemsList.getContainerStyle(itype)}>
-        <TouchableOpacity onPress={() => showModal(item)}>
-          <Text style={ItemsList.getTitleStyle(itype)}>{item.Horse_Name}</Text>
-          <View style={fullWidth}>{text_block}</View>
-          <View style={ItemsList.getShareIconStyle(itype)}>
-            {itype === 'results' ? (
-              <TouchableOpacity
-                onPress={() => Linking.openURL(item.chart_link)}>
-                <Image style={squareIcon} source={icons.chart} />
-              </TouchableOpacity>
-            ) : null}
-            {itype === 'results' && item.Finish === '1' ? (
-              <Image style={squareIcon} source={icons.prize} />
-            ) : null}
-            <Share itype={itype} msg={share_message} />
+      <TouchableOpacity
+        style={dynamicStyles({item, itype}).containerStyle}
+        onPress={() => showModal(item, itype)}>
+        <View style={styles.headerContainer}>
+          {itype !== 'entries' && (
+            <View style={dynamicStyles({item, itype}).headerIconContainer}>
+              {itype === 'results' && (
+                <Image
+                  source={icons.prize}
+                  style={dynamicStyles({item, itype}).headerIcon}
+                />
+              )}
+
+              {itype === 'workouts' && (
+                <Image
+                  source={icons.timer}
+                  style={dynamicStyles({item, itype}).headerIcon}
+                />
+              )}
+            </View>
+          )}
+          <View style={styles.headerTextContainer}>
+            <View>
+              <Text style={styles.headerHorseName}>{item.Horse_Name}</Text>
+            </View>
+            {itype !== 'workouts' && (
+              <View>
+                <Text style={styles.headerSubtitle}>
+                  {itype === 'results' &&
+                    `${`Finished ${finishedPosition(item.Finish)}`}`}
+                  {itype === 'entries' && `${`Jockey: ${item.jockey_name}`}`}
+                </Text>
+              </View>
+            )}
           </View>
-        </TouchableOpacity>
-      </View>
+        </View>
+
+        <View>
+          <View style={styles.dataRow}>
+            <View style={styles.dataCell}>
+              <View style={styles.dataCellIconContainer}>
+                {itype !== 'workouts' ? (
+                  <Image source={icons.flag} style={styles.dataCellIcon} />
+                ) : (
+                  <Image source={icons.speed} style={styles.dataCellIcon} />
+                )}
+              </View>
+              <View>
+                <Text style={styles.dataCellValue}>
+                  {itype !== 'workouts'
+                    ? `Race ${item.Number_Entered} ${item.Class}`
+                    : `${item.Distance} at ${formatStrTime(item.Time)}`}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.dataCell}>
+              <View style={styles.dataCellIconContainer}>
+                {itype !== 'entries' ? (
+                  <Image source={icons.event} style={styles.dataCellIcon} />
+                ) : (
+                  <Image source={icons.clock} style={styles.dataCellIcon} />
+                )}
+              </View>
+              <View>
+                <Text style={styles.dataCellValue}>
+                  {itype !== 'entries'
+                    ? dateFormating(item.Event_Date)
+                    : dateFormating(item.Entry_Date)}
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.dataRow}>
+            <View style={styles.dataCell}>
+              <View style={styles.dataCellIconContainer}>
+                <Image source={icons.radar} style={styles.dataCellIcon} />
+              </View>
+              <View>
+                <Text style={styles.dataCellValue}>{item.Track}</Text>
+              </View>
+            </View>
+            <View style={styles.dataCell}>
+              <View style={styles.dataCellIconContainer}>
+                {itype !== 'workouts' ? (
+                  <Image source={icons.speed} style={styles.dataCellIcon} />
+                ) : (
+                  <Image source={icons.flag} style={styles.dataCellIcon} />
+                )}
+              </View>
+              <View>
+                <Text style={styles.dataCellValue}>
+                  {/* {item.race_distance} at {formatStrTime(item.final_time)} */}
+                  {/* {convertToUppercase(item.track_condition)} */}
+
+                  {itype !== 'workouts'
+                    ? `${item.race_distance} at ${formatStrTime(
+                        item.final_time,
+                      )}`
+                    : `${item.ranking}`}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* Actions */}
+        <View style={dynamicStyles({itype, item}).actionsContainer}>
+          {itype === 'results' && (
+            <TouchableOpacity onPress={() => Linking.openURL(item.chart_link)}>
+              <Text style={styles.actionText}>Race Statistics</Text>
+            </TouchableOpacity>
+          )}
+
+          <View>
+            <Share
+              item={item}
+              itype={itype}
+              msg={'share'}
+              label={<Text style={styles.actionText}>Share</Text>}
+            />
+          </View>
+        </View>
+      </TouchableOpacity>
     );
   }
 }

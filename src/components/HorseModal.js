@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    backgroundColor: colors.lightPurple,
+    backgroundColor: colors.newLightPurple,
     top: '30%',
     padding: 20,
     borderRadius: 9,
@@ -171,7 +171,9 @@ class HorseModal extends Component {
             {noData && (
               <View style={styles.description}>
                 <Text style={styles.noDataText}>
-                  {`Horse profile has not been loaded.\nPlease check back in a while!`}
+                  {
+                    'Horse profile has not been loaded.\nPlease check back in a while!'
+                  }
                 </Text>
               </View>
             )}
@@ -179,7 +181,9 @@ class HorseModal extends Component {
             {serverError && (
               <View style={styles.description}>
                 <Text style={styles.noDataText}>
-                  {`There was a problem fetching data.\nPlease check back in a while!`}
+                  {
+                    'There was a problem fetching data.\nPlease check back in a while!'
+                  }
                 </Text>
               </View>
             )}

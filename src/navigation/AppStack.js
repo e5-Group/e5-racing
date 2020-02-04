@@ -12,17 +12,6 @@ import WorkoutsStack from './WorkoutsStack';
 import EventsStack from './EventsStack';
 import NewslettersStack from './NewslettersStack';
 
-const tabBarOptions = {
-  showLabel: false,
-  style: {
-    borderTopColor: colors.gray,
-    borderTopWidth: 1,
-    height: 66,
-    paddingHorizontal: 10,
-    // paddingTop: isNotchDevice() ? 20 : 0
-  },
-};
-
 const styles = StyleSheet.create({
   iconContainer: {
     alignItems: 'center',
@@ -46,12 +35,12 @@ const dynamicStyles = focused =>
       shadowOpacity: 0.2,
       width: '100%',
       height: '100%',
-      tintColor: focused ? colors.purple : colors.gray,
+      tintColor: focused ? colors.newLightGreen : colors.gray,
     },
     iconLabel: {
       fontSize: 12,
       width: '100%',
-      color: focused ? colors.purple : colors.gray,
+      color: focused ? colors.newLightGreen : colors.gray,
     },
   });
 
@@ -74,51 +63,76 @@ const getIconSource = (routeName, focused) => {
   }
 };
 
-export default createBottomTabNavigator(
-  {
-    Home: {
-      screen: HomeStack,
-      path: 'home',
-    },
-    Results: {
-      screen: ResultsStack,
-      path: 'results',
-    },
-    Entries: {
-      screen: EntriesStack,
-      path: 'entries',
-    },
-    Workouts: {
-      screen: WorkoutsStack,
-      path: 'workouts',
-    },
-    Events: {
-      screen: EventsStack,
-      path: 'events',
-    },
-    Newsletters: {
-      screen: NewslettersStack,
-      path: 'newsletters',
-    },
+const routeConfiguration = {
+  Home: {
+    screen: HomeStack,
+    path: 'home',
   },
-  {
-    initialRouteName: 'Home',
-    defaultNavigationOptions: ({navigation}) => ({
-      tabBarIcon: ({focused, horizontal, tintColor, ...rest}) => {
-        const {routeName} = navigation.state;
-        return (
-          <View style={styles.iconContainer}>
-            <View style={styles.iconSize}>
-              <Image
-                source={getIconSource(routeName, focused)}
-                style={dynamicStyles(focused).iconStyle}
-              />
-            </View>
-            <Text style={dynamicStyles(focused).iconLabel}>{routeName}</Text>
+  Results: {
+    screen: ResultsStack,
+    path: 'results',
+  },
+  Entries: {
+    screen: EntriesStack,
+    path: 'entries',
+  },
+  Workouts: {
+    screen: WorkoutsStack,
+    path: 'workouts',
+  },
+  Events: {
+    screen: EventsStack,
+    path: 'events',
+  },
+  Newsletters: {
+    screen: NewslettersStack,
+    path: 'newsletters',
+  },
+};
+
+export default createBottomTabNavigator(routeConfiguration, {
+  initialRouteName: 'Home',
+  defaultNavigationOptions: ({navigation}) => ({
+    tabBarIcon: ({focused, horizontal, tintColor}) => {
+      const {routeName} = navigation.state;
+      return (
+        <View style={styles.iconContainer}>
+          <View style={styles.iconSize}>
+            <Image
+              source={getIconSource(routeName, focused)}
+              style={dynamicStyles(focused).iconStyle}
+            />
           </View>
-        );
+          <Text style={dynamicStyles(focused).iconLabel}>{routeName}</Text>
+        </View>
+      );
+    },
+    tabBarOptions: {
+      showLabel: false,
+      style: {
+        borderTopColor:
+          navigation.state.routeName === 'Home'
+            ? colors.purpleShadow
+            : colors.newDarkGrey,
+        backgroundColor:
+          navigation.state.routeName === 'Home'
+            ? colors.newPurple
+            : colors.white,
+        borderTopWidth: 1,
+        height: 66,
+        paddingHorizontal: 10,
+        paddingTop: 6,
+        shadowOffset: {
+          width: 0,
+          height: -1,
+        },
+        shadowColor:
+          navigation.state.routeName === 'Home'
+            ? colors.purpleShadow
+            : colors.black,
+        shadowOpacity: 0.5,
+        // paddingTop: isNotchDevice() ? 20 : 0
       },
-    }),
-    tabBarOptions,
-  },
-);
+    },
+  }),
+});

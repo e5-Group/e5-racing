@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  backgroundImageStyle: {
+    resizeMode: 'repeat',
+  },
   white: {
     color: colors.white,
   },
@@ -43,7 +46,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 30,
   },
-  Title: {
+  title: {
     fontSize: 16,
     color: colors.white,
   },
@@ -53,7 +56,7 @@ class EventsScreen extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Events',
     headerStyle: {
-      backgroundColor: colors.purple,
+      backgroundColor: colors.newPurple,
       height: 60,
     },
     headerTintColor: colors.white,
@@ -153,7 +156,7 @@ class EventsScreen extends Component {
           styles.item,
           {height: item.height, backgroundColor: item.backgroundColor},
         ]}>
-        <Text style={styles.Title}>{item.horse}</Text>
+        <Text style={styles.title}>{item.horse}</Text>
         <Text style={styles.white}>
           {item.type === 'e'
             ? `Entered on ${dateFormating(
@@ -183,7 +186,10 @@ class EventsScreen extends Component {
     const {isReady, dates, marked, serverError} = this.state;
     return (
       <SafeAreaView>
-        <ImageBackground source={icons.background} style={styles.fullScreen}>
+        <ImageBackground
+          source={icons.background}
+          style={styles.fullScreen}
+          imageStyle={styles.backgroundImageStyle}>
           <View style={styles.container}>
             {isReady && !serverError && (
               <Agenda
