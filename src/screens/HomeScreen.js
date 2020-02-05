@@ -6,10 +6,14 @@ import {
   View,
   StyleSheet,
   Text,
+  Dimensions,
 } from 'react-native';
 import MenuOption from '../components/MenuOption';
 import * as icons from '../constants/icons';
 import * as colors from '../constants/colors';
+import * as sizes from '../constants/sizes';
+
+const width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   fullScreen: {
@@ -20,33 +24,49 @@ const styles = StyleSheet.create({
     left: 0,
   },
   homeBackground: {
-    resizeMode: 'repeat',
+    resizeMode: width < sizes.tablet_threshold ? 'repeat' : 'cover',
   },
   topGradient: {
     width: '100%',
-    height: 80,
+    height: width < sizes.tablet_threshold ? 80 : 370,
     position: 'absolute',
     top: 0,
     resizeMode: 'stretch',
-    tintColor: 'rgba(10,10,10, .2)',
+    tintColor: colors.topGradient,
+  },
+  bottomGradient: {
+    width: '100%',
+    height: '44%',
+    position: 'absolute',
+    bottom: 0,
+    resizeMode: 'stretch',
+    tintColor: colors.bottomGradient,
   },
   menuContainer: {
-    flex: 1,
+    flex: width < sizes.tablet_threshold ? 1 : 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   menu: {
-    height: '65%',
+    // height: width < sizes.tablet_threshold ? '65%' : 480,
     backgroundColor: colors.newPurple,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingHorizontal: 30,
-    paddingVertical: 20,
+    paddingHorizontal: width < sizes.tablet_threshold ? 30 : 60,
+    paddingVertical: width < sizes.tablet_threshold ? 20 : 40,
+
+    width: width < sizes.tablet_threshold ? '100%' : '70%',
+    borderBottomLeftRadius: width < sizes.tablet_threshold ? 0 : 30,
+    borderBottomRightRadius: width < sizes.tablet_threshold ? 0 : 30,
+    marginBottom: width < sizes.tablet_threshold ? 0 : 40,
   },
   welcome: {
     fontSize: 32,
     color: colors.newGray,
     fontFamily: 'NotoSerif-Bold',
+    marginBottom: width < sizes.tablet_threshold ? 10 : 50,
+    marginTop: width < sizes.tablet_threshold ? 0 : 14,
   },
 });
 
@@ -81,6 +101,9 @@ class HomeScreen extends Component {
         style={styles.fullScreen}
         imageStyle={styles.homeBackground}>
         <Image source={icons.topGradient} style={styles.topGradient} />
+        {width > sizes.tablet_threshold && (
+          <Image source={icons.bottomGradient} style={styles.bottomGradient} />
+        )}
         <SafeAreaView style={styles.menuContainer}>
           <View style={styles.menu}>
             <Text style={styles.welcome}>Welcome!</Text>

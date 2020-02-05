@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, View, Image, Text} from 'react-native';
+import {StyleSheet, View, Image, Text, Dimensions} from 'react-native';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 import * as colors from '../constants/colors';
 import * as icons from '../constants/icons';
+import * as sizes from '../constants/sizes';
 
 import HomeStack from './HomeStack';
 import ResultsStack from './ResultsStack';
@@ -12,14 +13,16 @@ import WorkoutsStack from './WorkoutsStack';
 import EventsStack from './EventsStack';
 import NewslettersStack from './NewslettersStack';
 
+const width = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
   iconContainer: {
     alignItems: 'center',
     flex: 1,
   },
   iconSize: {
-    width: 36,
-    height: 36,
+    width: width < sizes.tablet_threshold ? 36 : 48,
+    height: width < sizes.tablet_threshold ? 36 : 48,
   },
 });
 
@@ -38,7 +41,7 @@ const dynamicStyles = focused =>
       tintColor: focused ? colors.newLightGreen : colors.gray,
     },
     iconLabel: {
-      fontSize: 12,
+      fontSize: 10,
       width: '100%',
       color: focused ? colors.newLightGreen : colors.gray,
     },
@@ -93,7 +96,7 @@ const routeConfiguration = {
 export default createBottomTabNavigator(routeConfiguration, {
   initialRouteName: 'Home',
   defaultNavigationOptions: ({navigation}) => ({
-    tabBarIcon: ({focused, horizontal, tintColor}) => {
+    tabBarIcon: ({focused}) => {
       const {routeName} = navigation.state;
       return (
         <View style={styles.iconContainer}>
@@ -103,7 +106,9 @@ export default createBottomTabNavigator(routeConfiguration, {
               style={dynamicStyles(focused).iconStyle}
             />
           </View>
-          <Text style={dynamicStyles(focused).iconLabel}>{routeName}</Text>
+          {width < sizes.tablet_threshold && (
+            <Text style={dynamicStyles(focused).iconLabel}>{routeName}</Text>
+          )}
         </View>
       );
     },

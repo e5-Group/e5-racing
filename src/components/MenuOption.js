@@ -1,6 +1,16 @@
 import React from 'react';
-import {TouchableOpacity, View, Text, Image, StyleSheet} from 'react-native';
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import * as colors from '../constants/colors';
+import * as sizes from '../constants/sizes';
+
+const width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -8,9 +18,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
-    height: 80,
+    height: 60,
     backgroundColor: colors.newGray,
-    marginVertical: 10,
+    marginVertical: 6,
     shadowOffset: {
       width: 0,
       height: 5,
@@ -24,8 +34,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   imageSize: {
-    width: 56,
-    height: 56,
+    width: 46,
+    height: 46,
     resizeMode: 'contain',
     tintColor: colors.newPurple,
   },
@@ -35,14 +45,18 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     fontFamily: 'NotoSerif-Bold',
     letterSpacing: 3,
+    textAlign: width < sizes.tablet_threshold ? 'left' : 'center',
+    flex: 1,
   },
 });
 
 const MenuOption = ({icon, name, pressed}) => (
   <TouchableOpacity style={styles.container} onPress={pressed}>
-    <View style={styles.iconContainer}>
-      <Image source={icon} style={styles.imageSize} />
-    </View>
+    {width < sizes.tablet_threshold && (
+      <View style={styles.iconContainer}>
+        <Image source={icon} style={styles.imageSize} />
+      </View>
+    )}
     <Text style={styles.label}>{name}</Text>
   </TouchableOpacity>
 );

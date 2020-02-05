@@ -5,13 +5,21 @@ import {
   ImageBackground,
   StyleSheet,
   View,
+  TouchableOpacity,
   FlatList,
+  LayoutAnimation,
 } from 'react-native';
-import {Agenda} from 'react-native-calendars';
+import {CalendarList} from 'react-native-calendars';
 import {withNavigationFocus} from 'react-navigation';
 import axios from 'axios';
-import {parse} from 'date-fns';
-import {dateFormating, convertToUppercase} from '../utils';
+import {
+  parse,
+  differenceInCalendarMonths,
+  addMonths,
+  subMonths,
+  format,
+} from 'date-fns';
+// import {dateFormating, convertToUppercase} from '../utils';
 import Back from '../components/Back';
 import Loading from '../components/Loading';
 import NoContent from '../components/NoContent';
@@ -50,7 +58,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.white,
   },
+  knobHolder: {
+    width: '100%',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  knob: {
+    width: 100,
+    height: 10,
+    marginVertical: 10,
+    backgroundColor: colors.newGray,
+    borderRadius: 20,
+  },
 });
+
+const dynamicStyles = calendarEnabled =>
+  StyleSheet.create({
+    calendarHolder: {
+      height: calendarEnabled ? 400 : 160,
+      overflow: 'hidden',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+    },
+    calendarList: {
+      height: calendarEnabled ? 300 : 120,
+    },
+  });
 
 class EventsScreen extends Component {
   static navigationOptions = ({navigation}) => ({
@@ -69,8 +103,15 @@ class EventsScreen extends Component {
     isReady: false,
     refreshing: false,
     serverError: false,
-    currentDate: null,
+    calendarEnabled: false,
+    selectedDate: format(new Date(), 'yyyy-MM-dd'),
+    maxDate: format(addMonths(new Date(), 1), 'yyyy-MM-dd'),
+    minDate: format(subMonths(new Date(), 1), 'yyyy-MM-dd'),
   };
+
+  componentWillUpdate() {
+    LayoutAnimation.easeInEaseOut();
+  }
 
   make_api_call() {
     this.setState(
@@ -82,7 +123,6 @@ class EventsScreen extends Component {
           .get(api.EVENTS_API)
           .then(response => {
             const {items} = response.data;
-
             this.setState(
               {
                 dates: items,
@@ -94,19 +134,13 @@ class EventsScreen extends Component {
                   const element = dates[key];
                   for (const e in element) {
                     const x = element[e];
-                    const today = new Date(
-                      new Date().getFullYear(),
-                      new Date().getMonth(),
-                      new Date().getDate(),
-                    );
-                    const parsedKey = parse(key, 'yyyy-MM-dd', today);
                     newMarked[key] = {
                       customStyles: {
                         container: {
                           backgroundColor:
-                            parsedKey.getTime() === today.getTime()
-                              ? colors.gray
-                              : x.backgroundColor,
+                            x.type === 'w'
+                              ? colors.newLightGreen
+                              : colors.newDarkGreen,
                         },
                         text: {
                           color: x.textColor,
@@ -151,29 +185,8 @@ class EventsScreen extends Component {
 
   renderItem = item => {
     return !item || item.type === 'empty' ? null : (
-      <View
-        style={[
-          styles.item,
-          {height: item.height, backgroundColor: item.backgroundColor},
-        ]}>
+      <View>
         <Text style={styles.title}>{item.horse}</Text>
-        <Text style={styles.white}>
-          {item.type === 'e'
-            ? `Entered on ${dateFormating(
-                item.entry_date,
-              )} at ${convertToUppercase(item.track)}, Race: ${
-                item.entered
-              }, ${convertToUppercase(item.class)}, Post Time: ${
-                item.post_time
-              }, Jockey: ${item.jockey_name}`
-            : null}
-          {/*{*/}
-          {/*item.type === 'r'? `finished ${item.finish} in ${item.entered}th ${item.class} race at ${item.track}`:null*/}
-          {/*}*/}
-          {item.type === 'w'
-            ? `worked ${item.distance} in ${item.time} @ ${item.track}`
-            : null}
-        </Text>
       </View>
     );
   };
@@ -182,8 +195,50 @@ class EventsScreen extends Component {
     return r1.name !== r2.name;
   };
 
+  toggleCalendar = () =>
+    this.setState({
+      calendarEnabled: !this.state.calendarEnabled,
+    });
+
+  getPastScroll = selectedDate => {
+    return differenceInCalendarMonths(
+      new Date(),
+      parse(selectedDate, 'yyyy-MM-dd', new Date()),
+    ) === 0
+      ? 1
+      : differenceInCalendarMonths(
+          new Date(),
+          parse(selectedDate, 'yyyy-MM-dd', new Date()),
+        ) === -1
+      ? 2
+      : 0;
+  };
+
+  getFutureScroll = selectedDate => {
+    return differenceInCalendarMonths(
+      parse(selectedDate, 'yyyy-MM-dd', new Date()),
+      new Date(),
+    ) === 0
+      ? 1
+      : differenceInCalendarMonths(
+          parse(selectedDate, 'yyyy-MM-dd', new Date()),
+          new Date(),
+        ) === -1
+      ? 2
+      : 0;
+  };
+
   render = () => {
-    const {isReady, dates, marked, serverError} = this.state;
+    const {
+      isReady,
+      dates,
+      marked,
+      serverError,
+      calendarEnabled,
+      selectedDate,
+      minDate,
+      maxDate,
+    } = this.state;
     return (
       <SafeAreaView>
         <ImageBackground
@@ -192,42 +247,73 @@ class EventsScreen extends Component {
           imageStyle={styles.backgroundImageStyle}>
           <View style={styles.container}>
             {isReady && !serverError && (
-              <Agenda
-                items={dates}
-                markingType={'custom'}
-                markedDates={marked}
-                renderItem={this.renderItem}
-                renderEmptyDate={() => {
-                  return <View />;
-                }}
-                onDayPress={day => {
-                  this.setState({currentDate: day.dateString});
-                }}
-                rowHasChanged={this.rowHasChanged}
-                pastScrollRange={1}
-                futureScrollRange={1}
-                renderEmptyData={() => {
-                  const populatedDates = {...this.state.dates};
-                  populatedDates[this.state.currentDate] = [];
-                  this.setState({
-                    dates: populatedDates,
-                  });
-                  return null;
-                }}
-                theme={{
-                  selectedDayBackgroundColor: colors.gray,
-                  backgroundColor: 'transparent',
-                  agendaDayTextColor: colors.gray,
-                  agendaDayNumColor: colors.gray,
-                  agendaTodayColor: colors.gray,
-                  agendaKnobColor: colors.gray,
-                }}
-                onRefresh={() => {
-                  this.componentDidMount();
-                }}
-                refreshing={this.state.refreshing}
-              />
+              <View style={dynamicStyles(calendarEnabled).calendarHolder}>
+                {calendarEnabled && (
+                  <CalendarList
+                    currentWeekLine={false}
+                    selectedDate={selectedDate}
+                    current={selectedDate}
+                    horizontal={true}
+                    scrollEnabled={true}
+                    pastScrollRange={this.getPastScroll(selectedDate)}
+                    futureScrollRange={this.getFutureScroll(selectedDate)}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    hideArrows={true}
+                    pagingEnabled={true}
+                    onDayPress={day => {
+                      this.setState({
+                        selectedDate: day.dateString,
+                        calendarEnabled: false,
+                      });
+                    }}
+                    theme={{
+                      textMonthFontFamily: 'NotoSerif',
+                      textMonthFontSize: 18,
+                      monthTextColor: colors.newLightGreen,
+                      todayTextColor: colors.newDarkGreen,
+                    }}
+                    disableMonthChange={calendarEnabled}
+                    style={dynamicStyles(calendarEnabled).calendarList}
+                  />
+                )}
+
+                {!calendarEnabled && (
+                  <CalendarList
+                    currentWeekLine={true}
+                    selectedDate={selectedDate}
+                    current={selectedDate}
+                    horizontal={false}
+                    scrollEnabled={false}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    hideArrows={true}
+                    pagingEnabled={true}
+                    onDayPress={day => {
+                      this.setState({
+                        selectedDate: day.dateString,
+                        calendarEnabled: false,
+                      });
+                    }}
+                    theme={{
+                      textMonthFontFamily: 'NotoSerif',
+                      textMonthFontSize: 18,
+                      monthTextColor: colors.newLightGreen,
+                      todayTextColor: colors.newDarkGreen,
+                    }}
+                    disableMonthChange={calendarEnabled}
+                    style={dynamicStyles(calendarEnabled).calendarList}
+                  />
+                )}
+
+                <TouchableOpacity
+                  style={styles.knobHolder}
+                  onPress={this.toggleCalendar}>
+                  <View style={styles.knob} />
+                </TouchableOpacity>
+              </View>
             )}
+
             {isReady && serverError && (
               <FlatList
                 refreshing={this.state.refreshing}

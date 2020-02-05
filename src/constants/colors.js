@@ -14,3 +14,5 @@ export const newDarkGreen = '#59B48A';
 export const purpleShadow = '#2E1361';
 export const newLightPurple = 'rgba(117, 74, 199, 1)';
 export const newGreyText = '#707070';
+export const topGradient = 'rgba(10,10,10, .2)';
+export const bottomGradient = 'rgba(241,240,255, 1)';

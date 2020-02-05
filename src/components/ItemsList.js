@@ -13,6 +13,7 @@ import Share from './Share';
 import {dateFormating, finishedPosition, formatStrTime} from '../utils';
 import * as colors from '../constants/colors';
 import * as icons from '../constants/icons';
+import * as sizes from '../constants/sizes';
 
 const width = Dimensions.get('window').width;
 
@@ -72,8 +73,8 @@ const dynamicStyles = ({itype, item}) =>
       marginBottom: 18,
       paddingTop: 20,
       height: itype !== 'workouts' ? 196 : 166, //206,
-      maxWidth: width < 590 ? '90%' : 592,
-      width: width < 590 ? '90%' : 592,
+      maxWidth: width < sizes.tablet_threshold ? '90%' : 592,
+      width: width < sizes.tablet_threshold ? '90%' : 592,
       shadowOffset: {
         width: 0,
         height: 3,
@@ -117,8 +118,6 @@ const dynamicStyles = ({itype, item}) =>
 export default class ItemsList extends Component {
   render() {
     const {item, itype, showModal} = this.props;
-
-    console.log(item);
 
     return (
       <TouchableOpacity

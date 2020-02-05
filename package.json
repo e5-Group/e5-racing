@@ -16,7 +16,7 @@
     "date-fns": "^2.8.1",
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-calendars": "^1.214.0",
+    "react-native-calendars": "^1.260.0",
     "react-native-gesture-handler": "^1.5.2",
     "react-native-modal": "^11.5.3",
     "react-native-push-notification": "^3.1.9",

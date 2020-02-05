@@ -42,6 +42,7 @@ export const newsletterPlaceholder = require('../assets/newsletter.jpg');
 
 export const homeBackground = require('../assets/home/background.jpg');
 export const topGradient = require('../assets/gradients/top.png');
+export const bottomGradient = require('../assets/gradients/bottom.png');
 
 export const clock = require('../assets/cards/clock.png');
 export const event = require('../assets/cards/event.png');
