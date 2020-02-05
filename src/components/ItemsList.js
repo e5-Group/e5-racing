@@ -8,8 +8,9 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
-import Share from './Share';
+import {format, parse} from 'date-fns';
 
+import Share from './Share';
 import {dateFormating, finishedPosition, formatStrTime} from '../utils';
 import * as colors from '../constants/colors';
 import * as icons from '../constants/icons';
@@ -59,6 +60,20 @@ const styles = StyleSheet.create({
   actionText: {
     color: colors.newPurple,
   },
+  dateContainer: {
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 22,
+  },
+  dateNumber: {
+    fontSize: 30,
+    color: colors.newGreyText,
+  },
+  dateDay: {
+    fontSize: 16,
+    color: colors.newGreyText,
+  },
 });
 
 const dynamicStyles = ({itype, item, isEvent = false}) =>
@@ -68,8 +83,22 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
       marginBottom: 18,
       paddingTop: 20,
       height: itype !== 'workouts' ? 196 : isEvent ? 136 : 166, //206,
-      maxWidth: width < sizes.tablet_threshold ? '90%' : isEvent ? 500 : 592, //389 : 592
-      width: width < sizes.tablet_threshold ? '90%' : isEvent ? 500 : 592,
+      maxWidth:
+        width < sizes.tablet_threshold
+          ? isEvent
+            ? '82%'
+            : '90%'
+          : isEvent
+          ? 520
+          : 592, //389 : 592
+      width:
+        width < sizes.tablet_threshold
+          ? isEvent
+            ? '82%'
+            : '90%'
+          : isEvent
+          ? 520
+          : 592, //389 : 592
       shadowOffset: {
         width: 0,
         height: 3,
@@ -77,7 +106,7 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
       shadowColor: colors.black,
       shadowOpacity: 0.26,
       shadowRadius: 6,
-      marginHorizontal: 20,
+      marginLeft: isEvent ? 10 : 20,
 
       borderLeftColor:
         itype === 'workouts' ? colors.newLightGreen : colors.newDarkGrey,
@@ -117,158 +146,177 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
       fontFamily: 'NotoSerif-Bold',
       fontSize: 20,
     },
+    outerContainer: {
+      flexDirection: 'row',
+    },
   });
 
 export default class ItemsList extends Component {
   render() {
-    const {item, itype, showModal, isEvent} = this.props;
+    const {item, itype, showModal, isEvent, addDate} = this.props;
 
     return (
-      <TouchableOpacity
-        style={dynamicStyles({item, itype, isEvent}).containerStyle}
-        onPress={() => !isEvent && showModal(item, itype)}>
-        {/* Header */}
-        <View style={styles.headerContainer}>
-          {itype !== 'entries' && !isEvent && (
-            <View style={dynamicStyles({item, itype}).headerIconContainer}>
-              {itype === 'results' && (
-                <Image
-                  source={icons.prize}
-                  style={dynamicStyles({item, itype}).headerIcon}
-                />
-              )}
-
-              {itype === 'workouts' && (
-                <Image
-                  source={icons.timer}
-                  style={dynamicStyles({item, itype}).headerIcon}
-                />
-              )}
-            </View>
-          )}
-          <View style={styles.headerTextContainer}>
-            <View>
-              <Text
-                style={dynamicStyles({item, itype, isEvent}).headerHorseName}>
-                {isEvent ? item.horse : item.Horse_Name}
+      <View style={dynamicStyles({isEvent, addDate}).outerContainer}>
+        {isEvent && (
+          <View style={styles.dateContainer}>
+            {addDate && (
+              <Text style={styles.dateNumber}>
+                {format(parse(item.date, 'yyyy-MM-dd', new Date()), 'd')}
               </Text>
-            </View>
-            {itype !== 'workouts' && (
-              <View>
-                <Text style={styles.headerSubtitle}>
-                  {itype === 'results' &&
-                    `${`Finished ${finishedPosition(item.Finish)}`}`}
-                  {itype === 'entries' && `${`Jockey: ${item.jockey_name}`}`}
-                </Text>
-              </View>
             )}
-          </View>
-        </View>
-
-        {/* Data */}
-        <View>
-          <View style={styles.dataRow}>
-            <View style={styles.dataCell}>
-              {!isEvent && (
-                <View style={styles.dataCellIconContainer}>
-                  {itype !== 'workouts' ? (
-                    <Image source={icons.flag} style={styles.dataCellIcon} />
-                  ) : (
-                    <Image source={icons.speed} style={styles.dataCellIcon} />
-                  )}
-                </View>
-              )}
-              <View>
-                <Text style={styles.dataCellValue}>
-                  {itype !== 'workouts'
-                    ? `Race ${item.Number_Entered} ${item.Class}`
-                    : `${
-                        isEvent ? item.distance : item.Distance
-                      } at ${formatStrTime(isEvent ? item.time : item.Time)}`}
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.dataCell}>
-              {!isEvent && (
-                <View style={styles.dataCellIconContainer}>
-                  {itype !== 'entries' ? (
-                    <Image source={icons.event} style={styles.dataCellIcon} />
-                  ) : (
-                    <Image source={icons.clock} style={styles.dataCellIcon} />
-                  )}
-                </View>
-              )}
-              <View>
-                <Text style={styles.dataCellValue}>
-                  {itype !== 'entries'
-                    ? dateFormating(isEvent ? item.date : item.Event_Date)
-                    : dateFormating(isEvent ? item.date : item.Entry_Date)}
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.dataRow}>
-            <View style={styles.dataCell}>
-              {!isEvent && (
-                <View style={styles.dataCellIconContainer}>
-                  <Image source={icons.radar} style={styles.dataCellIcon} />
-                </View>
-              )}
-              <View>
-                <Text style={styles.dataCellValue}>
-                  {isEvent ? item.track : item.Track}
-                </Text>
-              </View>
-            </View>
-            <View style={styles.dataCell}>
-              {!isEvent && (
-                <View style={styles.dataCellIconContainer}>
-                  {itype !== 'workouts' ? (
-                    <Image source={icons.speed} style={styles.dataCellIcon} />
-                  ) : (
-                    <Image source={icons.flag} style={styles.dataCellIcon} />
-                  )}
-                </View>
-              )}
-              <View>
-                <Text style={styles.dataCellValue}>
-                  {/* {item.race_distance} at {formatStrTime(item.final_time)} */}
-                  {/* {convertToUppercase(item.track_condition)} */}
-
-                  {itype !== 'workouts'
-                    ? `${item.race_distance} at ${formatStrTime(
-                        item.final_time,
-                      )}`
-                    : `${item.ranking ? item.ranking : ''}`}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-
-        {/* Actions */}
-        {!isEvent && (
-          <View style={dynamicStyles({itype, item}).actionsContainer}>
-            {itype === 'results' && (
-              <TouchableOpacity
-                onPress={() => Linking.openURL(item.chart_link)}>
-                <Text style={styles.actionText}>Race Statistics</Text>
-              </TouchableOpacity>
+            {addDate && (
+              <Text style={styles.dateDay}>
+                {format(parse(item.date, 'yyyy-MM-dd', new Date()), 'EEE')}
+              </Text>
             )}
-
-            <View>
-              <Share
-                item={item}
-                itype={itype}
-                msg={'share'}
-                label={<Text style={styles.actionText}>Share</Text>}
-              />
-            </View>
           </View>
         )}
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={dynamicStyles({item, itype, isEvent}).containerStyle}
+          onPress={() => !isEvent && showModal(item, itype)}>
+          {/* Header */}
+          <View style={styles.headerContainer}>
+            {itype !== 'entries' && !isEvent && (
+              <View style={dynamicStyles({item, itype}).headerIconContainer}>
+                {itype === 'results' && (
+                  <Image
+                    source={icons.prize}
+                    style={dynamicStyles({item, itype}).headerIcon}
+                  />
+                )}
+
+                {itype === 'workouts' && (
+                  <Image
+                    source={icons.timer}
+                    style={dynamicStyles({item, itype}).headerIcon}
+                  />
+                )}
+              </View>
+            )}
+            <View style={styles.headerTextContainer}>
+              <View>
+                <Text
+                  style={dynamicStyles({item, itype, isEvent}).headerHorseName}>
+                  {isEvent ? item.horse : item.Horse_Name}
+                </Text>
+              </View>
+              {itype !== 'workouts' && (
+                <View>
+                  <Text style={styles.headerSubtitle}>
+                    {itype === 'results' &&
+                      `${`Finished ${finishedPosition(item.Finish)}`}`}
+                    {itype === 'entries' && `${`Jockey: ${item.jockey_name}`}`}
+                  </Text>
+                </View>
+              )}
+            </View>
+          </View>
+
+          {/* Data */}
+          <View>
+            <View style={styles.dataRow}>
+              <View style={styles.dataCell}>
+                {!isEvent && (
+                  <View style={styles.dataCellIconContainer}>
+                    {itype !== 'workouts' ? (
+                      <Image source={icons.flag} style={styles.dataCellIcon} />
+                    ) : (
+                      <Image source={icons.speed} style={styles.dataCellIcon} />
+                    )}
+                  </View>
+                )}
+                <View>
+                  <Text style={styles.dataCellValue}>
+                    {itype !== 'workouts'
+                      ? `Race ${item.Number_Entered} ${item.Class}`
+                      : `${
+                          isEvent ? item.distance : item.Distance
+                        } at ${formatStrTime(isEvent ? item.time : item.Time)}`}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={styles.dataCell}>
+                {!isEvent && (
+                  <View style={styles.dataCellIconContainer}>
+                    {itype !== 'entries' ? (
+                      <Image source={icons.event} style={styles.dataCellIcon} />
+                    ) : (
+                      <Image source={icons.clock} style={styles.dataCellIcon} />
+                    )}
+                  </View>
+                )}
+                <View>
+                  <Text style={styles.dataCellValue}>
+                    {itype !== 'entries'
+                      ? dateFormating(isEvent ? item.date : item.Event_Date)
+                      : dateFormating(isEvent ? item.date : item.Entry_Date)}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.dataRow}>
+              <View style={styles.dataCell}>
+                {!isEvent && (
+                  <View style={styles.dataCellIconContainer}>
+                    <Image source={icons.radar} style={styles.dataCellIcon} />
+                  </View>
+                )}
+                <View>
+                  <Text style={styles.dataCellValue}>
+                    {isEvent ? item.track : item.Track}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.dataCell}>
+                {!isEvent && (
+                  <View style={styles.dataCellIconContainer}>
+                    {itype !== 'workouts' ? (
+                      <Image source={icons.speed} style={styles.dataCellIcon} />
+                    ) : (
+                      <Image source={icons.flag} style={styles.dataCellIcon} />
+                    )}
+                  </View>
+                )}
+                <View>
+                  <Text style={styles.dataCellValue}>
+                    {/* {item.race_distance} at {formatStrTime(item.final_time)} */}
+                    {/* {convertToUppercase(item.track_condition)} */}
+
+                    {itype !== 'workouts'
+                      ? `${item.race_distance} at ${formatStrTime(
+                          item.final_time,
+                        )}`
+                      : `${item.ranking ? item.ranking : ''}`}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          {/* Actions */}
+          {!isEvent && (
+            <View style={dynamicStyles({itype, item}).actionsContainer}>
+              {itype === 'results' && (
+                <TouchableOpacity
+                  onPress={() => Linking.openURL(item.chart_link)}>
+                  <Text style={styles.actionText}>Race Statistics</Text>
+                </TouchableOpacity>
+              )}
+
+              <View>
+                <Share
+                  item={item}
+                  itype={itype}
+                  msg={'share'}
+                  label={<Text style={styles.actionText}>Share</Text>}
+                />
+              </View>
+            </View>
+          )}
+        </TouchableOpacity>
+      </View>
     );
   }
 }

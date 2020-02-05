@@ -28,9 +28,6 @@ import ItemsList from '../components/ItemsList';
 import * as icons from '../constants/icons';
 import * as api from '../constants/api';
 import * as colors from '../constants/colors';
-import * as sizes from '../constants/sizes';
-
-const width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   fullScreen: {
@@ -396,10 +393,10 @@ class EventsScreen extends Component {
                   refreshing={refreshing}
                   onRefresh={this._handleRefresh}
                   data={dates}
-                  renderItem={({item}) => {
+                  renderItem={allValues => {
                     if (
                       isBefore(
-                        parse(item, 'yyyy-MM-dd', new Date()),
+                        parse(allValues.item, 'yyyy-MM-dd', new Date()),
                         parse(selectedDate, 'yyyy-MM-dd', new Date()),
                       )
                     ) {
@@ -410,8 +407,8 @@ class EventsScreen extends Component {
                         contentContainerStyle={styles.flatlistContainerStyle}
                         refreshing={refreshing}
                         onRefresh={this._handleRefresh}
-                        data={groupedDates[item]}
-                        renderItem={({item}) => {
+                        data={groupedDates[allValues.item]}
+                        renderItem={({item, index}) => {
                           let itype = null;
                           if (item.type === 'w') {
                             itype = 'workouts';
@@ -422,6 +419,7 @@ class EventsScreen extends Component {
                               item={item}
                               showModal={this.showModal}
                               isEvent={true}
+                              addDate={index === 0}
                             />
                           );
                         }}
