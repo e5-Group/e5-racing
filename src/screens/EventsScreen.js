@@ -20,7 +20,7 @@ import {
   format,
   isBefore,
 } from 'date-fns';
-// import {dateFormating, convertToUppercase} from '../utils';
+
 import Back from '../components/Back';
 import Loading from '../components/Loading';
 import NoContent from '../components/NoContent';
@@ -160,67 +160,59 @@ class EventsScreen extends Component {
         axios
           .get(api.EVENTS_API)
           .then(response => {
-            const {items} = response.data;
-            this.setState(
-              {
-                dates: items,
-              },
-              () => {
-                const {dates} = this.state;
-                let newDates = [];
-                let newMarked = {};
-                for (const key in dates) {
-                  const element = dates[key];
-                  for (const e in element) {
-                    const x = element[e];
-                    newDates.push({
-                      ...element[e],
-                      date: key,
-                    });
-                    newMarked[key] = {
-                      customStyles: {
-                        container: {
-                          backgroundColor:
-                            x.type === 'w'
-                              ? colors.newLightGreen
-                              : colors.newDarkGreen,
-                        },
-                        text: {
-                          color: x.textColor,
-                          fontWeight: 'bold',
-                        },
-                      },
-                    };
-                  }
-                }
-
-                newDates = newDates.sort((a, b) =>
-                  isBefore(
-                    parse(b.date, 'yyyy-MM-dd', new Date()),
-                    parse(a.date, 'yyyy-MM-dd', new Date()),
-                  )
-                    ? 1
-                    : -1,
-                );
-
-                const allDates = newDates.reduce((acc, curr) => {
-                  const newAcc = [...acc];
-                  if (!acc.includes(curr.date)) {
-                    newAcc.push(curr.date);
-                  }
-                  return newAcc;
-                }, []);
-
-                this.setState({
-                  marked: newMarked,
-                  dates: allDates,
-                  groupedDates: this.groupBy(newDates, 'date'),
-                  isReady: true,
-                  refreshing: false,
-                  serverError: false,
+            const dates = {...response.data.items};
+            let newDates = [];
+            let newMarked = {};
+            for (const key in dates) {
+              const element = dates[key];
+              for (const e in element) {
+                const x = element[e];
+                newDates.push({
+                  ...element[e],
+                  date: key,
                 });
-              },
+                newMarked[key] = {
+                  customStyles: {
+                    container: {
+                      backgroundColor:
+                        x.type === 'w'
+                          ? colors.newLightGreen
+                          : colors.newDarkGreen,
+                    },
+                    text: {
+                      color: x.textColor,
+                      fontWeight: 'bold',
+                    },
+                  },
+                };
+              }
+            }
+
+            newDates = newDates.sort((a, b) =>
+              isBefore(
+                parse(b.date, 'yyyy-MM-dd', new Date()),
+                parse(a.date, 'yyyy-MM-dd', new Date()),
+              )
+                ? 1
+                : -1,
             );
+
+            const allDates = newDates.reduce((acc, curr) => {
+              const newAcc = [...acc];
+              if (!acc.includes(curr.date)) {
+                newAcc.push(curr.date);
+              }
+              return newAcc;
+            }, []);
+
+            this.setState({
+              marked: newMarked,
+              dates: allDates,
+              groupedDates: this.groupBy(newDates, 'date'),
+              isReady: true,
+              refreshing: false,
+              serverError: false,
+            });
           })
           .catch(error => {
             this.setState({
@@ -404,6 +396,7 @@ class EventsScreen extends Component {
                   refreshing={refreshing}
                   onRefresh={this._handleRefresh}
                   data={dates}
+                  keyExtractor={item => JSON.stringify(item)}
                   renderItem={allValues => {
                     if (
                       isBefore(
@@ -424,6 +417,9 @@ class EventsScreen extends Component {
                           if (item.type === 'w') {
                             itype = 'workouts';
                           }
+                          if (item.type === 'e') {
+                            itype = 'entries';
+                          }
                           return (
                             <ItemsList
                               itype={itype}
@@ -434,7 +430,7 @@ class EventsScreen extends Component {
                             />
                           );
                         }}
-                        keyExtractor={this._keyExtractor}
+                        keyExtractor={item => JSON.stringify(item)}
                       />
                     );
                   }}
@@ -449,6 +445,7 @@ class EventsScreen extends Component {
               <FlatList
                 refreshing={this.state.refreshing}
                 onRefresh={this.componentDidMount}
+                keyExtractor={item => JSON.stringify(item)}
                 ListEmptyComponent={
                   <NoContent itype={'results'} connectionError={serverError} />
                 }
