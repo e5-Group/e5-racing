@@ -68,8 +68,8 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
       marginBottom: 18,
       paddingTop: 20,
       height: itype !== 'workouts' ? 196 : isEvent ? 136 : 166, //206,
-      maxWidth: width < sizes.tablet_threshold ? '90%' : 592,
-      width: width < sizes.tablet_threshold ? '90%' : 592,
+      maxWidth: width < sizes.tablet_threshold ? '90%' : isEvent ? 500 : 592, //389 : 592
+      width: width < sizes.tablet_threshold ? '90%' : isEvent ? 500 : 592,
       shadowOffset: {
         width: 0,
         height: 3,
@@ -126,7 +126,7 @@ export default class ItemsList extends Component {
     return (
       <TouchableOpacity
         style={dynamicStyles({item, itype, isEvent}).containerStyle}
-        onPress={() => showModal(item, itype)}>
+        onPress={() => !isEvent && showModal(item, itype)}>
         {/* Header */}
         <View style={styles.headerContainer}>
           {itype !== 'entries' && !isEvent && (

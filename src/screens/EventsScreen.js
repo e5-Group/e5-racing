@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {
   SafeAreaView,
-  Text,
   ImageBackground,
   StyleSheet,
   View,
   TouchableOpacity,
   FlatList,
   LayoutAnimation,
+  Dimensions,
 } from 'react-native';
 import {CalendarList} from 'react-native-calendars';
 import {withNavigationFocus} from 'react-navigation';
@@ -28,6 +28,9 @@ import ItemsList from '../components/ItemsList';
 import * as icons from '../constants/icons';
 import * as api from '../constants/api';
 import * as colors from '../constants/colors';
+import * as sizes from '../constants/sizes';
+
+const width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   fullScreen: {
@@ -75,22 +78,24 @@ const styles = StyleSheet.create({
     backgroundColor: colors.newGray,
     borderRadius: 20,
   },
-  flatlistContainer: {
+  flatlistContainerStyle: {
+    alignItems: 'center',
     paddingTop: 16,
+    paddingBottom: 16,
   },
 });
 
 const dynamicStyles = calendarEnabled =>
   StyleSheet.create({
     calendarHolder: {
-      height: calendarEnabled ? 330 : 161,
+      height: calendarEnabled ? 340 : 161,
       overflow: 'hidden',
       flexDirection: 'column',
       justifyContent: 'flex-start',
       backgroundColor: colors.white,
     },
     calendarList: {
-      height: calendarEnabled ? 300 : 130,
+      height: calendarEnabled ? 310 : 130,
     },
   });
 
@@ -131,6 +136,15 @@ class EventsScreen extends Component {
       this.make_api_call,
     );
   };
+
+  groupBy = (items, key) =>
+    items.reduce(
+      (result, item) => ({
+        ...result,
+        [item[key]]: [...(result[item[key]] || []), item],
+      }),
+      {},
+    );
 
   make_api_call() {
     this.setState(
@@ -175,16 +189,27 @@ class EventsScreen extends Component {
                   }
                 }
 
+                newDates = newDates.sort((a, b) =>
+                  isBefore(
+                    parse(b.date, 'yyyy-MM-dd', new Date()),
+                    parse(a.date, 'yyyy-MM-dd', new Date()),
+                  )
+                    ? 1
+                    : -1,
+                );
+
+                const allDates = newDates.reduce((acc, curr) => {
+                  const newAcc = [...acc];
+                  if (!acc.includes(curr.date)) {
+                    newAcc.push(curr.date);
+                  }
+                  return newAcc;
+                }, []);
+
                 this.setState({
                   marked: newMarked,
-                  dates: newDates.sort((a, b) =>
-                    isBefore(
-                      parse(b.date, 'yyyy-MM-dd', new Date()),
-                      parse(a.date, 'yyyy-MM-dd', new Date()),
-                    )
-                      ? 1
-                      : -1,
-                  ),
+                  dates: allDates,
+                  groupedDates: this.groupBy(newDates, 'date'),
                   isReady: true,
                   refreshing: false,
                   serverError: false,
@@ -263,9 +288,9 @@ class EventsScreen extends Component {
       selectedDate,
       minDate,
       maxDate,
+      groupedDates,
     } = this.state;
 
-    console.log(dates);
     const updatedMarked = {...marked};
     if (!updatedMarked[selectedDate]) {
       updatedMarked[selectedDate] = {
@@ -367,34 +392,43 @@ class EventsScreen extends Component {
                   </TouchableOpacity>
                 </View>
                 <FlatList
-                  style={styles.flatlistContainer}
+                  contentContainerStyle={styles.flatlistContainerStyle}
                   refreshing={refreshing}
                   onRefresh={this._handleRefresh}
                   data={dates}
                   renderItem={({item}) => {
                     if (
                       isBefore(
-                        parse(item.date, 'yyyy-MM-dd', new Date()),
+                        parse(item, 'yyyy-MM-dd', new Date()),
                         parse(selectedDate, 'yyyy-MM-dd', new Date()),
                       )
                     ) {
                       return null;
                     }
-
-                    let itype = null;
-                    if (item.type === 'w') {
-                      itype = 'workouts';
-                    }
                     return (
-                      <ItemsList
-                        itype={itype}
-                        item={item}
-                        showModal={this.showModal}
-                        isEvent={true}
+                      <FlatList
+                        contentContainerStyle={styles.flatlistContainerStyle}
+                        refreshing={refreshing}
+                        onRefresh={this._handleRefresh}
+                        data={groupedDates[item]}
+                        renderItem={({item}) => {
+                          let itype = null;
+                          if (item.type === 'w') {
+                            itype = 'workouts';
+                          }
+                          return (
+                            <ItemsList
+                              itype={itype}
+                              item={item}
+                              showModal={this.showModal}
+                              isEvent={true}
+                            />
+                          );
+                        }}
+                        keyExtractor={this._keyExtractor}
                       />
                     );
                   }}
-                  keyExtractor={this._keyExtractor}
                   // ListEmptyComponent={
                   //   <NoContent itype={'results'} connectionError={serverError} />
                   // }
