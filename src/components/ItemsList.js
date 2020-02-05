@@ -24,11 +24,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: 20,
   },
-  headerHorseName: {
-    color: colors.newLightGreen,
-    fontFamily: 'NotoSerif-Bold',
-    fontSize: 20,
-  },
   headerSubtitle: {
     color: colors.newGreyText,
     fontSize: 16,
@@ -66,13 +61,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const dynamicStyles = ({itype, item}) =>
+const dynamicStyles = ({itype, item, isEvent = false}) =>
   StyleSheet.create({
     containerStyle: {
       backgroundColor: colors.white,
       marginBottom: 18,
       paddingTop: 20,
-      height: itype !== 'workouts' ? 196 : 166, //206,
+      height: itype !== 'workouts' ? 196 : isEvent ? 136 : 166, //206,
       maxWidth: width < sizes.tablet_threshold ? '90%' : 592,
       width: width < sizes.tablet_threshold ? '90%' : 592,
       shadowOffset: {
@@ -83,6 +78,10 @@ const dynamicStyles = ({itype, item}) =>
       shadowOpacity: 0.26,
       shadowRadius: 6,
       marginHorizontal: 20,
+
+      borderLeftColor:
+        itype === 'workouts' ? colors.newLightGreen : colors.newDarkGrey,
+      borderLeftWidth: isEvent ? 6 : 0,
     },
     headerIconContainer: {
       marginRight: 20,
@@ -113,18 +112,24 @@ const dynamicStyles = ({itype, item}) =>
       justifyContent: itype === 'results' ? 'space-between' : 'flex-end',
       marginTop: 12,
     },
+    headerHorseName: {
+      color: isEvent ? colors.newGreyText : colors.newLightGreen,
+      fontFamily: 'NotoSerif-Bold',
+      fontSize: 20,
+    },
   });
 
 export default class ItemsList extends Component {
   render() {
-    const {item, itype, showModal} = this.props;
+    const {item, itype, showModal, isEvent} = this.props;
 
     return (
       <TouchableOpacity
-        style={dynamicStyles({item, itype}).containerStyle}
+        style={dynamicStyles({item, itype, isEvent}).containerStyle}
         onPress={() => showModal(item, itype)}>
+        {/* Header */}
         <View style={styles.headerContainer}>
-          {itype !== 'entries' && (
+          {itype !== 'entries' && !isEvent && (
             <View style={dynamicStyles({item, itype}).headerIconContainer}>
               {itype === 'results' && (
                 <Image
@@ -143,7 +148,10 @@ export default class ItemsList extends Component {
           )}
           <View style={styles.headerTextContainer}>
             <View>
-              <Text style={styles.headerHorseName}>{item.Horse_Name}</Text>
+              <Text
+                style={dynamicStyles({item, itype, isEvent}).headerHorseName}>
+                {isEvent ? item.horse : item.Horse_Name}
+              </Text>
             </View>
             {itype !== 'workouts' && (
               <View>
@@ -157,38 +165,45 @@ export default class ItemsList extends Component {
           </View>
         </View>
 
+        {/* Data */}
         <View>
           <View style={styles.dataRow}>
             <View style={styles.dataCell}>
-              <View style={styles.dataCellIconContainer}>
-                {itype !== 'workouts' ? (
-                  <Image source={icons.flag} style={styles.dataCellIcon} />
-                ) : (
-                  <Image source={icons.speed} style={styles.dataCellIcon} />
-                )}
-              </View>
+              {!isEvent && (
+                <View style={styles.dataCellIconContainer}>
+                  {itype !== 'workouts' ? (
+                    <Image source={icons.flag} style={styles.dataCellIcon} />
+                  ) : (
+                    <Image source={icons.speed} style={styles.dataCellIcon} />
+                  )}
+                </View>
+              )}
               <View>
                 <Text style={styles.dataCellValue}>
                   {itype !== 'workouts'
                     ? `Race ${item.Number_Entered} ${item.Class}`
-                    : `${item.Distance} at ${formatStrTime(item.Time)}`}
+                    : `${
+                        isEvent ? item.distance : item.Distance
+                      } at ${formatStrTime(isEvent ? item.time : item.Time)}`}
                 </Text>
               </View>
             </View>
 
             <View style={styles.dataCell}>
-              <View style={styles.dataCellIconContainer}>
-                {itype !== 'entries' ? (
-                  <Image source={icons.event} style={styles.dataCellIcon} />
-                ) : (
-                  <Image source={icons.clock} style={styles.dataCellIcon} />
-                )}
-              </View>
+              {!isEvent && (
+                <View style={styles.dataCellIconContainer}>
+                  {itype !== 'entries' ? (
+                    <Image source={icons.event} style={styles.dataCellIcon} />
+                  ) : (
+                    <Image source={icons.clock} style={styles.dataCellIcon} />
+                  )}
+                </View>
+              )}
               <View>
                 <Text style={styles.dataCellValue}>
                   {itype !== 'entries'
-                    ? dateFormating(item.Event_Date)
-                    : dateFormating(item.Entry_Date)}
+                    ? dateFormating(isEvent ? item.date : item.Event_Date)
+                    : dateFormating(isEvent ? item.date : item.Entry_Date)}
                 </Text>
               </View>
             </View>
@@ -196,21 +211,27 @@ export default class ItemsList extends Component {
 
           <View style={styles.dataRow}>
             <View style={styles.dataCell}>
-              <View style={styles.dataCellIconContainer}>
-                <Image source={icons.radar} style={styles.dataCellIcon} />
-              </View>
+              {!isEvent && (
+                <View style={styles.dataCellIconContainer}>
+                  <Image source={icons.radar} style={styles.dataCellIcon} />
+                </View>
+              )}
               <View>
-                <Text style={styles.dataCellValue}>{item.Track}</Text>
+                <Text style={styles.dataCellValue}>
+                  {isEvent ? item.track : item.Track}
+                </Text>
               </View>
             </View>
             <View style={styles.dataCell}>
-              <View style={styles.dataCellIconContainer}>
-                {itype !== 'workouts' ? (
-                  <Image source={icons.speed} style={styles.dataCellIcon} />
-                ) : (
-                  <Image source={icons.flag} style={styles.dataCellIcon} />
-                )}
-              </View>
+              {!isEvent && (
+                <View style={styles.dataCellIconContainer}>
+                  {itype !== 'workouts' ? (
+                    <Image source={icons.speed} style={styles.dataCellIcon} />
+                  ) : (
+                    <Image source={icons.flag} style={styles.dataCellIcon} />
+                  )}
+                </View>
+              )}
               <View>
                 <Text style={styles.dataCellValue}>
                   {/* {item.race_distance} at {formatStrTime(item.final_time)} */}
@@ -220,7 +241,7 @@ export default class ItemsList extends Component {
                     ? `${item.race_distance} at ${formatStrTime(
                         item.final_time,
                       )}`
-                    : `${item.ranking}`}
+                    : `${item.ranking ? item.ranking : ''}`}
                 </Text>
               </View>
             </View>
@@ -228,22 +249,25 @@ export default class ItemsList extends Component {
         </View>
 
         {/* Actions */}
-        <View style={dynamicStyles({itype, item}).actionsContainer}>
-          {itype === 'results' && (
-            <TouchableOpacity onPress={() => Linking.openURL(item.chart_link)}>
-              <Text style={styles.actionText}>Race Statistics</Text>
-            </TouchableOpacity>
-          )}
+        {!isEvent && (
+          <View style={dynamicStyles({itype, item}).actionsContainer}>
+            {itype === 'results' && (
+              <TouchableOpacity
+                onPress={() => Linking.openURL(item.chart_link)}>
+                <Text style={styles.actionText}>Race Statistics</Text>
+              </TouchableOpacity>
+            )}
 
-          <View>
-            <Share
-              item={item}
-              itype={itype}
-              msg={'share'}
-              label={<Text style={styles.actionText}>Share</Text>}
-            />
+            <View>
+              <Share
+                item={item}
+                itype={itype}
+                msg={'share'}
+                label={<Text style={styles.actionText}>Share</Text>}
+              />
+            </View>
           </View>
-        </View>
+        )}
       </TouchableOpacity>
     );
   }

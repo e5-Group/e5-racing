@@ -18,11 +18,13 @@ import {
   addMonths,
   subMonths,
   format,
+  isBefore,
 } from 'date-fns';
 // import {dateFormating, convertToUppercase} from '../utils';
 import Back from '../components/Back';
 import Loading from '../components/Loading';
 import NoContent from '../components/NoContent';
+import ItemsList from '../components/ItemsList';
 import * as icons from '../constants/icons';
 import * as api from '../constants/api';
 import * as colors from '../constants/colors';
@@ -60,9 +62,11 @@ const styles = StyleSheet.create({
   },
   knobHolder: {
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     justifyContent: 'center',
     flexDirection: 'row',
+    borderBottomColor: colors.newDarkGrey,
+    borderBottomWidth: 1,
   },
   knob: {
     width: 100,
@@ -71,18 +75,22 @@ const styles = StyleSheet.create({
     backgroundColor: colors.newGray,
     borderRadius: 20,
   },
+  flatlistContainer: {
+    paddingTop: 16,
+  },
 });
 
 const dynamicStyles = calendarEnabled =>
   StyleSheet.create({
     calendarHolder: {
-      height: calendarEnabled ? 400 : 160,
+      height: calendarEnabled ? 330 : 161,
       overflow: 'hidden',
       flexDirection: 'column',
       justifyContent: 'flex-start',
+      backgroundColor: colors.white,
     },
     calendarList: {
-      height: calendarEnabled ? 300 : 120,
+      height: calendarEnabled ? 300 : 130,
     },
   });
 
@@ -109,9 +117,20 @@ class EventsScreen extends Component {
     minDate: format(subMonths(new Date(), 1), 'yyyy-MM-dd'),
   };
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     LayoutAnimation.easeInEaseOut();
   }
+
+  _keyExtractor = (item, index) => (index + 2).toString();
+
+  _handleRefresh = async () => {
+    this.setState(
+      {
+        refreshing: true,
+      },
+      this.make_api_call,
+    );
+  };
 
   make_api_call() {
     this.setState(
@@ -129,11 +148,16 @@ class EventsScreen extends Component {
               },
               () => {
                 const {dates} = this.state;
+                let newDates = [];
                 let newMarked = {};
                 for (const key in dates) {
                   const element = dates[key];
                   for (const e in element) {
                     const x = element[e];
+                    newDates.push({
+                      ...element[e],
+                      date: key,
+                    });
                     newMarked[key] = {
                       customStyles: {
                         container: {
@@ -153,6 +177,14 @@ class EventsScreen extends Component {
 
                 this.setState({
                   marked: newMarked,
+                  dates: newDates.sort((a, b) =>
+                    isBefore(
+                      parse(b.date, 'yyyy-MM-dd', new Date()),
+                      parse(a.date, 'yyyy-MM-dd', new Date()),
+                    )
+                      ? 1
+                      : -1,
+                  ),
                   isReady: true,
                   refreshing: false,
                   serverError: false,
@@ -182,14 +214,6 @@ class EventsScreen extends Component {
       this.make_api_call();
     }
   }
-
-  renderItem = item => {
-    return !item || item.type === 'empty' ? null : (
-      <View>
-        <Text style={styles.title}>{item.horse}</Text>
-      </View>
-    );
-  };
 
   rowHasChanged = (r1, r2) => {
     return r1.name !== r2.name;
@@ -231,6 +255,7 @@ class EventsScreen extends Component {
   render = () => {
     const {
       isReady,
+      refreshing,
       dates,
       marked,
       serverError,
@@ -239,6 +264,30 @@ class EventsScreen extends Component {
       minDate,
       maxDate,
     } = this.state;
+
+    console.log(dates);
+    const updatedMarked = {...marked};
+    if (!updatedMarked[selectedDate]) {
+      updatedMarked[selectedDate] = {
+        customStyles: {
+          container: {
+            backgroundColor: colors.newDarkGrey,
+          },
+          text: {
+            color: colors.white,
+            fontWeight: 'bold',
+          },
+        },
+      };
+    } else {
+      // To mark date with color when active
+      // updatedMarked[selectedDate].customStyles.container = {
+      //   ...updatedMarked[selectedDate].customStyles.container,
+      //   borderColor: colors.newDarkGrey,
+      //   borderWidth: 1,
+      // };
+    }
+
     return (
       <SafeAreaView>
         <ImageBackground
@@ -247,71 +296,110 @@ class EventsScreen extends Component {
           imageStyle={styles.backgroundImageStyle}>
           <View style={styles.container}>
             {isReady && !serverError && (
-              <View style={dynamicStyles(calendarEnabled).calendarHolder}>
-                {calendarEnabled && (
-                  <CalendarList
-                    currentWeekLine={false}
-                    selectedDate={selectedDate}
-                    current={selectedDate}
-                    horizontal={true}
-                    scrollEnabled={true}
-                    pastScrollRange={this.getPastScroll(selectedDate)}
-                    futureScrollRange={this.getFutureScroll(selectedDate)}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    hideArrows={true}
-                    pagingEnabled={true}
-                    onDayPress={day => {
-                      this.setState({
-                        selectedDate: day.dateString,
-                        calendarEnabled: false,
-                      });
-                    }}
-                    theme={{
-                      textMonthFontFamily: 'NotoSerif',
-                      textMonthFontSize: 18,
-                      monthTextColor: colors.newLightGreen,
-                      todayTextColor: colors.newDarkGreen,
-                    }}
-                    disableMonthChange={calendarEnabled}
-                    style={dynamicStyles(calendarEnabled).calendarList}
-                  />
-                )}
+              <>
+                <View style={dynamicStyles(calendarEnabled).calendarHolder}>
+                  {calendarEnabled && (
+                    <CalendarList
+                      markingType={'custom'}
+                      markedDates={updatedMarked}
+                      currentWeekLine={false}
+                      selectedDate={selectedDate}
+                      current={selectedDate}
+                      horizontal={true}
+                      scrollEnabled={true}
+                      pastScrollRange={this.getPastScroll(selectedDate)}
+                      futureScrollRange={this.getFutureScroll(selectedDate)}
+                      minDate={minDate}
+                      maxDate={maxDate}
+                      hideArrows={true}
+                      pagingEnabled={true}
+                      onDayPress={day => {
+                        this.setState({
+                          selectedDate: day.dateString,
+                          calendarEnabled: false,
+                        });
+                      }}
+                      theme={{
+                        textMonthFontFamily: 'NotoSerif',
+                        textMonthFontSize: 18,
+                        monthTextColor: colors.newLightGreen,
+                        todayTextColor: colors.newDarkGreen,
+                      }}
+                      disableMonthChange={calendarEnabled}
+                      style={dynamicStyles(calendarEnabled).calendarList}
+                    />
+                  )}
 
-                {!calendarEnabled && (
-                  <CalendarList
-                    currentWeekLine={true}
-                    selectedDate={selectedDate}
-                    current={selectedDate}
-                    horizontal={false}
-                    scrollEnabled={false}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    hideArrows={true}
-                    pagingEnabled={true}
-                    onDayPress={day => {
-                      this.setState({
-                        selectedDate: day.dateString,
-                        calendarEnabled: false,
-                      });
-                    }}
-                    theme={{
-                      textMonthFontFamily: 'NotoSerif',
-                      textMonthFontSize: 18,
-                      monthTextColor: colors.newLightGreen,
-                      todayTextColor: colors.newDarkGreen,
-                    }}
-                    disableMonthChange={calendarEnabled}
-                    style={dynamicStyles(calendarEnabled).calendarList}
-                  />
-                )}
+                  {!calendarEnabled && (
+                    <CalendarList
+                      markingType={'custom'}
+                      markedDates={updatedMarked}
+                      currentWeekLine={true}
+                      selectedDate={selectedDate}
+                      current={selectedDate}
+                      horizontal={false}
+                      scrollEnabled={false}
+                      minDate={minDate}
+                      maxDate={maxDate}
+                      hideArrows={true}
+                      pagingEnabled={true}
+                      onDayPress={day => {
+                        this.setState({
+                          selectedDate: day.dateString,
+                          calendarEnabled: false,
+                        });
+                      }}
+                      theme={{
+                        textMonthFontFamily: 'NotoSerif',
+                        textMonthFontSize: 18,
+                        monthTextColor: colors.newLightGreen,
+                        todayTextColor: colors.newDarkGreen,
+                      }}
+                      disableMonthChange={calendarEnabled}
+                      style={dynamicStyles(calendarEnabled).calendarList}
+                    />
+                  )}
 
-                <TouchableOpacity
-                  style={styles.knobHolder}
-                  onPress={this.toggleCalendar}>
-                  <View style={styles.knob} />
-                </TouchableOpacity>
-              </View>
+                  <TouchableOpacity
+                    style={styles.knobHolder}
+                    onPress={this.toggleCalendar}>
+                    <View style={styles.knob} />
+                  </TouchableOpacity>
+                </View>
+                <FlatList
+                  style={styles.flatlistContainer}
+                  refreshing={refreshing}
+                  onRefresh={this._handleRefresh}
+                  data={dates}
+                  renderItem={({item}) => {
+                    if (
+                      isBefore(
+                        parse(item.date, 'yyyy-MM-dd', new Date()),
+                        parse(selectedDate, 'yyyy-MM-dd', new Date()),
+                      )
+                    ) {
+                      return null;
+                    }
+
+                    let itype = null;
+                    if (item.type === 'w') {
+                      itype = 'workouts';
+                    }
+                    return (
+                      <ItemsList
+                        itype={itype}
+                        item={item}
+                        showModal={this.showModal}
+                        isEvent={true}
+                      />
+                    );
+                  }}
+                  keyExtractor={this._keyExtractor}
+                  // ListEmptyComponent={
+                  //   <NoContent itype={'results'} connectionError={serverError} />
+                  // }
+                />
+              </>
             )}
 
             {isReady && serverError && (
