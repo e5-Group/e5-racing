@@ -28,6 +28,10 @@ import ItemsList from '../components/ItemsList';
 import * as icons from '../constants/icons';
 import * as api from '../constants/api';
 import * as colors from '../constants/colors';
+import * as sizes from '../constants/sizes';
+
+const width = Dimensions.get('window').width;
+const calendarWidth = width < sizes.tablet_threshold ? width : 420;
 
 const styles = StyleSheet.create({
   fullScreen: {
@@ -80,6 +84,9 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
   },
+  calendarThreshold: {
+    width: width < sizes.tablet_threshold ? '100%' : 420,
+  },
 });
 
 const dynamicStyles = calendarEnabled =>
@@ -88,7 +95,8 @@ const dynamicStyles = calendarEnabled =>
       height: calendarEnabled ? 340 : 161,
       overflow: 'hidden',
       flexDirection: 'column',
-      justifyContent: 'flex-start',
+      justifyContent: 'center',
+      alignItems: 'center',
       backgroundColor: colors.white,
     },
     calendarList: {
@@ -320,68 +328,71 @@ class EventsScreen extends Component {
             {isReady && !serverError && (
               <>
                 <View style={dynamicStyles(calendarEnabled).calendarHolder}>
-                  {calendarEnabled && (
-                    <CalendarList
-                      markingType={'custom'}
-                      markedDates={updatedMarked}
-                      currentWeekLine={false}
-                      selectedDate={selectedDate}
-                      current={selectedDate}
-                      horizontal={true}
-                      scrollEnabled={true}
-                      pastScrollRange={this.getPastScroll(selectedDate)}
-                      futureScrollRange={this.getFutureScroll(selectedDate)}
-                      minDate={minDate}
-                      maxDate={maxDate}
-                      hideArrows={true}
-                      pagingEnabled={true}
-                      onDayPress={day => {
-                        this.setState({
-                          selectedDate: day.dateString,
-                          calendarEnabled: false,
-                        });
-                      }}
-                      theme={{
-                        textMonthFontFamily: 'NotoSerif',
-                        textMonthFontSize: 18,
-                        monthTextColor: colors.newLightGreen,
-                        todayTextColor: colors.newDarkGreen,
-                      }}
-                      disableMonthChange={calendarEnabled}
-                      style={dynamicStyles(calendarEnabled).calendarList}
-                    />
-                  )}
+                  <View style={styles.calendarThreshold}>
+                    {calendarEnabled && (
+                      <CalendarList
+                        calendarWidth={calendarWidth}
+                        markingType={'custom'}
+                        markedDates={updatedMarked}
+                        currentWeekLine={false}
+                        selectedDate={selectedDate}
+                        current={selectedDate}
+                        horizontal={true}
+                        scrollEnabled={true}
+                        pastScrollRange={this.getPastScroll(selectedDate)}
+                        futureScrollRange={this.getFutureScroll(selectedDate)}
+                        minDate={minDate}
+                        maxDate={maxDate}
+                        hideArrows={true}
+                        pagingEnabled={true}
+                        onDayPress={day => {
+                          this.setState({
+                            selectedDate: day.dateString,
+                            calendarEnabled: false,
+                          });
+                        }}
+                        theme={{
+                          textMonthFontFamily: 'NotoSerif',
+                          textMonthFontSize: 18,
+                          monthTextColor: colors.newLightGreen,
+                          todayTextColor: colors.newDarkGreen,
+                        }}
+                        disableMonthChange={calendarEnabled}
+                        style={dynamicStyles(calendarEnabled).calendarList}
+                      />
+                    )}
 
-                  {!calendarEnabled && (
-                    <CalendarList
-                      markingType={'custom'}
-                      markedDates={updatedMarked}
-                      currentWeekLine={true}
-                      selectedDate={selectedDate}
-                      current={selectedDate}
-                      horizontal={false}
-                      scrollEnabled={false}
-                      minDate={minDate}
-                      maxDate={maxDate}
-                      hideArrows={true}
-                      pagingEnabled={true}
-                      onDayPress={day => {
-                        this.setState({
-                          selectedDate: day.dateString,
-                          calendarEnabled: false,
-                        });
-                      }}
-                      theme={{
-                        textMonthFontFamily: 'NotoSerif',
-                        textMonthFontSize: 18,
-                        monthTextColor: colors.newLightGreen,
-                        todayTextColor: colors.newDarkGreen,
-                      }}
-                      disableMonthChange={calendarEnabled}
-                      style={dynamicStyles(calendarEnabled).calendarList}
-                    />
-                  )}
-
+                    {!calendarEnabled && (
+                      <CalendarList
+                        calendarWidth={calendarWidth}
+                        markingType={'custom'}
+                        markedDates={updatedMarked}
+                        currentWeekLine={true}
+                        selectedDate={selectedDate}
+                        current={selectedDate}
+                        horizontal={false}
+                        scrollEnabled={false}
+                        minDate={minDate}
+                        maxDate={maxDate}
+                        hideArrows={true}
+                        pagingEnabled={true}
+                        onDayPress={day => {
+                          this.setState({
+                            selectedDate: day.dateString,
+                            calendarEnabled: false,
+                          });
+                        }}
+                        theme={{
+                          textMonthFontFamily: 'NotoSerif',
+                          textMonthFontSize: 18,
+                          monthTextColor: colors.newLightGreen,
+                          todayTextColor: colors.newDarkGreen,
+                        }}
+                        disableMonthChange={calendarEnabled}
+                        style={dynamicStyles(calendarEnabled).calendarList}
+                      />
+                    )}
+                  </View>
                   <TouchableOpacity
                     style={styles.knobHolder}
                     onPress={this.toggleCalendar}>
