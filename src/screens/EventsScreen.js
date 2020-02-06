@@ -177,10 +177,14 @@ class EventsScreen extends Component {
                       backgroundColor:
                         x.type === 'w'
                           ? colors.newLightGreen
-                          : colors.newDarkGreen,
+                          : x.type === 'e'
+                          ? colors.newDarkGreen
+                          : x.type === 'empty'
+                          ? colors.newGreyText
+                          : colors.white,
                     },
                     text: {
-                      color: x.textColor,
+                      color: x.type === 'empty' ? colors.white : x.textColor,
                       fontWeight: 'bold',
                     },
                   },
@@ -416,9 +420,10 @@ class EventsScreen extends Component {
                           let itype = null;
                           if (item.type === 'w') {
                             itype = 'workouts';
-                          }
-                          if (item.type === 'e') {
+                          } else if (item.type === 'e') {
                             itype = 'entries';
+                          } else {
+                            return null;
                           }
                           return (
                             <ItemsList

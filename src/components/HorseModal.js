@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: colors.newLightPurple,
-    top: '30%',
+    top: '24%',
     padding: 20,
     borderRadius: 9,
-    height: 340,
+    height: 360,
   },
   close: {
     position: 'absolute',

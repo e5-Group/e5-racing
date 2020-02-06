@@ -1,5 +1,11 @@
 import React from 'react';
-import {TouchableOpacity, Text, Image, StyleSheet} from 'react-native';
+import {
+  Platform,
+  TouchableOpacity,
+  Text,
+  Image,
+  StyleSheet,
+} from 'react-native';
 
 import * as colors from '../constants/colors';
 import * as icons from '../constants/icons';
@@ -28,7 +34,7 @@ const Back = props => {
       onPress={() => navigation.navigate('Home')}>
       <Image source={icons.back} style={styles.imageSize} />
       {/* <Image source={icons.home} style={styles.imageSize} /> */}
-      <Text style={styles.text}>Home</Text>
+      {!Platform.OS === 'android' && <Text style={styles.text}>Home</Text>}
     </TouchableOpacity>
   );
 };

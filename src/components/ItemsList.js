@@ -82,7 +82,11 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
       backgroundColor: colors.white,
       marginBottom: 18,
       paddingTop: 20,
-      height: itype !== 'workouts' ? 196 : isEvent ? 136 : 166, //206,
+      height: isEvent
+        ? 156
+        : itype === 'results' || itype === 'entries'
+        ? 186
+        : 166, //workouts //206,
       maxWidth:
         width < sizes.tablet_threshold
           ? isEvent
@@ -109,7 +113,7 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
       marginLeft: isEvent ? 10 : 20,
 
       borderLeftColor:
-        itype === 'workouts' ? colors.newLightGreen : colors.newDarkGrey,
+        itype === 'workouts' ? colors.newLightGreen : colors.newDarkGreen,
       borderLeftWidth: isEvent ? 6 : 0,
     },
     headerIconContainer: {
@@ -228,7 +232,9 @@ export default class ItemsList extends Component {
                 <View>
                   <Text style={styles.dataCellValue}>
                     {itype !== 'workouts'
-                      ? `Race ${item.Number_Entered} ${item.Class}`
+                      ? `Race ${isEvent ? item.entered : item.Number_Entered} ${
+                          isEvent ? item.class : item.Class
+                        }`
                       : `${
                           isEvent ? item.distance : item.Distance
                         } at ${formatStrTime(isEvent ? item.time : item.Time)}`}
@@ -284,11 +290,13 @@ export default class ItemsList extends Component {
                     {/* {item.race_distance} at {formatStrTime(item.final_time)} */}
                     {/* {convertToUppercase(item.track_condition)} */}
 
-                    {itype !== 'workouts'
-                      ? `${item.race_distance} at ${formatStrTime(
-                          item.final_time,
-                        )}`
-                      : `${item.ranking ? item.ranking : ''}`}
+                    {itype === 'results' &&
+                      `${item.race_distance} at ${formatStrTime(
+                        item.final_time,
+                      )}`}
+                    {itype === 'workouts' &&
+                      `${item.ranking ? item.ranking : ''}`}
+                    {itype === 'entries' && `${item.post_time} ET`}
                   </Text>
                 </View>
               </View>
