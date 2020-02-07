@@ -21,11 +21,13 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   homeBackground: {
-    resizeMode: width < sizes.tablet_threshold ? 'repeat' : 'contain',
+    height: width * 1.25,
+    width: width,
+    resizeMode: 'stretch',
   },
   topGradient: {
     width: '100%',
-    height: width < sizes.tablet_threshold ? 80 : 370,
+    height: width < sizes.tablet_threshold_home ? 80 : 370,
     position: 'absolute',
     top: 0,
     resizeMode: 'stretch',
@@ -40,30 +42,29 @@ const styles = StyleSheet.create({
     tintColor: colors.bottomGradient,
   },
   menuContainer: {
-    flex: width < sizes.tablet_threshold ? 1 : 1,
+    flex: width < sizes.tablet_threshold_home ? 1 : 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
   menu: {
-    // height: width < sizes.tablet_threshold ? '65%' : 480,
     backgroundColor: colors.newPurple,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingHorizontal: width < sizes.tablet_threshold ? 30 : 60,
-    paddingVertical: width < sizes.tablet_threshold ? 20 : 40,
+    paddingHorizontal: width < sizes.tablet_threshold_home ? 30 : 60,
+    paddingVertical: width < sizes.tablet_threshold_home ? 20 : 40,
 
-    width: width < sizes.tablet_threshold ? '100%' : '70%',
-    borderBottomLeftRadius: width < sizes.tablet_threshold ? 0 : 30,
-    borderBottomRightRadius: width < sizes.tablet_threshold ? 0 : 30,
-    marginBottom: width < sizes.tablet_threshold ? 0 : 40,
+    width: width < sizes.tablet_threshold_home ? '100%' : '70%',
+    borderBottomLeftRadius: width < sizes.tablet_threshold_home ? 0 : 30,
+    borderBottomRightRadius: width < sizes.tablet_threshold_home ? 0 : 30,
+    marginBottom: width < sizes.tablet_threshold_home ? 0 : 40,
   },
   welcome: {
     fontSize: 32,
     color: colors.newGray,
     fontFamily: 'NotoSerif-Bold',
-    marginBottom: width < sizes.tablet_threshold ? 10 : 50,
-    marginTop: width < sizes.tablet_threshold ? 0 : 14,
+    marginBottom: width < sizes.tablet_threshold_home ? 10 : 50,
+    marginTop: width < sizes.tablet_threshold_home ? 0 : 14,
   },
 });
 
@@ -98,7 +99,7 @@ class HomeScreen extends Component {
         style={styles.fullScreen}
         imageStyle={styles.homeBackground}>
         <Image source={icons.topGradient} style={styles.topGradient} />
-        {width > sizes.tablet_threshold && (
+        {width > sizes.tablet_threshold_home && (
           <Image source={icons.bottomGradient} style={styles.bottomGradient} />
         )}
         <SafeAreaView style={styles.menuContainer}>
