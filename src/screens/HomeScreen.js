@@ -19,12 +19,9 @@ const styles = StyleSheet.create({
   fullScreen: {
     width: '100%',
     height: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
   },
   homeBackground: {
-    resizeMode: width < sizes.tablet_threshold ? 'repeat' : 'cover',
+    resizeMode: width < sizes.tablet_threshold ? 'repeat' : 'contain',
   },
   topGradient: {
     width: '100%',
@@ -127,6 +124,11 @@ class HomeScreen extends Component {
                 icon={icons.eventsIconOn}
                 name={'events'}
                 pressed={() => this.props.navigation.navigate('Events')}
+              />
+              <MenuOption
+                icon={icons.newslettersIconOn}
+                name={'newsletters'}
+                pressed={() => this.props.navigation.navigate('Newsletters')}
               />
             </View>
           </View>

@@ -123,8 +123,8 @@ class EventsScreen extends Component {
     serverError: false,
     calendarEnabled: false,
     selectedDate: format(new Date(), 'yyyy-MM-dd'),
-    maxDate: format(addMonths(new Date(), 1), 'yyyy-MM-dd'),
-    minDate: format(subMonths(new Date(), 1), 'yyyy-MM-dd'),
+    maxDate: format(addMonths(new Date(), 2), 'yyyy-MM-dd'),
+    minDate: format(subMonths(new Date(), 2), 'yyyy-MM-dd'),
   };
 
   UNSAFE_componentWillUpdate() {
@@ -179,6 +179,8 @@ class EventsScreen extends Component {
                           ? colors.newLightGreen
                           : x.type === 'e'
                           ? colors.newDarkGreen
+                          : x.type === 'r'
+                          ? colors.newMiddleGreen
                           : x.type === 'empty'
                           ? colors.newGreyText
                           : colors.white,
@@ -400,7 +402,7 @@ class EventsScreen extends Component {
                   refreshing={refreshing}
                   onRefresh={this._handleRefresh}
                   data={dates}
-                  keyExtractor={item => JSON.stringify(item)}
+                  keyExtractor={item => `day-list-${item}`}
                   renderItem={allValues => {
                     if (
                       isBefore(
@@ -416,12 +418,17 @@ class EventsScreen extends Component {
                         refreshing={refreshing}
                         onRefresh={this._handleRefresh}
                         data={groupedDates[allValues.item]}
+                        keyExtractor={item =>
+                          `event-list-${item.type}-${item.horse}`
+                        }
                         renderItem={({item, index}) => {
                           let itype = null;
                           if (item.type === 'w') {
                             itype = 'workouts';
                           } else if (item.type === 'e') {
                             itype = 'entries';
+                          } else if (item.type === 'r') {
+                            itype = 'results';
                           } else {
                             return null;
                           }
@@ -435,7 +442,6 @@ class EventsScreen extends Component {
                             />
                           );
                         }}
-                        keyExtractor={item => JSON.stringify(item)}
                       />
                     );
                   }}

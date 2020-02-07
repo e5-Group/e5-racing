@@ -10,6 +10,7 @@ export const newGray = '#F1F0FF';
 export const newDarkGrey = '#C5C5C5';
 export const newGold = '#DBBA32';
 export const newLightGreen = '#48B783';
+export const newMiddleGreen = '#568B73';
 export const newDarkGreen = '#59B48A';
 export const purpleShadow = '#2E1361';
 export const newLightPurple = 'rgba(117, 74, 199, 1)';

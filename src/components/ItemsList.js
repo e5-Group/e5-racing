@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   dataCell: {
-    width: '50%',
+    width: '47%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -113,7 +113,11 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
       marginLeft: isEvent ? 10 : 20,
 
       borderLeftColor:
-        itype === 'workouts' ? colors.newLightGreen : colors.newDarkGreen,
+        itype === 'workouts'
+          ? colors.newLightGreen
+          : itype === 'events'
+          ? colors.newDarkGreen
+          : colors.newMiddleGreen,
       borderLeftWidth: isEvent ? 6 : 0,
     },
     headerIconContainer: {
@@ -208,7 +212,9 @@ export default class ItemsList extends Component {
                 <View>
                   <Text style={styles.headerSubtitle}>
                     {itype === 'results' &&
-                      `${`Finished ${finishedPosition(item.Finish)}`}`}
+                      `${`Finished ${finishedPosition(
+                        isEvent ? item.finish : item.Finish,
+                      )}`}`}
                     {itype === 'entries' && `${`Jockey: ${item.jockey_name}`}`}
                   </Text>
                 </View>
@@ -291,8 +297,10 @@ export default class ItemsList extends Component {
                     {/* {convertToUppercase(item.track_condition)} */}
 
                     {itype === 'results' &&
-                      `${item.race_distance} at ${formatStrTime(
-                        item.final_time,
+                      `${
+                        isEvent ? item.distance : item.race_distance
+                      } at ${formatStrTime(
+                        isEvent ? item.time : item.final_time,
                       )}`}
                     {itype === 'workouts' &&
                       `${item.ranking ? item.ranking : ''}`}
