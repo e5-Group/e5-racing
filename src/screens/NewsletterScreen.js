@@ -67,9 +67,9 @@ const styles = StyleSheet.create({
   },
 });
 
-class NewslettersScreen extends Component {
+class NewsletterScreen extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: 'Newsletters',
+    title: 'Newsletter',
     headerStyle: {
       backgroundColor: colors.newPurple,
       height: 60,
@@ -188,7 +188,9 @@ class NewslettersScreen extends Component {
                         style={styles.imageSize}
                       />
                       <View style={styles.textContent}>
-                        <Text style={styles.issue}>{item.issue}</Text>
+                        <Text style={styles.issue} maxFontSizeMultiplier={1}>
+                          {item.issue}
+                        </Text>
                         <Text style={styles.issueTitle}>{item.title}</Text>
                       </View>
                     </TouchableOpacity>
@@ -212,4 +214,4 @@ class NewslettersScreen extends Component {
   };
 }
 
-export default withNavigationFocus(NewslettersScreen);
+export default withNavigationFocus(NewsletterScreen);

@@ -11,7 +11,7 @@ import ResultsStack from './ResultsStack';
 import EntriesStack from './EntriesStack';
 import WorkoutsStack from './WorkoutsStack';
 import EventsStack from './EventsStack';
-import NewslettersStack from './NewslettersStack';
+import NewsletterStack from './NewsletterStack';
 
 const width = Dimensions.get('window').width;
 
@@ -59,7 +59,7 @@ const getIconSource = (routeName, focused) => {
       return focused ? icons.eventsIconOn : icons.eventsIconOff;
     case 'Home':
       return focused ? icons.homeIconOn : icons.homeIconOff;
-    case 'Newsletters':
+    case 'Newsletter':
       return focused ? icons.newslettersIconOn : icons.newslettersIconOff;
     default:
       return null;
@@ -87,8 +87,8 @@ const routeConfiguration = {
     screen: EventsStack,
     path: 'events',
   },
-  Newsletters: {
-    screen: NewslettersStack,
+  Newsletter: {
+    screen: NewsletterStack,
     path: 'newsletters',
   },
 };

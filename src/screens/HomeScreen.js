@@ -128,8 +128,8 @@ class HomeScreen extends Component {
               />
               <MenuOption
                 icon={icons.newslettersIconOn}
-                name={'newsletters'}
-                pressed={() => this.props.navigation.navigate('Newsletters')}
+                name={'newsletter'}
+                pressed={() => this.props.navigation.navigate('Newsletter')}
               />
             </View>
           </View>

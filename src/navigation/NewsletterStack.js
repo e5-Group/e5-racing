@@ -1,12 +1,12 @@
 import {createStackNavigator} from 'react-navigation-stack';
-import NewslettersScreen from '../screens/NewslettersScreen';
+import NewsletterScreen from '../screens/NewsletterScreen';
 
 import * as colors from '../constants/colors';
 
 export default createStackNavigator(
   {
-    Newsletters: {
-      screen: NewslettersScreen,
+    Newsletter: {
+      screen: NewsletterScreen,
       // navigationOptions: { header: null },
       path: 'newsletters',
     },
