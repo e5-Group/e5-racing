@@ -81,12 +81,13 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
     containerStyle: {
       backgroundColor: colors.white,
       marginBottom: 18,
+      paddingBottom: isEvent ? 8 : 4,
       paddingTop: 20,
-      height: isEvent
-        ? 156
-        : itype === 'results' || itype === 'entries'
-        ? 186
-        : 166, //workouts //206,
+      // height: isEvent
+      //   ? 156
+      //   : itype === 'results' || itype === 'entries'
+      //   ? 186
+      //   : 166, //workouts //206,
       maxWidth:
         width < sizes.tablet_threshold
           ? isEvent
@@ -148,11 +149,13 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
       alignItems: 'center',
       justifyContent: itype === 'results' ? 'space-between' : 'flex-end',
       marginTop: 12,
+      marginBottom: 10,
     },
     headerHorseName: {
       color: isEvent ? colors.newGreyText : colors.newLightGreen,
       fontFamily: 'NotoSerif-Bold',
       fontSize: 20,
+      overflow: 'hidden',
     },
     outerContainer: {
       flexDirection: 'row',
@@ -168,12 +171,12 @@ export default class ItemsList extends Component {
         {isEvent && (
           <View style={styles.dateContainer}>
             {addDate && (
-              <Text style={styles.dateNumber}>
+              <Text style={styles.dateNumber} maxFontSizeMultiplier={1}>
                 {format(parse(item.date, 'yyyy-MM-dd', new Date()), 'd')}
               </Text>
             )}
             {addDate && (
-              <Text style={styles.dateDay}>
+              <Text style={styles.dateDay} maxFontSizeMultiplier={1}>
                 {format(parse(item.date, 'yyyy-MM-dd', new Date()), 'EEE')}
               </Text>
             )}
@@ -204,13 +207,16 @@ export default class ItemsList extends Component {
             <View style={styles.headerTextContainer}>
               <View>
                 <Text
+                  maxFontSizeMultiplier={1}
                   style={dynamicStyles({item, itype, isEvent}).headerHorseName}>
                   {isEvent ? item.horse : item.Horse_Name}
                 </Text>
               </View>
               {itype !== 'workouts' && (
                 <View>
-                  <Text style={styles.headerSubtitle}>
+                  <Text
+                    maxFontSizeMultiplier={1.2}
+                    style={styles.headerSubtitle}>
                     {itype === 'results' &&
                       `${`Finished ${finishedPosition(
                         isEvent ? item.finish : item.Finish,

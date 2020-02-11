@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   label: {
     color: colors.newPurple,
     fontSize: 20,
-    textTransform: 'uppercase',
+    textTransform: 'capitalize',
     fontFamily: 'NotoSerif-Bold',
     letterSpacing: 3,
     textAlign: width < sizes.tablet_threshold ? 'left' : 'center',
