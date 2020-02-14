@@ -220,7 +220,7 @@ export default class ItemsList extends Component {
                     {itype === 'results' &&
                       `${`Finished ${finishedPosition(
                         isEvent ? item.finish : item.Finish,
-                      )}`}`}
+                      )}`}`}{item.speed_figure && Number(item.speed_figure) > 0 ? ` @ ${item.speed_figure}`: ''}
                     {itype === 'entries' && `${`Jockey: ${item.jockey_name}`}`}
                   </Text>
                 </View>
