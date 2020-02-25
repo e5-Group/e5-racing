@@ -6,6 +6,7 @@ import {
   View,
   Text,
   StyleSheet,
+  ImageBackground,
 } from 'react-native';
 import axios from 'axios';
 import Modal from 'react-native-modal';
@@ -39,11 +40,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  imageSize: {
+  imageBackground: {
     width: 60,
     height: 60,
-    borderRadius: 30,
     marginRight: 16,
+  },
+  horseImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+    aspectRatio: 1.2,
   },
   closeSize: {
     width: 30,
@@ -192,10 +198,17 @@ class HorseModal extends Component {
               <>
                 <View style={styles.description}>
                   <View style={styles.header}>
-                    <Image
-                      source={{uri: remoteData.picture}}
-                      style={styles.imageSize}
-                    />
+                    <ImageBackground
+                      imageStyle={styles.horseImage}
+                      style={styles.imageBackground}
+                      source={icons.logo}>
+                      <Image
+                        source={{
+                          uri: api.HORSE_PICS + horseModal.unique_id + '.jpg',
+                        }}
+                        style={styles.horseImage}
+                      />
+                    </ImageBackground>
                     <View>
                       <Text style={[styles.text, styles.title]}>
                         {remoteData.horse_name}
