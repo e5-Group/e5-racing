@@ -7,7 +7,6 @@ export default createStackNavigator(
   {
     WorkoutsScreen: {
       screen: WorkoutsScreen,
-      // navigationOptions: { header: null },
       path: 'workouts',
     },
   },

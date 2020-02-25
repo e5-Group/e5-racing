@@ -136,7 +136,6 @@ export default createBottomTabNavigator(routeConfiguration, {
             ? colors.purpleShadow
             : colors.black,
         shadowOpacity: 0.5,
-        // paddingTop: isNotchDevice() ? 20 : 0
       },
     },
   }),

@@ -83,11 +83,6 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
       marginBottom: 18,
       paddingBottom: isEvent ? 8 : 4,
       paddingTop: 20,
-      // height: isEvent
-      //   ? 156
-      //   : itype === 'results' || itype === 'entries'
-      //   ? 186
-      //   : 166, //workouts //206,
       maxWidth:
         width < sizes.tablet_threshold
           ? isEvent
@@ -95,7 +90,7 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
             : '90%'
           : isEvent
           ? 520
-          : 592, //389 : 592
+          : 592,
       width:
         width < sizes.tablet_threshold
           ? isEvent
@@ -103,7 +98,7 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
             : '90%'
           : isEvent
           ? 520
-          : 592, //389 : 592
+          : 592,
       shadowOffset: {
         width: 0,
         height: 3,
@@ -220,7 +215,10 @@ export default class ItemsList extends Component {
                     {itype === 'results' &&
                       `${`Finished ${finishedPosition(
                         isEvent ? item.finish : item.Finish,
-                      )}`}`}{item.speed_figure && Number(item.speed_figure) > 0 ? ` @ ${item.speed_figure}`: ''}
+                      )}`}`}
+                    {item.speed_figure && Number(item.speed_figure) > 0
+                      ? ` @ ${item.speed_figure}`
+                      : ''}
                     {itype === 'entries' && `${`Jockey: ${item.jockey_name}`}`}
                   </Text>
                 </View>
@@ -299,9 +297,6 @@ export default class ItemsList extends Component {
                 )}
                 <View>
                   <Text style={styles.dataCellValue}>
-                    {/* {item.race_distance} at {formatStrTime(item.final_time)} */}
-                    {/* {convertToUppercase(item.track_condition)} */}
-
                     {itype === 'results' &&
                       `${
                         isEvent ? item.distance : item.race_distance

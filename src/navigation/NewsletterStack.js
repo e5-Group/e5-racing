@@ -7,7 +7,6 @@ export default createStackNavigator(
   {
     Newsletter: {
       screen: NewsletterScreen,
-      // navigationOptions: { header: null },
       path: 'newsletters',
     },
   },

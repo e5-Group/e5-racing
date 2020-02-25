@@ -7,7 +7,6 @@ export default createStackNavigator(
   {
     Entries: {
       screen: EntriesScreen,
-      // navigationOptions: { header: null },
       path: 'entries',
     },
   },

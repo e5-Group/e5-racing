@@ -167,9 +167,6 @@ class EventsScreen extends Component {
                 item.post_time
               }, Jockey: ${item.jockey_name}`
             : null}
-          {/*{*/}
-          {/*item.type === 'r'? `finished ${item.finish} in ${item.entered}th ${item.class} race at ${item.track}`:null*/}
-          {/*}*/}
           {item.type === 'w'
             ? `worked ${item.distance} in ${item.time} @ ${item.track}`
             : null}

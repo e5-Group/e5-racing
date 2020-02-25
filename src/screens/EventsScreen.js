@@ -445,9 +445,6 @@ class EventsScreen extends Component {
                       />
                     );
                   }}
-                  // ListEmptyComponent={
-                  //   <NoContent itype={'results'} connectionError={serverError} />
-                  // }
                 />
               </>
             )}

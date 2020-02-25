@@ -7,7 +7,6 @@ export default createStackNavigator(
   {
     Results: {
       screen: ResultsScreen,
-      // navigationOptions: { header: null },
       path: 'results',
     },
   },

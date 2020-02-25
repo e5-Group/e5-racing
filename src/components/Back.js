@@ -34,7 +34,6 @@ const Back = props => {
       style={styles.container}
       onPress={() => navigation.navigate('Home')}>
       <Image source={icons.back} style={styles.imageSize} />
-      {/* <Image source={icons.home} style={styles.imageSize} /> */}
       {!Platform.OS === 'android' && <Text style={styles.text}>Home</Text>}
     </TouchableOpacity>
   );

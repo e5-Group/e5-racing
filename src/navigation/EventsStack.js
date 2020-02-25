@@ -7,7 +7,6 @@ export default createStackNavigator(
   {
     Events: {
       screen: EventsScreen,
-      // navigationOptions: { header: null },
       path: 'events',
     },
   },
