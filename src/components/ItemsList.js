@@ -142,7 +142,10 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
       marginHorizontal: 20,
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: itype === 'results' ? 'space-between' : 'flex-end',
+      justifyContent:
+        itype === 'results' || itype === 'entries'
+          ? 'space-between'
+          : 'flex-end',
       marginTop: 12,
       marginBottom: 10,
     },
@@ -282,6 +285,10 @@ export default class ItemsList extends Component {
                 <View>
                   <Text style={styles.dataCellValue}>
                     {isEvent ? item.track : item.Track}
+                    {!isEvent &&
+                      item &&
+                      item.post_position &&
+                      ` / ${item.post_position}`}
                   </Text>
                 </View>
               </View>
@@ -319,6 +326,12 @@ export default class ItemsList extends Component {
                 <TouchableOpacity
                   onPress={() => Linking.openURL(item.chart_link)}>
                   <Text style={styles.actionText}>Race Statistics</Text>
+                </TouchableOpacity>
+              )}
+              {itype === 'entries' && (
+                <TouchableOpacity
+                  onPress={() => Linking.openURL(item.entry_link)}>
+                  <Text style={styles.actionText}>Entry Chart</Text>
                 </TouchableOpacity>
               )}
 
