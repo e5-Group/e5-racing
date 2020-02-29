@@ -50,3 +50,27 @@ export const flag = require('../assets/cards/flag.png');
 export const radar = require('../assets/cards/radar.png');
 export const speed = require('../assets/cards/speed.png');
 export const timer = require('../assets/cards/timer.png');
+
+export const tracks = {
+  '1': require('../assets/tracks/1.png'),
+  '2': require('../assets/tracks/2.png'),
+  '3': require('../assets/tracks/3.png'),
+  '4': require('../assets/tracks/4.png'),
+  '5': require('../assets/tracks/5.png'),
+  '6': require('../assets/tracks/6.png'),
+  '7': require('../assets/tracks/7.png'),
+  '8': require('../assets/tracks/8.png'),
+  '9': require('../assets/tracks/9.png'),
+  '10': require('../assets/tracks/10.png'),
+  '11': require('../assets/tracks/11.png'),
+  '12': require('../assets/tracks/12.png'),
+  '13': require('../assets/tracks/13.png'),
+  '14': require('../assets/tracks/14.png'),
+  '15': require('../assets/tracks/15.png'),
+  '16': require('../assets/tracks/16.png'),
+  '17': require('../assets/tracks/17.png'),
+  '18': require('../assets/tracks/18.png'),
+  '19': require('../assets/tracks/19.png'),
+  '20': require('../assets/tracks/20.png'),
+  '21': require('../assets/tracks/21.png'),
+};

@@ -19,12 +19,6 @@ import * as sizes from '../constants/sizes';
 const width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    marginBottom: 20,
-    marginLeft: 20,
-  },
   headerSubtitle: {
     color: colors.newGreyText,
     fontSize: 16,
@@ -131,7 +125,14 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
           ? item.Finish === '1'
             ? colors.newGold
             : colors.newDarkGrey
+          : itype === 'entries'
+          ? 'rgba(0,0,0,1)'
           : colors.newLightGreen,
+    },
+    trackIcon: {
+      resizeMode: 'contain',
+      height: '100%',
+      width: '100%',
     },
     headerTextContainer: {
       flexDirection: 'column',
@@ -157,6 +158,14 @@ const dynamicStyles = ({itype, item, isEvent = false}) =>
     },
     outerContainer: {
       flexDirection: 'row',
+    },
+    headerContainer: {
+      flexDirection: 'row',
+      width: '100%',
+      marginBottom: 20,
+      marginLeft: 20,
+      justifyContent: itype === 'entries' ? 'space-between' : 'flex-start',
+      paddingRight: itype === 'entries' ? 22 : 0,
     },
   });
 
@@ -184,7 +193,7 @@ export default class ItemsList extends Component {
           style={dynamicStyles({item, itype, isEvent}).containerStyle}
           onPress={() => !isEvent && showModal(item, itype)}>
           {/* Header */}
-          <View style={styles.headerContainer}>
+          <View style={dynamicStyles({itype, item}).headerContainer}>
             {itype !== 'entries' && !isEvent && (
               <View style={dynamicStyles({item, itype}).headerIconContainer}>
                 {itype === 'results' && (
@@ -225,6 +234,14 @@ export default class ItemsList extends Component {
                     {itype === 'entries' && `${`Jockey: ${item.jockey_name}`}`}
                   </Text>
                 </View>
+              )}
+            </View>
+            <View style={dynamicStyles({item, itype}).headerIconContainer}>
+              {!isEvent && itype === 'entries' && (
+                <Image
+                  source={icons.tracks[item.post_position]}
+                  style={dynamicStyles({item, itype}).trackIcon}
+                />
               )}
             </View>
           </View>
@@ -285,10 +302,10 @@ export default class ItemsList extends Component {
                 <View>
                   <Text style={styles.dataCellValue}>
                     {isEvent ? item.track : item.Track}
-                    {!isEvent &&
+                    {/* {!isEvent &&
                       item &&
                       item.post_position &&
-                      ` / ${item.post_position}`}
+                      ` / ${item.post_position}`} */}
                   </Text>
                 </View>
               </View>
