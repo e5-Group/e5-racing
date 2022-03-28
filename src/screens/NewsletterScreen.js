@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     resizeMode: 'repeat',
   },
   listContainer: {
-    flex: 2,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
@@ -44,18 +44,19 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   flatlistContainer: {
-    width: '80%',
+    width: '90%',
     marginTop: 10,
   },
   linkContainer: {
     marginVertical: 10,
     backgroundColor: colors.newLightPurple,
-    padding: 20,
     borderRadius: 10,
     flexDirection: 'row',
+    padding: 10,
   },
   textContent: {
     justifyContent: 'space-around',
+    flexShrink: 1,
   },
   issue: {
     color: colors.white,
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
 
 class NewsletterScreen extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: 'Newsletter',
+    title: null,
     headerStyle: {
       backgroundColor: colors.newPurple,
       height: 60,
@@ -175,6 +176,7 @@ class NewsletterScreen extends Component {
                   refreshing={refreshing}
                   onRefresh={this._handleRefresh}
                   data={items}
+                  showsVerticalScrollIndicator={false}
                   renderItem={({item}) => (
                     <TouchableOpacity
                       style={styles.linkContainer}
@@ -188,9 +190,7 @@ class NewsletterScreen extends Component {
                         style={styles.imageSize}
                       />
                       <View style={styles.textContent}>
-                        <Text style={styles.issue} maxFontSizeMultiplier={1}>
-                          {item.issue}
-                        </Text>
+                        <Text style={styles.issue}>{item.issue}</Text>
                         <Text style={styles.issueTitle}>{item.title}</Text>
                       </View>
                     </TouchableOpacity>

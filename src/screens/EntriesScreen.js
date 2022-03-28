@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 
 class EntriesScreen extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: 'Entries',
+    title: null,
     headerStyle: {
       backgroundColor: colors.newPurple,
       height: 60,

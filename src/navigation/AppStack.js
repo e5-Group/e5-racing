@@ -10,8 +10,8 @@ import HomeStack from './HomeStack';
 import ResultsStack from './ResultsStack';
 import EntriesStack from './EntriesStack';
 import WorkoutsStack from './WorkoutsStack';
-import EventsStack from './EventsStack';
 import NewsletterStack from './NewsletterStack';
+import PicturesStack from './PicturesStack';
 
 const width = Dimensions.get('window').width;
 
@@ -55,8 +55,8 @@ const getIconSource = (routeName, focused) => {
       return focused ? icons.entriesIconOn : icons.entriesIconOff;
     case 'Workouts':
       return focused ? icons.workoutsIconOn : icons.workoutsIconOff;
-    case 'Events':
-      return focused ? icons.eventsIconOn : icons.eventsIconOff;
+    case 'Photos':
+      return focused ? icons.pictureIcon : icons.pictureIcon;
     case 'Home':
       return focused ? icons.homeIconOn : icons.homeIconOff;
     case 'Newsletter':
@@ -83,9 +83,9 @@ const routeConfiguration = {
     screen: WorkoutsStack,
     path: 'workouts',
   },
-  Events: {
-    screen: EventsStack,
-    path: 'events',
+  Photos: {
+    screen: PicturesStack,
+    path: 'photos',
   },
   Newsletter: {
     screen: NewsletterStack,
@@ -106,9 +106,6 @@ export default createBottomTabNavigator(routeConfiguration, {
               style={dynamicStyles(focused).iconStyle}
             />
           </View>
-          {width < sizes.tablet_threshold && (
-            <Text style={dynamicStyles(focused).iconLabel}>{routeName}</Text>
-          )}
         </View>
       );
     },

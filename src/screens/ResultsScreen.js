@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 
 class ResultsScreen extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: 'Results',
+    title: null,
     headerStyle: {
       backgroundColor: colors.newPurple,
       height: 60,

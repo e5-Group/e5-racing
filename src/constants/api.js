@@ -8,8 +8,16 @@ export const EVENTS_API =
   'https://9et7ct61k2.execute-api.us-east-1.amazonaws.com/v1/events?brand=e5';
 export const HORSE_API =
   'https://9et7ct61k2.execute-api.us-east-1.amazonaws.com/v1/horse?brand=e5';
+export const HORSES_API =
+  'https://9et7ct61k2.execute-api.us-east-1.amazonaws.com/v1/horses?brand=e5';
+export const HORSE_INFO_API =
+  'https://9et7ct61k2.execute-api.us-east-1.amazonaws.com/v1/horse/info?brand=e5';
+export const HORSE_STAT_API =
+  'https://9et7ct61k2.execute-api.us-east-1.amazonaws.com/v1/horse/stats?brand=e5';
 export const NEWSLETTERS_API =
   'https://9et7ct61k2.execute-api.us-east-1.amazonaws.com/v1/newsletters?brand=e5';
+export const PEDIGREE_API =
+  'https://9et7ct61k2.execute-api.us-east-1.amazonaws.com/v1/pedigrees?brand=e5';
 export const REGISTER_TOKEN_API =
   'https://9et7ct61k2.execute-api.us-east-1.amazonaws.com/v1/register';
 export const HORSE_PICS = 'https://e5-s3-horsepictures.s3.amazonaws.com/';

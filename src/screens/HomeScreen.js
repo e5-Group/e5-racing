@@ -122,9 +122,9 @@ class HomeScreen extends Component {
                 pressed={() => this.props.navigation.navigate('Workouts')}
               />
               <MenuOption
-                icon={icons.eventsIconOn}
-                name={'events'}
-                pressed={() => this.props.navigation.navigate('Events')}
+                icon={icons.pictureIcon}
+                name={'photos'}
+                pressed={() => this.props.navigation.navigate('Photos')}
               />
               <MenuOption
                 icon={icons.newslettersIconOn}

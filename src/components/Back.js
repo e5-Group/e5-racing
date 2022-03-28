@@ -28,11 +28,12 @@ const styles = StyleSheet.create({
 });
 
 const Back = props => {
-  const {navigation} = props;
+  const {navigation, onPress = null} = props;
+
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate('Home')}>
+      onPress={onPress ? () => onPress() : () => navigation.navigate('Home')}>
       <Image source={icons.back} style={styles.imageSize} />
       {!Platform.OS === 'android' && <Text style={styles.text}>Home</Text>}
     </TouchableOpacity>
