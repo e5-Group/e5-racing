@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import AppStack from './navigation/AppStack';
-import notifications from './services/notifications';
+//import notifications from './services/notifications';
 
 const AppNavigator = createSwitchNavigator(
   {
@@ -19,9 +19,9 @@ export default class App extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    new notifications();
-  }
+//  componentDidMount() {
+//    new notifications();
+//  }
 
   render() {
     return <AppContainer />;
