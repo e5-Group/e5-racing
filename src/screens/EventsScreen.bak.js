@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 
 class EventsScreen extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: null,
+    title: 'Events',
     headerStyle: {
       backgroundColor: colors.newPurple,
       height: 60,

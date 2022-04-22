@@ -9,6 +9,7 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import axios from 'axios';
+
 import {withNavigationFocus} from 'react-navigation';
 
 import NoContent from '../components/NoContent';
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
 
 class PicturesScreen extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: null,
+    title: 'Photos',
     headerStyle: {
       backgroundColor: colors.newPurple,
       height: 60,

@@ -21,6 +21,7 @@ export default class PushNotificationService {
         });
       },
       onNotification: notification => {
+        console.log(notification);
         const {data} = notification;
         const {type} = data;
         if (

@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 
 class NewsletterScreen extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: null,
+    title: 'Newsletter',
     headerStyle: {
       backgroundColor: colors.newPurple,
       height: 60,

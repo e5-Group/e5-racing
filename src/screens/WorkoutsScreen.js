@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 
 class WorkoutsScreen extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: null,
+    title: 'Workouts',
     headerStyle: {
       backgroundColor: colors.newPurple,
       height: 60,

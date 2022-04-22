@@ -19,10 +19,14 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* e5rTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* e5rTests.m */; };
 		61F83076AB52407187FD4D0F /* NotoSerif-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27C8BE8D2209430FBB530AEC /* NotoSerif-Bold.ttf */; };
+		7AC436385C0A6036956C3D73 /* libPods-e5r.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D732F9781F6E7A7ED09DAD82 /* libPods-e5r.a */; };
 		7B36AFEA198E485CB46D72C3 /* NotoSerif-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC1CC2B47F3C47D9BC8073B7 /* NotoSerif-BoldItalic.ttf */; };
 		8EA18118857E46D1AB1463F1 /* NotoSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38C2897D5D834D17B32BCB43 /* NotoSerif-Regular.ttf */; };
 		BCE5DB7923A16A81005E11F0 /* call_to_post.wav in Resources */ = {isa = PBXBuildFile; fileRef = BCE5DB7823A16A81005E11F0 /* call_to_post.wav */; };
 		BCF34DA52405A47C00561EA8 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BCF34DA42405A47C00561EA8 /* logo.png */; };
+		C5E03EB1439A9A4A2E1BAB36 /* libPods-e5rTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC8BBE99FDC45AC595BD0E5C /* libPods-e5rTests.a */; };
+		C7951982F05FEB2E25CE112D /* libPods-e5r-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 186381A0FFCEE77AF6C5A682 /* libPods-e5r-tvOSTests.a */; };
+		E293BE747DDFE5B71F11F75A /* libPods-e5r-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47C36D54DEB4D2910C74DEBE /* libPods-e5r-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,16 +58,28 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = e5r/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = e5r/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = e5r/main.m; sourceTree = "<group>"; };
+		186381A0FFCEE77AF6C5A682 /* libPods-e5r-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-e5r-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27C8BE8D2209430FBB530AEC /* NotoSerif-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSerif-Bold.ttf"; path = "../src/assets/fonts/NotoSerif-Bold.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* e5r-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "e5r-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* e5r-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "e5r-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D206EC77A1E47D88E2CFBF9 /* NotoSerif.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NotoSerif.ttf; path = ../src/assets/fonts/NotoSerif.ttf; sourceTree = "<group>"; };
+		3540461ECEB74FDE8AC6CE5E /* Pods-e5r.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-e5r.debug.xcconfig"; path = "Target Support Files/Pods-e5r/Pods-e5r.debug.xcconfig"; sourceTree = "<group>"; };
 		38C2897D5D834D17B32BCB43 /* NotoSerif-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSerif-Regular.ttf"; path = "../src/assets/fonts/NotoSerif-Regular.ttf"; sourceTree = "<group>"; };
+		3BE4793E3AF37ADB6CA0E994 /* Pods-e5r.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-e5r.release.xcconfig"; path = "Target Support Files/Pods-e5r/Pods-e5r.release.xcconfig"; sourceTree = "<group>"; };
+		47C36D54DEB4D2910C74DEBE /* libPods-e5r-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-e5r-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		534C0ACE24B27BBC3118E1F4 /* Pods-e5r-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-e5r-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-e5r-tvOSTests/Pods-e5r-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		6638E62EACA55F72DBF8A050 /* Pods-e5r-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-e5r-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-e5r-tvOSTests/Pods-e5r-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		77AC57FF2497ACB9351FB497 /* Pods-e5rTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-e5rTests.debug.xcconfig"; path = "Target Support Files/Pods-e5rTests/Pods-e5rTests.debug.xcconfig"; sourceTree = "<group>"; };
+		84364F48318E8439244BC5AB /* Pods-e5r-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-e5r-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-e5r-tvOS/Pods-e5r-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		AC8BBE99FDC45AC595BD0E5C /* libPods-e5rTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-e5rTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCE5DB7823A16A81005E11F0 /* call_to_post.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = call_to_post.wav; sourceTree = "<group>"; };
 		BCF34DA42405A47C00561EA8 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../src/assets/logo.png; sourceTree = "<group>"; };
 		BCFF4B3923A2894A00D1C220 /* e5r.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = e5r.entitlements; path = e5r/e5r.entitlements; sourceTree = "<group>"; };
 		BD2FA309987844D3AE1159B4 /* NotoSerif-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSerif-Italic.ttf"; path = "../src/assets/fonts/NotoSerif-Italic.ttf"; sourceTree = "<group>"; };
+		D732F9781F6E7A7ED09DAD82 /* libPods-e5r.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-e5r.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAEEE4B36F261C0E17CFA26A /* Pods-e5r-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-e5r-tvOS.release.xcconfig"; path = "Target Support Files/Pods-e5r-tvOS/Pods-e5r-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		DC1CC2B47F3C47D9BC8073B7 /* NotoSerif-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSerif-BoldItalic.ttf"; path = "../src/assets/fonts/NotoSerif-BoldItalic.ttf"; sourceTree = "<group>"; };
+		E920C932DF4A44F3C59524BD /* Pods-e5rTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-e5rTests.release.xcconfig"; path = "Target Support Files/Pods-e5rTests/Pods-e5rTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -73,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5E03EB1439A9A4A2E1BAB36 /* libPods-e5rTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AC436385C0A6036956C3D73 /* libPods-e5r.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E293BE747DDFE5B71F11F75A /* libPods-e5r-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7951982F05FEB2E25CE112D /* libPods-e5r-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,6 +159,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
+				D732F9781F6E7A7ED09DAD82 /* libPods-e5r.a */,
+				47C36D54DEB4D2910C74DEBE /* libPods-e5r-tvOS.a */,
+				186381A0FFCEE77AF6C5A682 /* libPods-e5r-tvOSTests.a */,
+				AC8BBE99FDC45AC595BD0E5C /* libPods-e5rTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -146,6 +170,14 @@
 		651B435FBBCF965BD192BF16 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				3540461ECEB74FDE8AC6CE5E /* Pods-e5r.debug.xcconfig */,
+				3BE4793E3AF37ADB6CA0E994 /* Pods-e5r.release.xcconfig */,
+				84364F48318E8439244BC5AB /* Pods-e5r-tvOS.debug.xcconfig */,
+				DAEEE4B36F261C0E17CFA26A /* Pods-e5r-tvOS.release.xcconfig */,
+				6638E62EACA55F72DBF8A050 /* Pods-e5r-tvOSTests.debug.xcconfig */,
+				534C0ACE24B27BBC3118E1F4 /* Pods-e5r-tvOSTests.release.xcconfig */,
+				77AC57FF2497ACB9351FB497 /* Pods-e5rTests.debug.xcconfig */,
+				E920C932DF4A44F3C59524BD /* Pods-e5rTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -203,6 +235,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "e5rTests" */;
 			buildPhases = (
+				48810487B307931C3E1A87B0 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -221,6 +254,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "e5r" */;
 			buildPhases = (
+				D244013351BDEEF3643B7652 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -240,6 +274,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "e5r-tvOS" */;
 			buildPhases = (
+				517C518C5EEFF90C73DB43A3 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -259,6 +294,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "e5r-tvOSTests" */;
 			buildPhases = (
+				96C0ED90C67F958554149CCC /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -288,11 +324,9 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = AXG89MCQ44;
-						LastSwiftMigration = 1320;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 1320;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E48F1E0B4A5D006451C7 = {
@@ -392,6 +426,94 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		48810487B307931C3E1A87B0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-e5rTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		517C518C5EEFF90C73DB43A3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-e5r-tvOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		96C0ED90C67F958554149CCC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-e5r-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D244013351BDEEF3643B7652 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-e5r-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -498,6 +620,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77AC57FF2497ACB9351FB497 /* Pods-e5rTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -520,6 +643,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E920C932DF4A44F3C59524BD /* Pods-e5rTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -539,16 +663,16 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3540461ECEB74FDE8AC6CE5E /* Pods-e5r.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = e5r/e5r.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = AXG89MCQ44;
 				INFOPLIST_FILE = e5r/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3.8;
+				MARKETING_VERSION = 1.3.12;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -556,9 +680,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.e5racing;
 				PRODUCT_NAME = e5r;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -566,15 +687,15 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3BE4793E3AF37ADB6CA0E994 /* Pods-e5r.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = e5r/e5r.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AXG89MCQ44;
 				INFOPLIST_FILE = e5r/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3.8;
+				MARKETING_VERSION = 1.3.12;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -582,8 +703,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.e5racing;
 				PRODUCT_NAME = e5r;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 3.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -591,11 +710,11 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84364F48318E8439244BC5AB /* Pods-e5r-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -612,9 +731,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.e5r-tvOS";
 				PRODUCT_NAME = "e5r-tvOS";
 				SDKROOT = appletvos;
-				SWIFT_OBJC_BRIDGING_HEADER = "e5r-tvOS-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 			};
@@ -622,11 +738,11 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DAEEE4B36F261C0E17CFA26A /* Pods-e5r-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -643,8 +759,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.e5r-tvOS";
 				PRODUCT_NAME = "e5r-tvOS";
 				SDKROOT = appletvos;
-				SWIFT_OBJC_BRIDGING_HEADER = "e5r-tvOS-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 			};
@@ -652,6 +766,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6638E62EACA55F72DBF8A050 /* Pods-e5r-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -678,6 +793,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 534C0ACE24B27BBC3118E1F4 /* Pods-e5r-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;

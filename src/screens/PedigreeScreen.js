@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import {withNavigationFocus} from 'react-navigation';
-import ImageLoad from 'react-native-image-placeholder';
+import FastImage from 'react-native-fast-image'
 
 import Loading from '../components/Loading';
 
@@ -21,7 +21,6 @@ import axios from 'axios';
 import {HORSE_INFO_API} from '../constants/api';
 import {TouchableOpacity} from 'react-native';
 import PictureModal from '../components/PictureModal';
-import placeHolderImage from '../assets/logo-gray.jpeg';
 
 const styles = StyleSheet.create({
   fullScreen: {
@@ -87,7 +86,7 @@ const loadingStyle = {size: 'large', color: colors.newMiddleGreen};
 
 class PedigreeScreen extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: null,
+    title: 'Pedigree',
     headerStyle: {
       backgroundColor: colors.newPurple,
       height: 60,
@@ -175,15 +174,14 @@ class PedigreeScreen extends Component {
                   activeOpacity={0.7}>
                   <Text style={styles.horseName}>{horse.horse_name}</Text>
                 </TouchableOpacity>
-                <ImageLoad
-                  style={styles.horseImage}
-                  loadingStyle={loadingStyle}
-                  source={{
-                    uri: horse.image_url,
-                  }}
-                  placeholderSource={placeHolderImage}
-                  customImagePlaceholderDefaultStyle={styles.horseImage}
-                />
+                <FastImage 
+          style={styles.horseImage}
+          source={{
+            uri: horse.image_url,
+            priority: FastImage.priority.high,
+          }}
+          resizeMode={FastImage.resizeMode.contain}
+        />
                 <View style={styles.detailContainer}>
                   <View style={styles.detailItem}>
                     <Text style={[styles.centerText, styles.detailHeading]}>

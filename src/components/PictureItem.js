@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import ImageLoad from 'react-native-image-placeholder';
+import FastImage from 'react-native-fast-image'
 
 import * as colors from '../constants/colors';
-import placeHolderImage from '../assets/logo-gray.jpeg';
+import * as icons from '../constants/icons';
 
 const styles = StyleSheet.create({
   horseContainer: {
@@ -43,15 +44,13 @@ const PictureItem = ({horse, onImagePress, onTextPress}) => {
   return (
     <View style={styles.horseContainer}>
       <TouchableOpacity onPress={() => onImagePress()} activeOpacity={0.7}>
-        <ImageLoad
-          resizeMode="contain"
+        <FastImage 
           style={styles.horseImage}
-          loadingStyle={loadingStyle}
           source={{
             uri: horse.image_url,
+            priority: FastImage.priority.high,
           }}
-          placeholderSource={placeHolderImage}
-          customImagePlaceholderDefaultStyle={styles.horseImage}
+          resizeMode={FastImage.resizeMode.contain}
         />
       </TouchableOpacity>
       <View style={styles.horseNameContainer}>
