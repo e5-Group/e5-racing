@@ -672,7 +672,7 @@
 				DEVELOPMENT_TEAM = AXG89MCQ44;
 				INFOPLIST_FILE = e5r/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3.12;
+				MARKETING_VERSION = 1.3.14;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -695,7 +695,7 @@
 				DEVELOPMENT_TEAM = AXG89MCQ44;
 				INFOPLIST_FILE = e5r/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3.12;
+				MARKETING_VERSION = 1.3.14;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
