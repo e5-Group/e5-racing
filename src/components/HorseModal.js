@@ -120,42 +120,32 @@ class HorseModal extends Component {
     };
   }
 
-  make_api_call(unique_id) {
-    this.setState(
-      {
-        isReady: false,
-      },
-      () => {
-        axios
-          .get(api.HORSE_API + `&uid=${unique_id}`)
-          .then(response => {
-            const {horse} = response.data;
-            if (horse) {
-              this.setState({
-                remoteData: horse,
-                isReady: true,
-                noData: false,
-                serverError: false,
-              });
-            } else {
-              this.setState({
-                remoteData: null,
-                isReady: true,
-                noData: true,
-                serverError: false,
-              });
-            }
-          })
-          .catch(() => {
-            this.setState({
-              remoteData: null,
-              isReady: true,
-              noData: false,
-              serverError: true,
-            });
-          });
-      },
-    );
+  async make_api_call(unique_id) {
+    this.setState({isReady: false});
+    const state = {
+      remoteData: null,
+      horseStats: null,
+      isReady: true,
+      noData: false,
+      serverError: true,
+    };
+    try {
+      const [{data: horseInfo}, {data: horseStats}] = await Promise.all([
+        axios.get(api.HORSE_API + `&uid=${unique_id}`),
+        axios.get(api.HORSE_STATS_API + `&uid=${unique_id}`)
+      ]);
+      state.serverError = false;
+      if (horseInfo.horse && horseStats.horse) {
+        state.remoteData = horseInfo.horse;
+        state.horseStats = horseStats.horse;
+      } else {
+        state.noData = true;
+      }
+    } catch (error) {
+      console.log('HorseModel-API::error', error);
+    } finally {
+      this.setState(state);
+    }
   }
 
   componentDidMount() {
@@ -166,7 +156,7 @@ class HorseModal extends Component {
   }
 
   render() {
-    const {remoteData, isReady, noData, serverError} = this.state;
+    const {horseStats, remoteData, isReady, noData, serverError} = this.state;
     const {horseModal, closeModal} = this.props;
     return (
       <Modal isVisible={horseModal && true} backdropColor={'white'}>
@@ -228,28 +218,28 @@ class HorseModal extends Component {
                   <View style={styles.tableRowOdd}>
                     <Text style={styles.rowLabel}>Starts</Text>
                     <Text style={styles.rowValue}>
-                      {remoteData.number_of_starts}
+                      {horseStats?.numberOfStarts || '-'}
                     </Text>
                   </View>
 
                   <View style={styles.tableRow}>
                     <Text style={styles.rowLabel}>Firsts</Text>
                     <Text style={styles.rowValue}>
-                      {remoteData.number_of_firsts}
+                      {horseStats?.numberOfFirsts || '-'}
                     </Text>
                   </View>
 
                   <View style={styles.tableRowOdd}>
                     <Text style={styles.rowLabel}>Seconds</Text>
                     <Text style={styles.rowValue}>
-                      {remoteData.number_of_seconds}
+                      {horseStats?.numberOfSeconds || '-'}
                     </Text>
                   </View>
 
                   <View style={styles.tableRow}>
                     <Text style={styles.rowLabel}>Thirds</Text>
                     <Text style={styles.rowValue}>
-                      {remoteData.number_of_thirds}
+                      {horseStats?.numberOfThirds || '-'}
                     </Text>
                   </View>
                 </View>

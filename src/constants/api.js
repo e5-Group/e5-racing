@@ -21,3 +21,6 @@ export const PEDIGREE_API =
 export const REGISTER_TOKEN_API =
   'https://9et7ct61k2.execute-api.us-east-1.amazonaws.com/v1/register';
 export const HORSE_PICS = 'https://e5-s3-horsepictures.s3.amazonaws.com/';
+
+export const HORSE_STATS_API =
+  'https://9et7ct61k2.execute-api.us-east-1.amazonaws.com/v1/horse/stats?brand=e5';

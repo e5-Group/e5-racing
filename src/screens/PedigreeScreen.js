@@ -50,26 +50,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   detailContainer: {
-    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingTop: 10,
-    width: '100%',
-    flexWrap: 'wrap',
   },
   detailItem: {
     paddingVertical: 15,
-    textAlign: 'center',
-    width: '100%',
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
   },
   detailHeading: {
     fontSize: 18,
     color: colors.newGreyText,
-    width: '50%',
-    textAlign: 'left',
   },
   centerText: {
     fontSize: 16,
@@ -78,7 +69,8 @@ const styles = StyleSheet.create({
   textBold: {
     fontWeight: 'bold',
     textAlign: 'right',
-    width: '50%',
+    marginStart: 10,
+    flex: 1
   },
 });
 
