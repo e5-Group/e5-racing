@@ -21,6 +21,7 @@ import axios from 'axios';
 import {HORSE_INFO_API} from '../constants/api';
 import {TouchableOpacity} from 'react-native';
 import PictureModal from '../components/PictureModal';
+import HorseModal from '../components/HorseModal';
 
 const styles = StyleSheet.create({
   fullScreen: {
@@ -152,7 +153,7 @@ class PedigreeScreen extends Component {
     return (
       <SafeAreaView>
         {pictureModal && (
-          <PictureModal horse={pictureModal} closeModal={this.closeModal} />
+          <HorseModal horseModal={pictureModal} closeModal={this.closeModal} />
         )}
         <ImageBackground
           source={icons.background}

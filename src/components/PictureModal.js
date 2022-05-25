@@ -232,7 +232,7 @@ class PictureModal extends Component {
                   </View>
 
                   <View style={styles.tableHeader}>
-                    <Text style={styles.headerLabel}>Stats</Text>
+                    <Text style={styles.headerLabel}>YTD</Text>
                   </View>
 
                   <View style={styles.tableRow}>

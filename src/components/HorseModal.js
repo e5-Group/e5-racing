@@ -113,7 +113,6 @@ class HorseModal extends Component {
     super(props);
 
     this.state = {
-      remoteData: null,
       isReady: null,
       noData: null,
       serverError: null,
@@ -123,20 +122,17 @@ class HorseModal extends Component {
   async make_api_call(unique_id) {
     this.setState({isReady: false});
     const state = {
-      remoteData: null,
       horseStats: null,
       isReady: true,
       noData: false,
       serverError: true,
     };
     try {
-      const [{data: horseInfo}, {data: horseStats}] = await Promise.all([
-        axios.get(api.HORSE_API + `&uid=${unique_id}`),
+      const [{data: horseStats}] = await Promise.all([
         axios.get(api.HORSE_STATS_API + `&uid=${unique_id}`)
       ]);
       state.serverError = false;
-      if (horseInfo.horse && horseStats.horse) {
-        state.remoteData = horseInfo.horse;
+      if (horseStats.horse) {
         state.horseStats = horseStats.horse;
       } else {
         state.noData = true;
@@ -156,7 +152,7 @@ class HorseModal extends Component {
   }
 
   render() {
-    const {horseStats, remoteData, isReady, noData, serverError} = this.state;
+    const {horseStats, isReady, noData, serverError} = this.state;
     const {horseModal, closeModal} = this.props;
     return (
       <Modal isVisible={horseModal && true} backdropColor={'white'}>
@@ -184,7 +180,7 @@ class HorseModal extends Component {
               </View>
             )}
 
-            {remoteData && (
+            {horseStats && (
               <>
                 <View style={styles.description}>
                   <View style={styles.header}>
@@ -201,18 +197,18 @@ class HorseModal extends Component {
                     </ImageBackground>
                     <View>
                       <Text style={[styles.text, styles.title]}>
-                        {remoteData.horse_name}
+                        {horseStats.horseName}
                       </Text>
                     </View>
                   </View>
 
                   <View style={styles.tableHeader}>
-                    <Text style={styles.headerLabel}>Career</Text>
+                    <Text style={styles.headerLabel}>YTD</Text>
                   </View>
 
                   <View style={styles.tableRow}>
                     <Text style={styles.rowLabel}>Year of Birth</Text>
-                    <Text style={styles.rowValue}>{remoteData.year}</Text>
+                    <Text style={styles.rowValue}>{horseStats.year}</Text>
                   </View>
 
                   <View style={styles.tableRowOdd}>
